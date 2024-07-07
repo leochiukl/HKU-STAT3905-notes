@@ -2,9 +2,10 @@
 \subsection{Definition and Uses of Derivatives}
 \begin{enumerate}
 \item A (financial) \defn{derivative} is a contract \faIcon{scroll} (between
-two parties) whose value depends on (or ``is derived from'') the value(s) of
-other more basic underlying variable(s) (e.g., total rainfall \faIcon{cloud-rain}
-over a certain period in the future).
+two parties) whose value (or payoff)\footnote{We define value/payoff in
+\cref{subsect:long-short-pos}.} depends on (or ``is derived from'') the value(s)
+of other more basic underlying variable(s) (e.g., total rainfall
+\faIcon{cloud-rain} over a certain period in the future).
 
 \item Examples of derivatives: futures, forwards, options, swaps, insurance.
 (The first four are discussed in later sections. For insurance, see e.g.,
@@ -13,7 +14,7 @@ STAT3901.)
 \item Uses of derivatives:
 \begin{itemize}
 \item risk management \faIcon{shield-alt}: reduce the overall level of risk
-\faIcon{fire-alt} (known as \defn{hedging}) (example: insurance);
+\faIcon{fire-alt} (example: insurance);
 
 \item speculation \faIcon{dice} (risky!
 {\color{red}\faIcon{exclamation-triangle}}): make bets \faIcon{coins} on
@@ -87,9 +88,11 @@ from potential future movements \faIcon{chart-line} in market quantities;
 \item speculators: use derivatives to bet \faIcon{coins} on future directions
 of market quantities \faIcon{chart-line} --- they try to make money
 \faIcon{dollar-sign} by taking risk \faIcon{fire-alt};
-\item arbitrageurs: take offsetting ``positions''\footnote{Its meaning is
-discussed in later sections.} in two or more instruments to lock in a sure
-(risk-free) profit.
+\item arbitrageurs: take offsetting ``positions''\footnote{This means
+aggregating all those position gives \emph{zero} unit of derivative. In other
+words, the positions are completely ``closed out''. See
+\cref{subsect:long-short-pos} for more details.} in two or more instruments to
+lock in a sure (risk-free) profit.
 \end{itemize}
 \end{enumerate}
 
@@ -105,7 +108,7 @@ instructions to buy/sell a certain number of financial instruments). There are
 two main kinds of orders:
 \begin{itemize}
 \item \defn{market order}: the ordered transaction is to be executed immediately at
-current ``market prices'';
+current ``market price'';
 \item \defn{limit order}: the instruments are to be bought (sold) at no more
 (no less resp.) than a specified price (called \defn{limit price}).
 \end{itemize}
@@ -161,7 +164,7 @@ order executes at \emph{bid} price. Do not mix up them!
 
 \item At any moment of time, ask price is greater than bid price. To see this,
 consider what would happen if ask price was less than or equal to bid
-price:\footnote{Suppose here each limit order is to buy/sell one unit of the
+price:\footnote{Here we suppose each limit order is to buy/sell one unit of the
 instrument.}
 \begin{center}
 \begin{tikzpicture}
@@ -228,18 +231,21 @@ to see that the only possible observation is ask price exceeding bid price.
 that is not owned.
 \item The procedure for short selling is as follows:
 \begin{enumerate}
-\item Borrow the instrument \faIcon{scroll} from a third party (e.g. broker) \faIcon{landmark}.
-\item Sell the instrument \faIcon{scroll} to the market \faIcon{network-wired}
+\item Borrow a number of instruments \faIcon{scroll} from a third party (e.g.
+broker) \faIcon{landmark}.
+
+\item Sell those instruments \faIcon{scroll} to the market \faIcon{network-wired}
 for cash \faIcon{dollar-sign} (creating a \emph{short position}).
-\item Use the cash \faIcon{dollar-sign} to buy \faIcon{scroll} some time later
-\faIcon{clock} and return \faIcon{scroll} to the lender \faIcon{landmark}
-(\emph{closing} or \emph{covering} the short position).
+
+\item Use the cash \faIcon{dollar-sign} to buy that number of instruments
+\faIcon{scroll} some time later \faIcon{clock} and return them to the lender
+\faIcon{landmark} (\emph{closing out} or \emph{covering} the short position).
 \end{enumerate}
 \begin{note}
 The lender \faIcon{landmark} usually requires the short-seller to deposit a
 certain amount of money as a \emph{collateral}, to protect against the
 possibility that the short-seller ``runs away'' \faIcon{running} and fails to
-return the instrument \faIcon{scroll} when its price surges in the future.
+return the instruments \faIcon{scroll} when its price surges in the future.
 \end{note}
 
 \item Short selling may not be possible for certain instruments.
@@ -252,6 +258,49 @@ low'' then ``buy high'', resulting in a loss.
 
 \item An investor with a short position is required to pay to the lender
 \faIcon{landmark} any income (e.g., dividends \faIcon{money-bill-wave}) that
-would normally be received on the shorted instruments, since the \emph{owner}
+would normally be received on the ``shorted'' instruments, since the \emph{owner}
 (the lender), not the short-seller, is entitled to those incomes.
+\end{enumerate}
+
+\subsection{Long and Short Positions}
+\label{subsect:long-short-pos}
+\begin{enumerate}
+\item Having a \defn{long position} (\defn{short position}) in a financial
+instrument \faIcon{scroll} means owning a \emph{positive} (``\emph{negative}'')
+amount of \faIcon{scroll}.
+
+\begin{remark}
+\item Owning a ``negative'' amount of \faIcon{scroll} actually means \emph{owing}
+that amount (in absolute value) of \faIcon{scroll}.
+\item An alternative expression is ``\defn{long} (\defn{short}) a number of
+instrument \faIcon{scroll}'' (treating ``long''/``short'' as a verb). The
+number specified is the increase (decrease) in amount of \faIcon{scroll} owned.
+\end{remark}
+
+\item Example: in the short selling, the short-seller \faIcon{user} owes an amount of
+\faIcon{scroll} to the lender \faIcon{landmark} (so \faIcon{user} owns a
+negative amount of \faIcon{scroll}). Hence, \faIcon{user} is having a
+\emph{short} position.  (This also explains why it is called ``short''
+selling.)
+
+\item \defn{Closing out} or \defn{covering} a (long or short) position in a
+financial instrument \faIcon{scroll} means doing something such that
+\emph{zero} \faIcon{scroll} is owned.
+
+\item Example: if \faIcon{user} has a long position in \faIcon{scroll} (with 10
+\faIcon{scroll} owned), then \faIcon{user} can short (i.e., ``sell'' in this
+context) 10 \faIcon{scroll} to close out his long position.
+
+\item The \defn{value} or \defn{payoff} of a position in financial instrument
+\faIcon{scroll} at a certain time is the amount of cash \faIcon{dollar-sign}
+received if all positions (including those ``extra'' positions in other
+instruments created from closing out the position in \faIcon{scroll}) were
+closed out at that time.
+
+\begin{remark}
+\item Receiving a negative amount of \faIcon{dollar-sign} means \emph{paying}
+that amount (in absolute value) of \faIcon{dollar-sign}.
+\item ``Value of one unit of \faIcon{scroll}'' means ``value of a long position
+in \faIcon{scroll} (with one unit owned)''.
+\end{remark}
 \end{enumerate}

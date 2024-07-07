@@ -1,0 +1,245 @@
+\section{Forward and Futures Contracts}
+\label{sect:fwd-futures}
+\subsection{Introduction}
+\begin{enumerate}
+\item A \defn{forward (contract)} is a contract between two parties (called
+\defn{counterparties}) to buy or sell an asset (known as \defn{underlying
+asset}) \faIcon{apple-alt} at a certain time in the future (known as
+\defn{delivery date} or \defn{maturity}) for a specified price (known as
+\defn{forward price} or \defn{delivery price}) \faIcon{dollar-sign}.
+
+\begin{remark}
+\item The contract is negotiated, agreed, and signed \emph{today} (now). All
+future transaction details are then \emph{fixed}.
+\item We sometimes use the phrase ``forward \emph{on} \faIcon{apple-alt}'' to
+describe the underlying asset is \faIcon{apple-alt}.
+\end{remark}
+
+\item A forward contract may be contrasted with a \emph{spot ``contract''}:
+\begin{itemize}
+\item spot ``contract'': two parties simply transact \faIcon{apple-alt} \emph{now}
+at current market price (current ``fair'' price);
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (5,0) node[right] {Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below=0.1cm, violet] (buy) {\faIcon{user-tie}}
+node[above=0.1cm, orange] (sell) {\faIcon{user-tie}};
+\node[] () at (0,-1) {\faIcon{scroll}\faIcon{check}};
+\draw[-Latex] (buy.west) to[bend left] (sell.west);
+\node[] () at (-1.1,0) {mkt.\ \faIcon{dollar-sign}};
+\draw[-Latex] (sell.east) to[bend left] (buy.east);
+\node[] () at (0.7,0) {\faIcon{apple-alt}};
+\end{tikzpicture}
+\end{center}
+{\color{violet}\faIcon{user-tie}}: having a long position in \faIcon{apple-alt}\\
+{\color{orange}\faIcon{user-tie}}: having a short position in \faIcon{apple-alt}\\
+\item forward contract: two parties transact \faIcon{apple-alt} at a certain
+future time point at a price that is ``fair'' deemed by now.
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (5,0) node[right] {Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below=0.1cm, violet] (buy) {\faIcon{user-tie}}
+node[above=0.1cm, orange] (sell) {\faIcon{user-tie}};
+\draw[very thick, decorate,decoration={calligraphic brace, amplitude=5pt}] (buy.west) -- (sell.west)
+node[midway, left=0.1cm] {negotiate \faIcon{scroll}};
+
+\fill[] (3,0) circle [radius=0.05]
+node[below=0.1cm, violet] (buyf) {\faIcon{user-tie}}
+node[above=0.1cm, orange] (sellf) {\faIcon{user-tie}};
+\draw[-Latex] (buyf.west) to[bend left] (sellf.west);
+\node[] () at (1.9,0.2) {fwd.\ \faIcon{dollar-sign}};
+\draw[-Latex] (sellf.east) to[bend left] (buyf.east);
+\node[] () at (3.7,-0.2) {\faIcon{apple-alt}};
+\node[] () at (3,-1) {\faIcon{scroll}\faIcon{check}};
+\end{tikzpicture}
+\end{center}
+{\color{violet}\faIcon{user-tie}}: having a \defn{long position in forward} (or \defn{long forward})\\
+{\color{orange}\faIcon{user-tie}}: having a \defn{short position in forward} (or \defn{short forward})\\
+\begin{intuition}
+Loosely, a long (short) position in forward may be seen as a ``future'' long
+(short) position in \faIcon{apple-alt}.
+\end{intuition}
+\end{itemize}
+
+\item Since the negotiated delivery price should be ``fair'' to both parties,
+there is no cost for the act of \emph{entering} into a forward contract (i.e.,
+take a position in forward), ignoring transaction costs. (This is just like the
+case for spot ``contract'' --- merely ``executing'' orders itself would not
+cost anything, ignoring transaction costs.)
+
+\item A forward contract is an over-the-counter instrument (traded in OTC
+market). A \defn{futures (contract)} has the same contract nature as a forward
+contract, but it is an exchange-traded instrument (so all contract terms are
+standardized).
+
+\begin{note}
+For a futures contract, the word ``forward'' is changed to ``futures'' in the
+terminologies. For example:
+\begin{itemize}
+\item forward price \faIcon{arrow-right} futures price
+\item long/short position in forward \faIcon{arrow-right} long/short position
+in futures
+\end{itemize}
+\end{note}
+\end{enumerate}
+\subsection{Profit and Loss of a Position in Forward/Futures}
+\begin{enumerate}
+\item The \defn{profit and loss} (P/L) of a (long/short) position at time \(t\)
+is the payoff of the position at time \(t\) less the \emph{future value} of
+previous cash (in)flows (before time \(t\)) at time \(t\).
+
+\begin{note}
+We shall adopt the convention that positive (negative) cash flow means cash
+inflow (outflow) in this study notes.
+\end{note}
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (5,0) node[right] {Time};
+\fill[] (3,0) circle [radius=0.05]
+node[above right] {\(t\)};
+\draw[->, red, thick, opacity=0.2] (0,-0.2) -- (0,0.2)
+node[pos=1.5]{\faIcon{dollar-sign}};
+\draw[->, red, thick] (2.95,-0.2) -- (2.95,0.2)
+node[pos=1.5]{\faIcon{dollar-sign}\faIcon{dollar-sign}};
+\draw[->, brown, thick] (3.05,0.2) -- (3.05,-0.2)
+node[pos=1.5]{\faIcon{dollar-sign}\faIcon{dollar-sign}\faIcon{dollar-sign}};
+\node[] () at (2.5,-1) {\faIcon{user-tie}};
+\draw[-Latex, violet] (0,0.7) to[bend left] (3,0.7);
+\end{tikzpicture}
+\end{center}
+
+\begin{note}
+If P/L is positive (negative), it indicates amount of profit (absolute
+value of amount of loss resp.).
+\end{note}
+
+\item Some notations:
+\begin{itemize}
+\item \defn{\(S_t\)}: (spot) price of one unit of asset \faIcon{apple-alt} at
+time \(t\)\footnote{We shall assume one can freely buy or sell any amount of
+\faIcon{apple-alt} at time \(T\) in market, with this spot price. So, here we
+ignore the bid-ask spread.};
+\item time \defn{\(T\)}: delivery date/maturity;
+\item \defn{\(K\)}: delivery price;
+\end{itemize}
+
+\item \label{it:pl-long-fwd}
+The P/L (at time \(T\)) of a long position in forward/futures on one unit of
+\faIcon{apple-alt} is \(S_T-K\) (which equals its payoff at time \(T\) as there
+are no cash flows before time \(T\)).
+
+\begin{pf}
+To close out all positions at time \(T\), perform:
+\begin{center}
+\begin{tabular}{lcr}
+\toprule
+Transaction&Resulting position&Cash flow\\
+\midrule
+buy 1 \faIcon{apple-alt} at the delivery price&0 \faIcon{scroll} \& 1 \faIcon{apple-alt} &\(-K\)\\
+sell 1 \faIcon{apple-alt} at the spot price&0 \faIcon{apple-alt}&\(+S_T\)\\
+&&Total: \(S_T-K\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{pf}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5, ymin=-3, ymax=3, axis y line=left, axis x line=middle,
+xtick={2}, xticklabels={\(K\)}, ytick=\empty, ylabel=P/L,
+ylabel style={at={(axis description cs:0,1)}, anchor=south, rotate=-90}, 
+xlabel=\(S_T\),
+xlabel style={at={(axis description cs:1,0.5)}, anchor=west}
+]
+\addplot[blue]{x-2};
+\end{axis}
+\draw[very thick, decorate,decoration={mirror, calligraphic brace, amplitude=5pt, raise=5pt}] (2.9,2.5) -- (6.8,2.5)
+node[midway, below=0.3cm] {profitable};
+\end{tikzpicture}
+\end{center}
+When \(S_T\uparrow\), the long position makes money. So, speculators can \emph{long
+forward/futures} to bet \faIcon{coins} the price of \faIcon{apple-alt} rises
+\faIcon{chart-line} in the future.
+
+\item \label{it:pl-short-fwd}
+The P/L of a short position in forward/futures on one unit of
+\faIcon{apple-alt} is \(K-S_T\) (which equals its payoff at time \(T\)).
+
+\begin{pf}
+To close out all positions at time \(T\), perform:
+\begin{center}
+\begin{tabular}{lcr}
+\toprule
+Transaction&Resulting position&Cash flow\\
+\midrule
+(short) sell 1 \faIcon{apple-alt} at the delivery price&0 \faIcon{scroll} \& \(-1\) \faIcon{apple-alt} &\(+K\)\\
+buy 1 \faIcon{apple-alt} at the spot price&0 \faIcon{apple-alt}&\(-S_T\)\\
+&&Total: \(K-S_T\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{pf}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:5, ymin=-3, ymax=3, axis y line=left, axis x line=middle,
+xtick={2}, xticklabels={\(K\)}, ytick=\empty, ylabel=P/L,
+ylabel style={at={(axis description cs:0,1)}, anchor=south, rotate=-90}, 
+xlabel=\(S_T\),
+xlabel style={at={(axis description cs:1,0.5)}, anchor=west}
+]
+\addplot[blue]{2-x};
+\end{axis}
+\draw[very thick, decorate,decoration={mirror, calligraphic brace, amplitude=5pt, raise=5pt}] (0,2.5) -- (2.7,2.5)
+node[midway, below=0.3cm] {profitable};
+\end{tikzpicture}
+\end{center}
+When \(S_T\downarrow\), the short position makes money. So, speculators can
+\emph{short forward/futures} to bet \faIcon{coins} the price of
+\faIcon{apple-alt} drops \faIcon{chart-area} in the future.
+\end{enumerate}
+
+\subsection{Stock Index Futures}
+\begin{enumerate}
+\item A \defn{stock index} tracks changes in the value of a hypothetical
+portfolio \faIcon{chart-pie} of stocks. So it can be regarded as a ``weighted
+average'' of prices of different stocks in stock market. Example: S\&P 500.
+
+\item A \defn{stock index futures} is a futures on stock index. Since stock
+index cannot be ``delivered'' physically, we have \defn{cash settlement} for
+those futures, i.e., investors are required to \emph{close out} their positions
+in those futures and receive/pay cash \faIcon{dollar-sign} at or before
+maturity, and there is no (physical) ``delivery'' at maturity).
+\end{enumerate}
+
+\subsection{Short and Long Hedge}
+\begin{enumerate}
+\item A \defn{hedge} \faIcon{shield-alt} is a trade designed to reduce risk \faIcon{fire-alt}. A
+\defn{perfect hedge} is a hedge that \emph{completely} eliminates the risk
+\faIcon{fire-alt}.
+\item A \defn{short hedge} (\defn{long hedge}) is a hedge involving a short
+(long) position in forward/futures.
+\item Situations where \emph{short hedges} are useful:
+\begin{itemize}
+\item the hedger already owns an asset \faIcon{apple-alt} and expects to sell
+\faIcon{apple-alt} at a certain future time point \faIcon{clock};
+\item the hedger does not own \faIcon{apple-alt} now, but will own
+\faIcon{apple-alt} later, and then sell \faIcon{apple} at a certain future time
+point.
+\end{itemize}
+In either situation, a \emph{short hedge} can let the hedger \emph{lock in}
+\faIcon{lock} the selling price \faIcon{dollar-sign} (namely the price specified
+in forward/futures \faIcon{scroll}) \emph{now}, completely eliminating the
+uncertainty of future selling price \faIcon{arrow-right} \emph{perfect hedge}.
+
+\item Situation where \emph{long hedges} are useful:
+\begin{itemize}
+\item the hedger has to purchase \faIcon{apple-alt} at a certain time point.
+\end{itemize}
+Likewise, a \emph{long hedge} can let the hedger \emph{lock in}
+\faIcon{lock} the purchasing price \faIcon{dollar-sign} \emph{now}, completely
+eliminating the uncertainty of future purchasing price \faIcon{arrow-right}
+\emph{perfect hedge}.
+
+\end{enumerate}
+
