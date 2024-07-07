@@ -1,0 +1,257 @@
+\section{Introduction to Derivatives}
+\subsection{Definition and Uses of Derivatives}
+\begin{enumerate}
+\item A (financial) \defn{derivative} is a contract \faIcon{scroll} (between
+two parties) whose value depends on (or ``is derived from'') the value(s) of
+other more basic underlying variable(s) (e.g., total rainfall \faIcon{cloud-rain}
+over a certain period in the future).
+
+\item Examples of derivatives: futures, forwards, options, swaps, insurance.
+(The first four are discussed in later sections. For insurance, see e.g.,
+STAT3901.)
+
+\item Uses of derivatives:
+\begin{itemize}
+\item risk management \faIcon{shield-alt}: reduce the overall level of risk
+\faIcon{fire-alt} (known as \defn{hedging}) (example: insurance);
+
+\item speculation \faIcon{dice} (risky!
+{\color{red}\faIcon{exclamation-triangle}}): make bets \faIcon{coins} on
+various market quantities \faIcon{chart-line};
+
+\item reducing transaction costs \faIcon{file-invoice-dollar}
+\faIcon{arrow-alt-circle-down}: \emph{replicate} \faIcon[regular]{copy} a
+series of transactions
+\faIcon[regular]{handshake} \faIcon[regular]{handshake} \faIcon[regular]{handshake}
+by a \emph{single} transaction \faIcon[regular]{handshake} of a derivative
+\faIcon{scroll}, so that less transactions are made, thereby reducing
+transaction costs;
+
+\item regulatory arbitrage \faIcon{crosshairs}: circumvent regulatory
+restrictions \faIcon{ban} [e.g., banks \faIcon{landmark} securitized mortgages
+\faIcon{house-user} and bought back the securitized products created, since the
+capital required to be kept for those securitized products used to be much less
+than that for the mortgages themselves \parencite[Section~8.3]{hull2022options}
+(such products led to \emph{global financial crisis} \faIcon{bomb} in 2008!)].
+\end{itemize}
+\end{enumerate}
+
+\subsection{Exchange-Traded and Over-The-Counter Markets}
+\begin{enumerate}
+\item An \defn{exchange-traded market} \faIcon{network-wired} is a market
+where standardized financial instruments \faIcon{scroll} are traded
+\faIcon[regular]{handshake}.
+
+\item An \defn{over-the-counter market} (OTC market) \faIcon{people-arrows} is
+a market where participants \faIcon{user-tie} trade (possibly tailor-made
+\faIcon{pencil-ruler}) financial instruments \faIcon{scroll} directly with each
+other, without a central exchange.
+
+\item For the exchange-traded market \faIcon{network-wired}, usually there are
+\emph{margins requirement} \faIcon{donate} and \emph{marking to market}
+\faIcon{redo}, to eliminate \defn{credit risk} \faIcon{running} (i.e., the risk
+that the contract \faIcon{scroll} will not be honored).
+
+\item The actual implementations of margins requirement \faIcon{donate} and
+marking to market may vary for different exchange-traded markets. But the
+general idea is as follows:
+\begin{itemize}
+\item margins requirement: to enter into a trade \faIcon[regular]{handshake},
+both parties need to \emph{deposit} \faIcon{donate} a certain amount into a
+\emph{margin account};
+\item marking to market: as the market price \faIcon{dollar-sign} of the traded
+instrument varies \faIcon{chart-line}, the balances needed in the margin
+accounts also update accordingly at a certain frequency (e.g., daily).
+\end{itemize}
+\begin{note}
+Often there is a prespecified ``minimum balance'' for the margin account
+(called \defn{maintenance margin}). If the account balance is lower than this
+value, further deposit \faIcon{donate} is required.
+\end{note}
+
+\item With suitable margins requirement and marking to market, even if a party
+\faIcon{user} does not honor the contract (``runs away'') \faIcon{running},
+another party can still receive a compensation (the balance in \faIcon{user}'s
+margin account) that covers the loss, thereby eliminating credit risk.
+
+\item On the other hand, there are usually not margins requirement and marking
+to market for OTC market, so credit risk exists.
+\end{enumerate}
+
+\subsection{Types of Traders}
+\begin{enumerate}
+\item There are three main types of traders in a derivatives market:
+\begin{itemize}
+\item hedgers: use derivatives to reduce risk \faIcon{shield-alt} that they face
+from potential future movements \faIcon{chart-line} in market quantities;
+\item speculators: use derivatives to bet \faIcon{coins} on future directions
+of market quantities \faIcon{chart-line} --- they try to make money
+\faIcon{dollar-sign} by taking risk \faIcon{fire-alt};
+\item arbitrageurs: take offsetting ``positions''\footnote{Its meaning is
+discussed in later sections.} in two or more instruments to lock in a sure
+(risk-free) profit.
+\end{itemize}
+\end{enumerate}
+
+\subsection{Buying and Selling Financial Instruments}
+\begin{enumerate}
+\item To buy/sell financial instruments, typically we do so through a
+\emph{broker} (e.g., banks \faIcon{landmark}), in an exchange-traded market
+\faIcon{network-wired}.  We also need to pay transaction costs
+\faIcon{file-invoice-dollar}, e.g., brokerage commission, taxes, etc.
+
+\item In an exchange-traded market, participants place \defn{orders} (i.e.,
+instructions to buy/sell a certain number of financial instruments). There are
+two main kinds of orders:
+\begin{itemize}
+\item \defn{market order}: the ordered transaction is to be executed immediately at
+current ``market prices'';
+\item \defn{limit order}: the instruments are to be bought (sold) at no more
+(no less resp.) than a specified price (called \defn{limit price}).
+\end{itemize}
+
+\item Limit orders for a financial instrument may be visualized as follows (the
+numbers indicate the limit prices specified by the participants
+\faIcon{user}):\footnote{We shall assume that there are at least one buy order
+and at least one sell order. (The market is not too ``illiquid''.)}
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (0,8)
+node[pos=1.05] {Price};
+\node[] () at (-2.5,8) {Buy orders};
+\node[] () at (2.5,8) {Sell orders};
+\node[] () at (-3,1) {\faIcon{user} \faIcon{user} \faIcon{user}};
+\node[] () at (-1,1) {9.25};
+\node[] () at (-3,2) {\faIcon{user}};
+\node[] () at (-1,2) {9.5};
+\node[] () at (-3,4) {\faIcon{user} \faIcon{user} \faIcon{user}};
+\node[violet] () at (-1,4) {10};
+\node[violet] () at (-5,4) {bid price};
+\node[] () at (-1,3) {9.75};
+\node[] () at (3,5) {\faIcon{user} \faIcon{user}};
+\node[orange] () at (1,5) {10.25};
+\node[orange] () at (5,5) {ask price};
+\node[] () at (3,6) {\faIcon{user} \faIcon{user} \faIcon{user}};
+\node[] () at (1,6) {10.5};
+\node[] () at (3,7) {\faIcon{user} \faIcon{user} \faIcon{user} \faIcon{user}};
+\node[] () at (1,7) {10.75};
+\draw[<->, very thick, blue] (0,4) -- (0,5)
+node[midway, font=\small] {bid-ask spread};
+\end{tikzpicture}
+\end{center}
+
+\item In the visualization, the ``top'' (``bottom'') price at LHS (RHS) is
+known as \defn{bid price} (\defn{ask price} or \defn{offer price}), which is
+the price where a new participant \faIcon{user-tie} can \emph{sell} (\emph{buy}) the
+instrument \emph{immediately} (the execution price of a sell (buy) market
+order).
+
+\begin{note}
+Bid price is called ``bid'' as it sources \emph{from} the ``bidding'' (buying)
+side, and ask/offer price is called ``ask/offer'' as it sources \emph{from} the
+``asking/offering'' (selling) side.
+\end{note}
+
+\begin{warning}
+\emph{Buy} market order executes at \emph{ask} price, and \emph{sell} market
+order executes at \emph{bid} price. Do not mix up them!
+\end{warning}
+
+\item The difference between bid price and ask price is known as \defn{bid-ask spread}.
+
+\item At any moment of time, ask price is greater than bid price. To see this,
+consider what would happen if ask price was less than or equal to bid
+price:\footnote{Suppose here each limit order is to buy/sell one unit of the
+instrument.}
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (0,8)
+node[pos=1.05] {Price};
+\node[] () at (-2.5,8) {Buy orders};
+\node[] () at (2.5,8) {Sell orders};
+\node[] () at (-3,1) {\faIcon{user} \faIcon{user} \faIcon{user}};
+\node[] () at (-1,1) {9.25};
+\node[] () at (-3,2) {\faIcon{user}};
+\node[] () at (-1,2) {9.5};
+\node[] () at (-3,4) {\faIcon{user} \faIcon{user} \faIcon{user}};
+\node[] () at (-1,4) {10};
+\node[] () at (-1,3) {9.75};
+\node[] () at (-3,5) {\faIcon{user} \faIcon{user-slash} \faIcon{user-slash}};
+\node[violet] () at (-1,5) {10.25};
+\node[violet] () at (-5,5) {``bid price''};
+\node[] () at (3,5) {\faIcon{user-slash} \faIcon{user-slash}};
+\node[orange] () at (1,5) {10.25};
+\node[orange] () at (5,5) {``ask price''};
+\node[] () at (3,6) {\faIcon{user} \faIcon{user} \faIcon{user}};
+\node[] () at (1,6) {10.5};
+\node[] () at (3,7) {\faIcon{user} \faIcon{user} \faIcon{user} \faIcon{user}};
+\node[] () at (1,7) {10.75};
+
+\draw[brown] (-3,4.7) .. controls (-1,4) and (1,4) .. (3,4.7)
+node[midway, above=0.1cm] {2 transactions};
+\end{tikzpicture}
+\end{center}
+After executing the orders, the situation becomes:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (0,8)
+node[pos=1.05] {Price};
+\node[] () at (-2.5,8) {Buy orders};
+\node[] () at (2.5,8) {Sell orders};
+\node[] () at (-3,1) {\faIcon{user} \faIcon{user} \faIcon{user}};
+\node[] () at (-1,1) {9.25};
+\node[] () at (-3,2) {\faIcon{user}};
+\node[] () at (-1,2) {9.5};
+\node[] () at (-3,4) {\faIcon{user} \faIcon{user} \faIcon{user}};
+\node[] () at (-1,4) {10};
+\node[] () at (-1,3) {9.75};
+\node[] () at (-3,5) {\faIcon{user}};
+\node[violet] () at (-1,5) {10.25};
+\node[violet] () at (-5,5) {bid price};
+\node[] () at (3,6) {\faIcon{user} \faIcon{user} \faIcon{user}};
+\node[orange] () at (1,6) {10.5};
+\node[orange] () at (5,6) {ask price};
+\node[] () at (3,7) {\faIcon{user} \faIcon{user} \faIcon{user} \faIcon{user}};
+\node[] () at (1,7) {10.75};
+\draw[<->, very thick, blue] (0,5) -- (0,6)
+node[midway, font=\small] {bid-ask spread};
+\end{tikzpicture}
+\end{center}
+So, now the ask price is greater than bid price again. We may assume the
+executions of such orders happen ``instantaneously'', and then it is not hard
+to see that the only possible observation is ask price exceeding bid price.
+\end{enumerate}
+
+\subsection{Short Selling}
+\begin{enumerate}
+\item \defn{Short selling} means selling a financial instrument \faIcon{scroll}
+that is not owned.
+\item The procedure for short selling is as follows:
+\begin{enumerate}
+\item Borrow the instrument \faIcon{scroll} from a third party (e.g. broker) \faIcon{landmark}.
+\item Sell the instrument \faIcon{scroll} to the market \faIcon{network-wired}
+for cash \faIcon{dollar-sign} (creating a \emph{short position}).
+\item Use the cash \faIcon{dollar-sign} to buy \faIcon{scroll} some time later
+\faIcon{clock} and return \faIcon{scroll} to the lender \faIcon{landmark}
+(\emph{closing} or \emph{covering} the short position).
+\end{enumerate}
+\begin{note}
+The lender \faIcon{landmark} usually requires the short-seller to deposit a
+certain amount of money as a \emph{collateral}, to protect against the
+possibility that the short-seller ``runs away'' \faIcon{running} and fails to
+return the instrument \faIcon{scroll} when its price surges in the future.
+\end{note}
+
+\item Short selling may not be possible for certain instruments.
+
+\item Speculators can short sell an instrument \faIcon{scroll} to
+bet \faIcon{coins} its price to drop {\color{red}\faIcon{chart-area}} in the
+future. They make money if the price indeed goes down, as they first ``sell
+high'', then ``buy low''. But if the price goes up, they would first ``sell
+low'' then ``buy high'', resulting in a loss.
+
+\item An investor with a short position is required to pay to the lender
+\faIcon{landmark} any income (e.g., dividends \faIcon{money-bill-wave}) that
+would normally be received on the shorted instruments, since the \emph{owner}
+(the lender), not the short-seller, is entitled to those incomes.
+\end{enumerate}

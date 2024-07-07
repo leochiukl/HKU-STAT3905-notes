@@ -1,0 +1,82 @@
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{makecell}
+\usepackage{diagbox}
+\usepackage{physics}
+\usepackage{fontawesome5}
+\usepackage[svgnames]{xcolor}
+\usepackage{datetime2}
+\usepackage{amsthm}
+\usepackage{soul}
+\usepackage{pgfplots}
+\usepackage{booktabs}
+\usepackage[type={CC},modifier={by-sa},version={4.0}]{doclicense}
+\usepackage{imakeidx}
+\usepackage[style=apa]{biblatex}
+\usepackage{stackengine}
+\usepackage{tikz}
+
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{cleveref}
+
+\addbibresource{bib/references.bib}
+
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{calligraphy}
+\usetikzlibrary{shapes}
+\usetikzlibrary{patterns}
+\usetikzlibrary{patterns.meta}
+
+\pgfplotsset{compat=1.18}
+
+\setenumerate[1]{label=\thesubsection.\arabic*~, ref=\S \thesubsection.\arabic*}
+
+\newcommand*{\prob}[1]{\mathbb{P}\qty(#1)}
+\newcommand*{\defn}[1]{\index[def]{#1}\textcolor{ForestGreen}{\textbf{#1}}}
+\newcommand*{\bu}[1]{\textbf{\underline{#1}}}
+\newcommand*{\eqd}{\overset{d}=}
+\newcommand*{\ystar}{\textcolor{yellow}{\faIcon{star}}}
+\newcommand*{\expv}[1]{\mathbb{E}\qty[#1]}
+\newcommand*{\indicset}[1]{\mathbf{1}_{\left\{#1\right\}}}
+\newcommand*{\vari}[1]{\operatorname{Var}\qty(#1)}
+\newcommand*{\cov}[1]{\operatorname{Cov}\qty(#1)}
+\newcommand*{\N}{\mathbb{N}}
+\newcommand*{\warn}{\textcolor{red}{\faIcon{exclamation-triangle}}}
+
+
+\newenvironment{remark}{\sffamily \underline{Remarks}:\begin{itemize}}{\end{itemize}}
+\newenvironment{note}{\sffamily\lbrack Note:}{\!\!\rbrack}
+\newenvironment{mnemonic}{\sffamily\lbrack Mnemonic {\color{pink!90!black}\faIcon{brain}}:}{\!\!\rbrack}
+\newenvironment{warning}{\sffamily\lbrack \warn\;\textcolor{red}{Warning}:}{\!\!\rbrack}
+\newenvironment{intuition}{\sffamily\lbrack Intuition \textcolor{yellow!80!black}{\faIcon{lightbulb}}:}{\!\!\rbrack}
+\newenvironment{pf}{\sffamily\underline{Proof}:}{\qed}
+
+\theoremstyle{definition}
+\newtheorem{proposition}{Proposition}[subsection]
+\renewcommand*\theproposition{\thesubsection.\alph{proposition}}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+
+\urlstyle{tt}
+
+%For links in index page to link to line
+%https://tex.stackexchange.com/questions/405813/link-to-line-instead-of-page
+\makeatletter
+\AtBeginDocument{
+  \LetLtxMacro\egregs@index\index
+  \RenewDocumentCommand{\index}{o+m}{%
+    \begingroup
+    \phantomsection%
+    \IfValueTF{#1}{%
+      \imki@wrindexentry{#1}{#2|hyperlink{\@currentHref}}{\thepage}%
+    }{%
+      \imki@wrindexentry{\jobname}{#2|hyperlink{\@currentHref}}{\thepage}%
+    }%
+    \endgroup
+  }
+}
+\makeatother
