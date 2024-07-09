@@ -4,9 +4,10 @@
 \begin{enumerate}
 \item A \defn{forward (contract)} is a contract between two parties (called
 \defn{counterparties}) to buy or sell an asset (known as \defn{underlying
-asset}) \faIcon{apple-alt} at a certain time in the future (known as
-\defn{delivery date} or \defn{maturity}) for a specified price (known as
-\defn{forward price} or \defn{delivery price}) \faIcon{dollar-sign}.
+asset}, or simply \defn{underlying}) \faIcon{apple-alt} at a certain time in
+the future (known as \defn{delivery date} or \defn{maturity}) for a specified
+price (known as \defn{forward price} or \defn{delivery price})
+\faIcon{dollar-sign}.
 
 \begin{remark}
 \item The contract is negotiated, agreed, and signed \emph{today} (now). All
@@ -74,11 +75,22 @@ date'' closed out (as zero \faIcon{apple-alt} would need to be
 owned at that date).
 \end{itemize}
 
-\item Since the negotiated delivery price should be ``fair'' to both parties,
-there is no cost for the act of \emph{entering} into a forward contract (i.e.,
-take a position in forward), ignoring transaction costs. (This is just like the
-case for spot ``contract'' --- merely ``executing'' orders itself would not
-cost anything, ignoring transaction costs.)
+\item \label{it:fwd-cost-zero}
+An important feature of a forward is that there is no cost for the act of
+``\emph{entering}'' into a forward contract (i.e., take a long/short position
+in forward), ignoring transaction costs. Consequently, the \emph{value} of a
+long/short position in forward is always zero \emph{at time 0}. (But the same
+cannot be said for time point later than 0: See \cref{subsect:value-fwd}.)
+
+\begin{remark}
+\item This is just like the case for spot ``contract'' (i.e., ``contract'' for
+buying/selling \faIcon{apple-alt} \emph{now}) --- Merely ``executing'' orders
+itself would not cost anything, ignoring transaction costs.
+
+\item It turns out that under the \emph{no-arbitrage principle} and
+\emph{perfect market}, there is only one possible negotiated forward price (at
+least for the assets covered in \cref{sect:fwd-futures-price}).
+\end{remark}
 
 \item A forward contract is an over-the-counter instrument (traded in OTC
 market). A \defn{futures (contract)} has the same contract nature as a forward
@@ -128,13 +140,16 @@ value of amount of loss resp.).
 
 \item Some notations:
 \begin{itemize}
-\item \defn{\(S_t\)}: (spot) price of one unit of asset \faIcon{apple-alt} at
-time \(t\)\footnote{We shall assume one can freely buy or sell any amount of
-\faIcon{apple-alt} at time \(t\) in market, with this spot price. So, here we
-ignore the bid-ask spread.};
+\item \defn{\(S_t\)}: (spot) price of one unit of underlying asset
+\faIcon{apple-alt} at time \(t\)\footnote{In this notes, we shall assume one
+can freely buy or sell any amount of \faIcon{apple-alt} at time \(t\) in the
+market, with this spot price. So, here we ignore the bid-ask spread. This may
+be ``reasonable'' if the market is ``very liquid'', making the bid-ask spread
+``negligible''.};
 \item time \defn{\(T\)}: delivery date/maturity;
 \item \defn{\(K\)}: delivery price;
 \end{itemize}
+
 
 \item \label{it:pl-long-fwd}
 The P/L (at time \(T\)) of a long position in forward/futures on one unit of
@@ -239,7 +254,7 @@ fulfill the obligation suggested in the futures \faIcon{scroll}, i.e., buy
 \emph{before} delivery date, we can take a short (long) position in the
 \emph{same} futures \faIcon{scroll}. Since it is negotiated at time 0, its
 value at time \(0<t<T\) may \emph{not} be zero anymore. (See
-\cref{sect:fwd-futures-value} for more details.)
+\cref{subsect:value-fwd} for more details.)
 \end{remark}
 
 \end{enumerate}

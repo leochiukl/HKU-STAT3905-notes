@@ -1,4 +1,671 @@
-\section{Value of Forward/Futures}
-\label{sect:fwd-futures-value}
+\section{Forward/Futures Price}
+\label{sect:fwd-futures-price}
+\begin{enumerate}
+\item For convenience in wordings, we shall focus on \emph{forward} here. But all
+results discussed here are also applicable to futures.
+\end{enumerate}
+\subsection{No-Arbitrage Principle and Perfect Market}
+\begin{enumerate}
+\item Recall the \emph{no-arbitrage principle} mentioned in
+\labelcref{it:no-arbitrage-principle}. Unless stated otherwise, this principle
+is assumed to hold true in this notes.
+\item An important consequence of the no-arbitrage principle is the \emph{law
+of one price}. But before stating that, we need to discuss another critical
+assumption in financial economics: \emph{perfect market}.
+\item In a \defn{perfect market},
+\begin{itemize}
+\item there is no transaction cost;
+\item borrowing rate and lending rate are the same;
+\item credit risk does not exist;
+\item short selling is always possible.
+\end{itemize}
+Due to these nice properties of perfect market, working with it would be
+convenient, and many ``nice'' results assume the market is perfect (in addition
+to the no-arbitrage principle).
 
+\begin{warning}
+However, the actual market in the real world is clearly \emph{not} perfect. So
+one should be careful about the potential impacts on the results that assume
+perfect markets.
+\end{warning}
+\item The law of one price (LOOP) is as follows:
+\begin{theorem}[Law of one price]
+\label{thm:loop}
+Under the no-arbitrage principle and perfect market, two positions
+\faIcon{scroll}\faIcon{scroll} with the same payoff at any future time point
+must ``sell'' at the same price now.
+\end{theorem}
+\begin{remark}
+\item ``Price'' and ``value'' carry the same meaning.
+\begin{warning}
+``Price of a forward'' (\(=0\) at time 0) and ``forward price'' (negotiated)
+are \underline{not} the same! ``Price'' here is in the former sense.
+\end{warning}
+\item A position ``selling'' at a price \faIcon{dollar-sign} now means that it
+costs \faIcon{dollar-sign} to take that position now.
+\item This means there is always exactly \emph{one price} for any instrument
+with a given future payoff pattern.
+\item For proofs involving no-arbitrage principle like this one, a general
+proof strategy is to use \emph{proof by contradiction}: First assume the result
+is false, and then try to obtain an arbitrage strategy (which contradicts the
+no-arbitrage principle).
+\end{remark}
+
+\begin{pf}
+Assume to the contrary that the positions ``sell'' at different prices now. Let
+{\color{ForestGreen}\faIcon{scroll}} and {\color{red}\faIcon{scroll}} be the
+``cheaper'' and ``more expensive'' position, that ``sell'' at prices \(P\) and \(Q\)
+respectively (\(P<Q\)). Then we have the following arbitrage strategy:
+\begin{center}
+\begin{tabular}{clr}
+\toprule
+Time&Transaction&Cash flow\\
+\midrule
+0&take the position {\color{ForestGreen}\faIcon{scroll}}
+&\(-P\)\\
+&\emph{reverse} ``take the {\color{red}\faIcon{scroll}} position''
+&\(+Q\)\\
+&&Total: \(Q-P>0\)\\
+\midrule
+any \(t>0\)&close out all positions &\(0\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{note}
+There is no cash outflow and is a risk-free profit, hence it is an arbitrage
+strategy.
+\end{note}
+
+There is zero cash flow when all positions are closed out (and for the omitted
+time point) since {\color{ForestGreen}\faIcon{scroll}} and the ``reverse
+{\color{red}\faIcon{scroll}}'' always have offsetting payoffs, at any future
+time point.
+\end{pf}
+
+\begin{remark}
+\item For a given strategy (comprising of some transaction(s)), the \defn{reverse}
+strategy is the one consisting of the ``countering'' transaction(s), i.e., those
+created by interchanging ``buy'' \faIcon{arrows-alt-h} ``sell'', ``long''
+\faIcon{arrows-alt-h} ``short'', etc. in the original transaction(s).
+
+\item The ``no transaction cost'' assumption in the perfect market is useful for
+ensuring the cash flows at time 0 are indeed \(-P\) and \(+Q\).
+
+\item The ``short selling is always possible'' assumption is useful for
+ensuring that the transactions above are indeed doable.
+
+\item The rest of them of them are useful for ensuring that the cash flow when
+closing out all positions at time \(t\) is indeed 0.
+\end{remark}
+\item Here is a corollary of LOOP:
+\begin{corollary}
+\label{cor:zero-payoff-zero-price}
+Under the no-arbitrage principle and perfect market, a position \faIcon{scroll}
+with zero payoff at any future time point must ``sell'' at zero price now.
+\end{corollary}
+\begin{pf}
+Consider this position \faIcon{scroll} and another ``position'' which is about
+owning ``nothing''/``blank paper''. Clearly the latter has zero payoff at any
+future time also, and must ``sell'' at zero price now (under no-arbitrage
+principle).  So by LOOP, the result follows.
+\end{pf}
+
+\begin{note}
+If the (total) cash flow at any time point \(t>0\) involving transaction(s) is
+0, the payoff/value at any future time point would be zero (under no-arbitrage
+principle).
+\end{note}
+\end{enumerate}
+\subsection{No-Arbitrage Forward/Delivery Price}
+\begin{enumerate}
+\item Notations:
+\begin{itemize}
+\item \defn{\(r\)}: the annual risk-free interest rate compounded
+continuously;
+\item \defn{\(F_t\)}: forward/delivery price for a forward negotiated at time
+\(t\).
+\end{itemize}
+\begin{note}
+\defn{Risk-free rate} means the rate of return earned for a investment without risk,
+i.e., one that \emph{guarantees} a certain future payoff pattern.
+\end{note}
+\item \label{it:perfect-mkt-fwd-price}
+In a perfect market, there is exactly one possible delivery/forward price (for a
+forward on 1 \faIcon{apple-alt}), given by:
+\[
+F_0=S_0e^{rT}.
+\]
+\begin{remark}
+\item Although this result is for forwards on ``one unit'' of underlying asset
+\faIcon{apple-alt}, one may modify the unit to apply this result for forwards
+on any number of underlying asset. Example: ``one unit'' of \faIcon{apple-alt}
+= 1000 apples \faIcon{arrow-right} the result is applicable for a forward on
+1000 apples (\(S_0\) is spot price of 1000 apples).
+\item Furthermore, by changing the time labelling (i.e., modifying the
+definition of ``now''), this result can still be applied for a forward
+negotiated at time \(t\):
+\[
+F_t=S_te^{r(T-t)}.
+\]
+In words,
+\[
+\text{negotiated forward price} = \text{``current'' (wrt time \(t\)) spot price} \times
+e^{r(\text{time length until maturity})}.
+\]
+\item The above remarks apply similarly to later results.
+\end{remark}
+
+\begin{pf}
+We make use of the \cref{cor:zero-payoff-zero-price}. Consider the following
+strategy:
+\begin{center}
+\begin{tabular}{clr}
+\toprule
+Time&Transaction&Cash flow\\
+\midrule
+0&borrow \(F_0e^{-rT}\)
+&\(+F_0e^{-rT}\)\\
+&buy 1 \faIcon{apple-alt} at spot price
+&\(-S_0\)\\
+&short the forward
+&\(0\)\\
+&&Total: \(F_0e^{-rT}-S_0\)\\
+\midrule
+\(T\)&sell 1 \faIcon{apple-alt} at delivery price& \(+F_0\) \\
+&repay the loan& \(-F_0\)\\
+&&Total: \(0\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{note}
+Any loan is risk-free here since we assume that credit risk does not exist in a
+perfect market.
+\end{note}
+
+Hence we must have \(F_0e^{-rT}-S_0=0\), as desired.
+\end{pf}
+
+\begin{note}
+The general idea in constructing this kind of proof is trying to design the
+transactions such that the (total) payoff at any future time point is 0. Then,
+\cref{cor:zero-payoff-zero-price} can be readily used.
+\end{note}
+
+
+\item The consequence of \labelcref{it:perfect-mkt-fwd-price} is that, in a
+perfect market, if the forward price \(F_0\) is \emph{not}
+\(S_0e^{rT}\), there would be an arbitrage opportunity.
+
+\item Naturally, we would be interested in \emph{how} to capture such arbitrage
+opportunity in such case. It turns out that the strategies of capturing such
+opportunities are so ``famous'' that they have names: ``cash-and-carry'' and
+``reverse cash-and-carry''.
+
+\item \defn{Cash-and-carry} (C\&C) strategy (for the case where
+\(F_0>S_0e^{rT}\): forward is ``overpriced''):
+\begin{center}
+\begin{tabular}{clr}
+\toprule
+Time&Transaction&Cash flow\\
+\midrule
+0&borrow \(F_0e^{-rT}\)
+&\(+F_0e^{-rT}\)\\
+&buy 1 \faIcon{apple-alt} at spot price
+&\(-S_0\)\\
+&short the forward
+&\(0\)\\
+&&Total: \(F_0e^{-rT}-S_0>0\)\\
+\midrule
+\(T\)&sell 1 \faIcon{apple-alt} at delivery price& \(+F_0\) \\
+&repay the loan& \(-F_0\)\\
+&&Total: \(0\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{note}
+We call this ``cash-and-carry'' since at time 0 we borrow ``cash'', and then
+we ``carry'' 1 \faIcon{apple-alt} from time 0 to \(T\).
+\end{note}
+\item \defn{Reverse cash-and-carry} (RC\&C) strategy (for the case where
+\(F_0<S_0e^{rT}\): forward is ``underpriced''):
+\begin{center}
+\begin{tabular}{clr}
+\toprule
+Time&Transaction&Cash flow\\
+\midrule
+0&lend \(F_0e^{-rT}\)
+&\(-F_0e^{-rT}\)\\
+&(short) sell 1 \faIcon{apple-alt} at spot price
+&\(+S_0\)\\
+&long the forward
+&\(0\)\\
+&&Total: \(S_0-F_0e^{-rT}>0\)\\
+\midrule
+\(T\)&collect proceeds from the loan& \(+F_0\)\\
+&buy 1 \faIcon{apple-alt} at delivery price& \(-F_0\) \\
+&repay the short sale (i.e., return 1 \faIcon{apple-alt} to the lender \faIcon{landmark})& \(0\) \\
+&&Total: \(0\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{note}
+As its name suggests, this strategy is the reverse strategy for cash-and-carry.
+Indeed, often when we figure out an strategy to capture the arbitrage
+opportunity from mispricing at a specific direction, we can use its
+\emph{reverse strategy} to capture the arbitrage opportunity from mispricing at
+\emph{another} direction.
+\end{note}
+\end{enumerate}
+\subsection{Imperfect Market: Borrowing Rate \(>\) Lending Rate}
+\begin{enumerate}
+\item In practice, borrowing rate often exceeds lending rate (resulting in an
+imperfect market).
+\item Notations:
+\begin{itemize}
+\item \(r_B\): borrowing rate (annual, compounded continuously);
+\item \(r_L\): lending rate (annual, compounded continuously).
+\end{itemize}
+\item \label{it:imper-fwd-price-interval}
+When \(r_B>r_L\) (while other assumptions for a perfect market are satisfied),
+there are more than one possible forward price \(F_0\) (here LOOP is not
+applicable as the market is imperfect). It can be any value lying in the price
+interval:
+\[
+\qty[S_0e^{r_LT},S_0e^{r_BT}].
+\]
+\begin{pf}
+When \(F_0>S_0e^{r_BT}\) (\(F_0<S_0e^{r_LT}\)), the C\&C (RC\&C resp.) strategy
+is an arbitrage strategy.
+\begin{note}
+\(r_B\) (\(r_L\)) is the rate applicable when we borrow (lend) money. So in the
+C\&C (RC\&C) strategy, the first transaction becomes ``borrow \(F_0e^{-r_BT}\)''
+(``lend \(F_0e^{-r_LT}\)'').
+\end{note}
+\end{pf}
+\end{enumerate}
+\subsection{Forward on a Stock With Discrete Dividends}
+\begin{enumerate}
+\item Now consider \faIcon{apple-alt} as a stock with discrete dividends. The
+current stock (spot) price is \(S_0\), and it is expected that
+\faIcon{apple-alt} will make dividend payment \faIcon{money-bill-wave}
+\(D_{t_i}\) at time \(t_i\), \(i=1,\dotsc,n\), where \(0<t_1<\dotsb<t_n<T\).
+
+\item \label{it:perfect-mkt-fwd-price-disc-div}
+To ``incorporate'' the effects of dividends, the (unique) price of
+forward on \faIcon{apple-alt} in a \emph{perfect market} needs to be adjusted
+to:
+\[
+F_0=S_0e^{rT}-\sum_{i=1}^{n}D_{t_i}e^{r(T-t_i)}.
+\]
+\begin{note}
+In words, it is
+\[
+\text{original \(F_0\)}-\text{FV of all dividend payments at time \(T\) (at risk-free rate)}.
+\]
+\end{note}
+
+\begin{pf}
+Consider the following strategy:
+\begin{center}
+\begin{tabular}{clr}
+\toprule
+Time&Transaction&Cash flow\\
+\midrule
+0&borrow \(e^{-rT}\qty(F_0+\sum_{i=1}^{n}D_{t_i}e^{r(T-t_i)})\)
+&\(+e^{-rT}\qty(F_0+\sum_{i=1}^{n}D_{t_i}e^{r(T-t_i)})\)\\
+&buy 1 \faIcon{apple-alt} at spot price
+&\(-S_0\)\\
+&short the forward
+&\(0\)\\
+&&Total: \(e^{-rT}\qty(F_0+\sum_{i=1}^{n}D_{t_i}e^{r(T-t_i)})-S_0\)\\
+\midrule
+\(t_1\)&receive dividend payment \(D_{t_1}\)&\(+D_{t_1}\)\\
+&lend \(D_{t_1}\)&\(-D_{t_1}\)\\
+&&Total: \(0\)\\
+\midrule
+\vdots&\vdots&\vdots\\
+\midrule
+\(t_n\)&receive dividend payment \(D_{t_n}\)&\(+D_{t_n}\)\\
+&lend \(D_{t_n}\)&\(-D_{t_n}\)\\
+&&Total: \(0\)\\
+\midrule
+\(T\)&sell 1 \faIcon{apple-alt} at delivery price& \(+F_0\) \\
+&collect proceeds from the loans (the ones at time \(t_1,\dotsc,t_n\))& \(+\sum_{i=1}^{n}D_{t_i}e^{r(T-t_i)}\)\\
+&repay the loan (the one at time 0)& \(-F_0-\sum_{i=1}^{n}D_{t_i}e^{r(T-t_i)}\)\\
+&&Total: \(0\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+Hence we must have
+\(e^{-rT}\qty(F_0+\sum_{i=1}^{n}D_{t_i}e^{r(T-t_i)})-S_0=0\), as desired.
+\end{pf}
+\end{enumerate}
+
+\subsection{Forward on a Stock With Continuous Dividends}
+\begin{enumerate}
+\item For mathematical convenience, sometimes we choose to model the dividends
+as being paid \emph{continuously} (at a rate proportional to the stock price)
+rather than in a discrete manner. Such rate is called \defn{dividend yield},
+denoted by \defn{\(\delta\)}.
+\item The meaning of dividend yield is illustrated below:
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:80, ylabel={No.\ of \faIcon{apple-alt} shares (\(N_t\))}, xlabel={Time \(t\)}]
+\addplot[blue]{10*e^(0.02*x)};
+\draw[-Latex, violet] (20,9) -- (1,9.5)
+node[pos=-0.4] {\(N_0\) \faIcon{apple-alt}};
+\draw[-Latex, brown] (20,35) -- (5,12);
+\draw[-Latex, brown] (20,35) -- (20,16);
+\draw[-Latex, brown] (20,35) -- (35,22);
+\draw[-Latex, brown] (20,35) -- (50,30);
+\draw[-Latex, brown] (20,35) -- (65,40);
+\node[brown] (div) at (19,38) {\(+N_tS_t\delta\,dt\)};
+\node[violet] (apple) at (19,47) {\(+N_t\delta\,dt\) \faIcon{apple-alt}};
+\draw[<->, thick] (div.north) -- (apple.south);
+\fill[violet] (0,10) circle [radius=0.5];
+\node[blue] () at (60,20) {\(N_t=N_0e^{\delta t}\)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+More explanation:
+\begin{itemize}
+\item \(N_t\): no. of \faIcon{apple-alt} shares we own at time \(t\)
+\item For every ``infinitesimal'' time interval \([t,t+dt]\), we receive
+dividend payment \faIcon{money-bill-wave} \(S_{t}\delta\,dt\) per shares
+\faIcon{arrow-right} total amount we receive is \(N_tS_t\delta\,dt\).
+\item Reinvesting this amount in the stock \faIcon{apple-alt} adds
+\(\displaystyle \frac{N_tS_t\delta\,dt}{S_t}=N_t\delta\,dt\) \faIcon{apple-alt}
+shares to the shares we own \faIcon{arrow-right}
+\[dN_t=N_t\delta\,dt \implies
+\frac{dN_t}{dt}=N_t\delta.\]
+\item Solving this ODE gives \(N_t=N_0e^{\delta t}\).
+\end{itemize}
+\begin{note}
+We shall assume automatic dividend reinvestment in this notes. So we would own
+more and more \faIcon{apple-alt} shares as time passes, when \faIcon{apple-alt}
+has continuous dividends.
+\end{note}
+\item \label{it:perfect-mkt-fwd-price-cts-div}
+In a perfect market, there is exactly one possible delivery price (for a forward
+on 1 \faIcon{apple-alt}), given by:
+\[
+F_0=S_0e^{(r-\delta)T}.
+\]
+\begin{pf}
+Consider the following strategy:
+\begin{center}
+\begin{tabular}{clr}
+\toprule
+Time&Transaction&Cash flow\\
+\midrule
+0&borrow \(F_0e^{-rT}\)&\(+F_0e^{-rT}\)\\
+&buy \(e^{-\delta T}\) \faIcon{apple-alt} at spot price&\(-S_0e^{-\delta T}\)\\
+&short the forward&\(0\)\\
+&&Total: \(F_0e^{-rT}-S_0e^{-\delta T}\)\\
+\midrule
+\(t\in(0,T)\)&\makecell{receive dividend payments continuously\\
+(which are being reinvested in \faIcon{apple-alt})}&\(0\)\\
+\midrule
+\(T\)&sell 1 \faIcon{apple-alt} at delivery price& \(+F_0\) \\
+&repay the loan& \(-F_0\)\\
+&&Total: \(0\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{note}
+The number of \faIcon{apple-alt} we own accumulates from \(e^{-\delta T}\) at
+time 0 to 1 at time \(T\).
+\end{note}
+This means
+\[
+F_0e^{-rT}-S_0e^{-\delta T}=0,
+\]
+as desired.
+\end{pf}
+\end{enumerate}
+\subsection{Forward Price in the Presence of Storage Cost}
+\begin{enumerate}
+\item For some assets (e.g., diamond \faIcon[regular]{gem}), there are storage costs.
+
+\item When an investor \faIcon{user} short sells an asset \faIcon[regular]{gem} with
+storage costs (then \faIcon{user} needs to borrow \faIcon[regular]{gem} from a third
+party \faIcon{landmark}), \faIcon{landmark} needs to pay to \faIcon{user} the
+storage costs that would normally be incurred on the shorted \faIcon[regular]{gem}
+(since the owner of \faIcon[regular]{gem} (\faIcon{landmark}), not the short-seller,
+should bear the ``responsibility'' of paying storage costs).
+
+\item Consider a forward on 1 \faIcon[regular]{gem}. Let \defn{\(C\)} be \emph{present
+value} of all storage costs associated with \faIcon[regular]{gem} (at risk-free
+rate). Then, by ``paying'' \(C\) now, we can have just enough money to pay all
+the storage costs (some possibly in the future), by lending \(C\) and
+collecting ``parts'' of proceeds from the loan at suitable time points.
+
+\item \label{it:perfect-mkt-fwd-price-storage}
+In a perfect market, there is exactly one possible delivery price (for a forward
+on 1 \faIcon[regular]{gem}), given by:
+\[
+F_0=(S_0+C)e^{rT}.
+\]
+\begin{pf}
+Consider the following strategy:
+\begin{center}
+\begin{tabular}{clr}
+\toprule
+Time&Transaction&Cash flow\\
+\midrule
+0&borrow \(F_0e^{-rT}\)&\(+F_0e^{-rT}\)\\
+&buy 1 \faIcon[regular]{gem} at spot price&\(-S_0\)\\
+&``pay'' the storage costs&\(-C\)\\
+&short the forward&\(0\)\\
+&&Total: \(F_0e^{-rT}-(S_0+C)\)\\
+\midrule
+\(T\)&sell 1 \faIcon[regular]{gem} at delivery price& \(+F_0\) \\
+&repay the loan& \(-F_0\)\\
+&&Total: \(0\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+Hence, we have \(F_0e^{-rT}-(S_0+C)=0\), as desired.
+\end{pf}
+\end{enumerate}
+\subsection{Currency Forward}
+\begin{enumerate}
+\item Sometimes the underlying asset of a forward is a certain number of
+currency \faIcon{euro-sign}. Such forward is known as a \defn{currency forward}.
+\item Before proceeding further, let us first briefly introduce foreign
+exchange (forex/FX). The main idea of FX is illustrated below:
+\begin{center}
+\begin{tikzpicture}
+\node[font=\large] () at (2.5,3) {{\color{violet}USD}/{\color{brown}JPY}: 160 (FX quote convention)};
+\node[font=\large, draw, violet] (usd) at (0,0) {1 USD ({\color{violet}\faIcon{dollar-sign}})};
+\node[font=\large, draw, brown] (jpy) at (5,0) {160 JPY ({\color{brown}\faIcon{yen-sign}})};
+\draw[-Latex] (usd.north) to[bend left] (jpy.north);
+\draw[-Latex] (jpy.south) to[bend left] (usd.south);
+\node[] () at (2.5,1.5) {buy 160 {\color{brown}\faIcon{yen-sign}} using 1 {\color{violet}\faIcon{dollar-sign}} /
+sell 1 {\color{violet}\faIcon{dollar-sign}} for 160 {\color{brown}\faIcon{yen-sign}}};
+\node[] () at (2.5,2) {(convert {\color{violet}\faIcon{dollar-sign}} to {\color{brown}\faIcon{yen-sign}})};
+\node[] () at (2.5,-1.5) {buy 1 {\color{violet}\faIcon{dollar-sign}} using 160 {\color{brown}\faIcon{yen-sign}}
+/ sell 160 {\color{brown}\faIcon{yen-sign}} for 1 {\color{violet}\faIcon{dollar-sign}}};
+\node[] () at (2.5,-2) {(convert {\color{brown}\faIcon{yen-sign}} to {\color{violet}\faIcon{dollar-sign}})};
+\end{tikzpicture}
+\end{center}
+\begin{warning}
+The expression ``USD/JPY'' may be a bit misleading, since the number it is
+referring to is indeed how many \emph{JPY} can be converted \emph{per}
+\emph{USD}, but ``/'' is often regarded as ``per'' (which is \underline{not}
+the case here!).
+
+To avoid this, one may consider using some alternative (less popular though)
+quotations like ``USDJPY'' or ``USD-JPY''.
+\end{warning}
+
+Terminologies (based on the setting here):
+\begin{itemize}
+\item {\color{violet}USD (\faIcon{dollar-sign})} is the \defn{foreign currency}.
+\item {\color{brown}JPY (\faIcon{yen-sign})} is the \defn{domestic currency}.
+
+\begin{warning}
+The definition of domestic/foreign currency is \underline{not} related to where
+you live! Instead, it only depends on the format of the FX quotation.
+\end{warning}
+\item \defn{Exchange rate} is the price of one unit of foreign currency in
+terms of (or \emph{denominated in}) domestic currency. (Here it is 160: It
+costs 160 {\color{brown}\faIcon{yen-sign}} to buy 1
+{\color{violet}\faIcon{dollar-sign}}.)
+\end{itemize}
+
+\item For a currency forward on a number of \faIcon{euro-sign}, its
+forward/delivery price is expressed as an exchange rate (which is called
+\defn{forward exchange rate}): price of 1 \faIcon{euro-sign} (foreign currency)
+denominated in the domestic currency.
+
+\item Notations:
+\begin{itemize}
+\item \defn{\(r_d\)} (\defn{\(r_f\)}): annual risk-free interest rate of the domestic
+(foreign) currency, compounded continuously
+\item (for emphasis) \(S_t\): time-\(t\) spot exchange rate (time-\(t\) price of one unit of
+the foreign currency denominated in the domestic currency)
+\end{itemize}
+
+\item We fix our consideration on a kind of exchange rate (through which the
+foreign and domestic currencies are fixed), say FOR/DOM (FOR: foreign currency;
+DOM: domestic currency).
+
+\item \label{it:perfect-mkt-fwd-ex-rate}
+Consider a currency forward on 1 FOR. In a perfect market, there is exactly one
+possible forward exchange rate (FOR/DOM), given by:
+\[
+F_0=S_0e^{(r_d-r_f)T}.
+\]
+\begin{note}
+This result is applicable to currency forwards on any number of FOR after some
+modification. For a currency forward on \(k\) FOR, the only possible forward
+exchange rate (FOR/DOM) is \(kS_0e^{(r_d-r_f)T}\) (using similar argument as
+the proof below).
+\end{note}
+
+\begin{pf}
+Consider the following strategy:
+
+\begin{center}
+\begin{tabular}{clr}
+\toprule
+Time&Transaction&Cash flow\\
+\midrule
+0&borrow \(F_0e^{-r_dT}\) DOM &\(+F_0e^{-r_dT}\) DOM\\
+&buy \(e^{-r_fT}\) FOR at spot exchange rate (FOR/DOM) &\(-S_0e^{-r_fT}\text{ DOM} + e^{-r_fT}\text{ FOR}\)\\
+&lend \(e^{-r_fT}\) FOR&\(-e^{-r_fT}\) FOR\\
+&short the forward&\(0\)\\
+&&Total: \(F_0e^{-r_dT}-S_0e^{-r_fT}\) DOM\\
+\midrule
+\(T\)&collect proceeds from loan (lending rate: \(r_f\))& \(+1\) FOR \\
+&sell 1 FOR at forward exchange rate (FOR/DOM) & \(-1\text{ FOR}+F_0\text{ DOM}\) \\
+&repay the loan (borrowing rate: \(r_d\))& \(-F_0\) DOM \\
+&&Total: \(0\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+Thus, \(F_0e^{-r_dT}-S_0e^{-r_fT}=0\), as desired.
+\end{pf}
+
+\item Another perspective (as a special case of
+\labelcref{it:perfect-mkt-fwd-price-cts-div}): an unit of ``FOR'' may be viewed
+as a share of ``stock'' with continuous dividends, and the forward is
+denominated in DOM:
+\begin{itemize}
+\item We treat the continuous \emph{interest} payments (from lending FOR) as
+``dividend'' payments.
+\item The dividend yield is \(r_f\) since the number of ``FOR'' we own at time
+\(t\) (\(N_t\)) is \(N_0 e^{r_ft}\) (the ``dividends'' are already in terms of
+FOR, hence ``reinvested'' automatically).
+\item Since the forward is denominated in DOM, the risk-free rate \(r\) in
+\labelcref{it:perfect-mkt-fwd-price-cts-div} is \(r_d\).
+\end{itemize}
+As a result, for a forward on 1 FOR (``1 \faIcon{apple-alt}''), the only
+possible ``forward price'' (forward exchange rate here) is
+\[
+F_0=S_0e^{(r_d-r_f)T}.
+\]
+\begin{note}
+An advantage of the proof approach in \labelcref{it:perfect-mkt-fwd-ex-rate} is
+that it also hints how to capture arbitrage opportunity once it arises.
+\end{note}
+\end{enumerate}
+\subsection{Value of a Forward}
+\label{subsect:value-fwd}
+\begin{enumerate}
+\item Recall from \labelcref{it:fwd-cost-zero} that value of any forward
+negotiated at time 0 is always zero at time 0. But, the value of such forward at
+time \(t>0\) may no longer be zero.
+
+\subsubsection*{Motivating Example}
+\item We are in a perfect market and now is time 1.
+Suppose we longed a forward on 1 \faIcon{apple-alt} (with no dividends, no
+storage costs, etc.) at time 0, where \(S_0=10\), \(r=0.05\), and \(T=10\).
+Then, we know the forward price negotiated was \(F_0=10e^{0.05(10)}\approx
+\fpeval{round(10*exp(0.05*10),4)}\).  ``Holding'' that forward contract
+\faIcon{scroll}, we are able (obligated indeed) to buy 1 \faIcon{apple-alt} at the
+price of \fpeval{round(10*exp(0.05*10),4)}, at time \(T=10\).
+
+Now, at time 1, the spot price of \faIcon{apple-alt} surges \faIcon{chart-line}
+to 1000. So for a forward on 1 \faIcon{apple-alt} negotiated now, the forward
+price is \(F_1=1000e^{0.05(9)}\approx \fpeval{round(1000*exp(0.05*9),4)}\),
+which is much higher than \(F_0\).
+
+Then, intuitively, the forward contract
+\faIcon{scroll} we currently hold (that permits us to buy 1 \faIcon{apple-alt}
+at time \(T\) with such a low price of \fpeval{round(10*exp(0.05*10),4)})
+becomes very ``lucrative'', and hence its value at time 1 should be quite high
+(i.e., we can ``sell'' \faIcon{scroll} at a high price).
+
+\item Now consider a ``parallel universe'' where the spot price of
+\faIcon{apple-alt} falls \faIcon{chart-area} to 0.001 at time 1
+(\faIcon{apple-alt} becomes almost worthless!). The forward price for a forward
+on 1 \faIcon{apple-alt} negotiated now would be \(F_1=0.001e^{0.05(9)}\approx
+\fpeval{round(0.001*exp(0.05*9),6)}\), much lower than \(F_0\).
+
+In such case, unfortunately the forward contract \faIcon{scroll} we currently
+hold (that requires us to buy 1 \faIcon{apple-alt} at time \(T\) with such a
+high price of \fpeval{round(10*exp(0.05*10),4)}) becomes a burden.
+Intuitively, to get rid of this ``burden'', we need to provide compensation to
+others.  This suggests the value of \faIcon{scroll} at time 1 should be
+negative.
+
+\subsubsection*{Formula}
+\item After having some intuitive idea about the time-\(t\) value of a
+forward negotiated at time 0, here we give an argument to derive the formula
+for calculating the value.
+\item \label{it:fwd-val-fmla}
+Consider a forward \faIcon{scroll} (on 1 \faIcon{apple-alt}) negotiated at time
+0, and a time point \(t<T\). Then, in a perfect market, the value of the
+forward \faIcon{scroll} \footnote{That is, the value of a long position in the
+forward with one unit owned.} at time \(t\) is
+\[
+(F_t-F_0)e^{-r(T-t)}.
+\]
+\begin{pf}
+Let \(V_t\) be its value (or ``price'') at time \(t\). Then, consider the following strategy:
+\begin{table}[!h]
+\centering
+\sffamily
+\begin{tabular}{clr}
+\toprule
+Time&Transaction&Cash flow\\
+\midrule
+\(t\)&borrow \((F_t-F_0)e^{-r(T-t)}\)\tablefootnote{If \(F_t-F_0<0\), this is to be replaced by ``\emph{lend} \((F_0-F_t)e^{-r(T-t)}\)''.}&\(+(F_t-F_0)e^{-r(T-t)}\)\\
+&short a forward (on 1 \faIcon{apple-alt}) negotiated at time \(t\)&\(0\)\\
+&long that forward \faIcon{scroll} (negotiated at time 0)&\(-V_t\)\\
+&&Total: \((F_t-F_0)e^{-r(T-t)}-V_t\)\\
+\midrule
+\(T\)&buy 1 \faIcon{apple-alt} at the delivery price \(F_0\)\tablefootnote{possibly on a loan that is to be repaid immediately by income(s) received from other transaction(s) at time \(T\)}& \(-F_0\) \\
+&sell 1 \faIcon{apple-alt} at the delivery price \(F_t\)& \(+F_t\) \\
+&repay the loan\tablefootnote{This is to be replaced by ``collect proceeds from the loan'' if \(F_t-F_0<0\).}& \(-(F_t-F_0)\) \\
+&&Total: \(0\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+It follows that \((F_t-F_0)e^{-r(T-t)}-V_t=0\), as desired.
+\end{pf}
+\end{enumerate}
 
