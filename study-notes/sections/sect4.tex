@@ -1,0 +1,383 @@
+\section{Options}
+\label{sect:options}
+\begin{enumerate}
+\item \emph{Options} are contracts that are somewhat similar to
+forward/futures. They also allow us to buy/sell an underlying asset
+\faIcon{apple-alt} at a specific price. The following are the main
+distinctions:
+\begin{itemize}
+\item right vs.\ obligation: An option gives us \emph{right} to buy/sell
+\faIcon{apple-alt} (we have an ``option'' to buy/sell \faIcon{apple-alt}
+\emph{or not}), but a forward/future only gives us \emph{obligation} to buy/sell
+\faIcon{apple-alt} (we \emph{must} buy/sell \faIcon{apple-alt} at delivery date
+no matter what).
+\item buy/sell timing: For some options, it is possible to buy/sell
+\faIcon{apple-alt} even \emph{before} maturity (time \(T\)).
+\end{itemize}
+\end{enumerate}
+\subsection{Call and Put Options}
+\begin{enumerate}
+\item There are two basic types of options: call and put options.
+
+\item A \defn{call option}/\defn{put option} (or simply \defn{call}/\defn{put}
+(resp.)) \faIcon{scroll} gives its holder the \emph{right} (but not the
+obligation) to buy/sell (resp.) an underlying asset \faIcon{apple-alt} at a
+specific price (known as \defn{exercise price} or \defn{strike price}), by a
+certain date (known as \defn{expiration date} or \defn{maturity date}).
+
+\begin{note}
+The act of \emph{using} the right given by the option is known as
+\defn{exercising the option}.
+\end{note}
+
+\begin{mnemonic}
+For the call option, we have the option to ``call'' \faIcon{apple-alt} from
+someone, and then own it. For the put option, we have the option to ``put'' our
+\faIcon{apple-alt} to someone's hand \faIcon{hand-holding}.
+\end{mnemonic}
+
+\item For each of call and put options, it can be \emph{American} or
+\emph{European}. Their difference is on the buy/sell timing:
+\begin{itemize}
+\item The holder of an \defn{American} option can exercise at any time on or before the expiration date.
+\item The holder of an \defn{European} option can only exercise at the expiration date (``like'' forward/futures).
+\end{itemize}
+\begin{mnemonic}
+\underline{A}merican: \underline{A}nytime; \underline{E}uropean: \underline{E}xpiration.
+\end{mnemonic}
+
+\begin{note}
+Unless otherwise specified, options here are \emph{European}. (European options
+turn out to be more mathematically tractable.)
+\end{note}
+
+\item Like forward/futures, we also have the long/short terminology for
+options. Here the meaning follows the definition in
+\labelcref{it:long-short-def}.
+\begin{itemize}
+\item holding/owning a positive amount of call (put) options \faIcon{scroll}
+\faIcon{arrow-right} \emph{long} position in call (put) option, or in short,
+long call (put)
+\item holding/owning a negative amount of call (put) options
+\faIcon{scroll}\footnote{That is, selling/\defn{writing} that amount (in
+absolute value) of call (put) options \faIcon{scroll}.} \faIcon{arrow-right}
+\emph{short} position in call (put) option, or in short, short call (put)
+\end{itemize}
+
+\item Due to the ``similarity'' to forward/futures, we shall use the notations
+from \labelcref{it:fwd-futures-notations} for strike price and expiration date:
+\begin{itemize}
+\item \defn{\(K\)}: strike price (``like'' delivery price for forward/futures);
+\item time \defn{\(T\)} (positive): expiration date (``like'' delivery date for
+forward/futures).
+\end{itemize}
+
+\item In this notes, we assume that the option holder is always ``rational''
+(profit-maximizing).
+\end{enumerate}
+\subsection{Payoff of Call and Put Options}
+\begin{enumerate}
+\item \label{it:euro-option-rational}
+In the context of European options, rationality implies that a holder
+would exercise the option (at time \(T\)) iff a \emph{positive} profit can be
+earned from exercising at that time (and then closing out all positions).
+
+\begin{note}
+To avoid the ``indifferent'' situation, here we assume the holder would
+\emph{not} exercise the option if there is zero profit to be earned.
+\end{note}
+
+\item Further elaboration on \labelcref{it:euro-option-rational}: At time \(T\)
+there are the following two choices that are ``comparable'' (in the sense that
+both result in no position):
+\begin{enumerate}
+\item do not exercise the option;
+\item exercise the option and then close out all positions.
+\end{enumerate}
+Rationality suggests that between these two ``comparable'' choices, the option
+holder would choose the one that results in a higher profit (more positive cash
+flow). Since the former choice results in \emph{zero} cash flow, this means the
+holder would choose the latter one iff it results in a \emph{positive} (\(>0\))
+profit (cash flow).
+
+\item \label{it:call-put-ex-criterion}
+For a call (put) option \faIcon{scroll} on 1 \faIcon{apple-alt}, this means the
+option would be exercised iff \(S_T>K\) (\(K>S_T\)).
+
+\begin{pf}
+Note that at time \(T\), exercising the call (put) and then closing out all
+positions --- i.e., selling (buying) 1 \faIcon{apple-alt} at the spot price in
+this context --- results in a total cash flow of \(S_T-K\) (\(K-S_T\)).
+\end{pf}
+\item \label{it:lc-lp-payoff}
+Consequently, the payoff of the \emph{long} call (put) at time \(T\) is
+\((S_T-K)_+\) (\((K-S_T)_+\) resp.), where \(x_{+}\) is the \defn{positive
+part} of \(x\), i.e., \(\max\{x,0\}\) (or \(x\text{\,\defn{\(\vee\)}\,}0\)).
+
+\begin{pf}
+This immediately follows from the proof for
+\labelcref{it:call-put-ex-criterion}: The act of exercising and then closing
+out all positions afterward (or not exercising and letting the option expire)
+is what we need to close out all positions at time \(T\), and the cash flow
+obtained from such act is \((S_T-K)_+\) (\((K-S_T)_{+}\)) for call (put).
+\end{pf}
+\begin{center}
+\begin{tikzpicture}[declare function={func(\x) = (\x <= 2) * 0 + (\x > 2) * (x-2);}]
+\begin{axis}[domain=0:5, ymin=-1, ymax=3.5, xmax=5.5, axis y line=left, axis x line=middle,
+xtick={2}, xticklabels={\(K\)}, ytick=\empty, ylabel=Payoff,
+ylabel style={at={(axis description cs:0,1)}, anchor=south, rotate=-90},
+xlabel=\(S_T\),
+xlabel style={anchor=west}, samples=100, title=Long Call
+]
+\addplot[blue, thick]{func(x)};
+\node[blue] () at (4,1) {slope = 1};
+\end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}[declare function={func(\x) = (\x <= 2) * (2-x) + (\x > 2) * 0;}]
+\begin{axis}[domain=0:5, ymin=-1, ymax=3.5, xmax=5.5, axis y line=left, axis x line=middle,
+xtick={2}, xticklabels={\(K\)}, ytick=\empty, ylabel=Payoff,
+ylabel style={at={(axis description cs:0,1)}, anchor=south, rotate=-90},
+xlabel=\(S_T\),
+xlabel style={anchor=west}, samples=100, title=Long Put
+]
+\addplot[blue, thick]{func(x)};
+\node[blue] () at (2,1) {slope = \(-1\)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\item \label{it:sc-sp-payoff}
+Then, the payoff of the \emph{short} call (put) at time \(T\) is
+\(-(S_T-K)_{+}\) (\(-(K-S_T)_{+}\)) (negative of the payoff of long call (put)).
+\begin{center}
+\begin{tikzpicture}[declare function={func(\x) = (\x <= 2) * 0 + (\x > 2) * -(x-2);}]
+\begin{axis}[domain=0:5, ymin=-3.5, ymax=1, xmax=5.5, axis y line=left, axis x line=middle,
+xtick={2}, xticklabels={\(K\)}, ytick=\empty, ylabel=Payoff,
+ylabel style={at={(axis description cs:0,1)}, anchor=south, rotate=-90},
+xlabel=\(S_T\),
+xlabel style={anchor=west}, samples=100, title=Short Call
+]
+\addplot[blue, thick]{func(x)};
+\node[blue] () at (4.5,-1) {slope = \(-1\)};
+\end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}[declare function={func(\x) = (\x <= 2) * -(2-x) + (\x > 2) * 0;}]
+\begin{axis}[domain=0:5, ymin=-3.5, ymax=1, xmax=5.5, axis y line=left, axis x line=middle,
+xtick={2}, xticklabels={\(K\)}, ytick=\empty, ylabel=Payoff,
+ylabel style={at={(axis description cs:0,1)}, anchor=south, rotate=-90},
+xlabel=\(S_T\),
+xlabel style={anchor=west}, samples=100, title=Short Put
+]
+\addplot[blue, thick]{func(x)};
+\node[blue] () at (2,-1) {slope = 1};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{enumerate}
+\subsection{P/L of Call and Put Options}
+\begin{enumerate}
+\item Since the payoff at time \(T\) of a long call/put is always nonnegative,
+the (time-0) \emph{price} (or value) of the call/put option (known as (time-0)
+\defn{option price} or \defn{option premium}) has to be positive
+\faIcon{arrow-right} It costs \faIcon{dollar-sign} to take a long call/put.
+Otherwise, a long call/put is already an arbitrage strategy --- It can possibly
+make a risk-free profit without needing any cash outflow!
+
+\begin{note}
+By changing time labelling, the same is applicable to the time-\(t\) (\(t<T\))
+price (or value) of the option (still expiring at time \(T\)): It has to be positive.
+\end{note}
+
+\item Notations:
+\begin{itemize}
+\item \defn{\(C_t\)}: call option price at time \(t\);
+\item \defn{\(P_t\)}: put option price at time \(t\).
+\end{itemize}
+Then we have \(C_t,P_t>0\) for any time \(t<T\).
+
+\item \label{it:lc-lp-pnl}
+Given the call (put) option price at time 0: \(C_0\) (\(P_0\)), which gives the
+only cash flow before time \(T\), we can determine the P/L of a long call (put)
+at time \(T\):
+\[
+(S_T-K)_{+}-C_0e^{rT}\quad\qty((K-S_T)_{+}-P_0e^{rT}).
+\]
+
+\begin{center}
+\begin{tikzpicture}[declare function={func(\x) = (\x <= 2) * -0.5 + (\x > 2) * (x-2.5);}]
+\begin{axis}[domain=0:5, ymin=-1, ymax=3.5, xmax=5.5, axis y line=left, axis x line=middle,
+xtick={2.5}, xticklabels={\(K+C_0e^{rT}\)}, xticklabel style={yshift=0.8cm, xshift=-0.5cm},
+ytick={-0.5}, yticklabels={\(-C_0e^{rT}\)}, ylabel=P/L,
+ylabel style={at={(axis description cs:0,1)}, anchor=south, rotate=-90},
+xlabel=\(S_T\),
+xlabel style={anchor=west}, samples=100, title=Long Call
+]
+\addplot[blue, thick]{func(x)};
+\node[blue] () at (4.5,1) {slope = 1};
+\end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}[declare function={func(\x) = (\x <= 2) * (1.5-x) + (\x > 2) * -0.5;}]
+\begin{axis}[domain=0:5, ymin=-1, ymax=3.5, xmax=5.5, axis y line=left, axis x line=middle,
+xtick={1.5}, xticklabels={\(K-P_0e^{rT}\)}, xticklabel style={yshift=0.8cm, xshift=0.8cm},
+ytick={-0.5}, yticklabels={\(-P_0e^{rT}\)}, ylabel=P/L,
+ylabel style={at={(axis description cs:0,1)}, anchor=south, rotate=-90},
+xlabel=\(S_T\),
+xlabel style={anchor=west}, samples=100, title=Long Put
+]
+\addplot[blue, thick]{func(x)};
+\node[blue] () at (1.5,1) {slope = \(-1\)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\item \label{it:sc-sp-pnl}
+Likewise, the P/L of the short call (put) at time \(T\) is the
+\emph{negative} of the P/L of the long call (put) at time \(T\):
+\[
+-(S_T-K)_{+}+C_0e^{rT}\quad\qty(-(K-S_T)_{+}+P_0e^{rT}).
+\]
+\begin{note}
+To take a short call (put) position (sell/write a call (put)), we
+\emph{receive} the option price, not pay it. Hence, the cash \emph{outflow} at
+time 0 becomes negative of the price, i.e., the time-0 cash inflow is the
+price.
+\end{note}
+\begin{center}
+\begin{tikzpicture}[declare function={func(\x) = (\x <= 2) * 0.5 + (\x > 2) * -(x-2.5);}]
+\begin{axis}[domain=0:5, ymin=-3.5, ymax=1, xmax=5.5, axis y line=left, axis x line=middle,
+xtick={2.5}, xticklabels={\(K+C_0e^{rT}\)}, xticklabel style={yshift=0.8cm, xshift=0.8cm},
+ytick={0.5}, yticklabels={\(C_0e^{rT}\)}, ylabel=P/L,
+ylabel style={at={(axis description cs:0,1)}, anchor=south, rotate=-90},
+xlabel=\(S_T\),
+xlabel style={anchor=west}, samples=100, title=Short Call
+]
+\addplot[blue, thick]{func(x)};
+\node[blue] () at (4.5,-1) {slope = \(-1\)};
+\end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}[declare function={func(\x) = (\x <= 2) * -(1.5-x) + (\x > 2) * 0.5;}]
+\begin{axis}[domain=0:5, ymin=-3.5, ymax=1, xmax=5.5, axis y line=left, axis x line=middle,
+xtick={1.5}, xticklabels={\(K-P_0e^{rT}\)}, xticklabel style={yshift=0.8cm, xshift=-0.5cm},
+ytick={0.5}, yticklabels={\(P_0e^{rT}\)}, ylabel=P/L,
+ylabel style={at={(axis description cs:0,1)}, anchor=south, rotate=-90},
+xlabel=\(S_T\),
+xlabel style={anchor=west}, samples=100, title=Short Put
+]
+\addplot[blue, thick]{func(x)};
+\node[blue] () at (1.5,-1) {slope = 1};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{enumerate}
+\subsection{Moneyness of Options}
+\begin{enumerate}
+\item \defn{Moneyness} of an option describes whether its payoff (at time 0)
+would be positive or negative if the holder were forced to exercise
+the option \emph{immediately} (i.e., at the time of purchase), i.e., the cash
+flow obtained after immediately exercising the option and closing out the
+position.
+\begin{note}
+This applies to European option also even though it cannot be exercised before
+expiration.
+\end{note}
+
+\item An \defn{in-the-money} (ITM)/\defn{out-of-the-money}
+(OTM)/\defn{at-the-money} (ATM) option is the one that would have a
+positive/negative/zero payoff if the holder were forced to exercise the
+option immediately.
+\begin{mnemonic}
+ITM \faIcon{arrow-right} ``getting money \underline{in} our pocket \faIcon{wallet}''; OTM
+\faIcon{arrow-right} ``getting money \underline{out of} our pocket \faIcon{wallet}'';
+ATM \faIcon{arrow-right} ``retaining money \underline{at} our pocket \faIcon{wallet} (no more, no
+less)''.
+\end{mnemonic}
+
+\item For call and put options issued (written) at time 0,
+\begin{itemize}
+\item call is ITM/OTM/ATM \(\iff\) \(S_0>K\) / \(S_0<K\) / \(S_0=K\) (resp.);
+\item put is ITM/OTM/ATM \(\iff\) \(K>S_0\) / \(K<S_0\) / \(K=S_0\) (resp.).
+\end{itemize}
+\begin{note}
+The time-0 payoff if exercised immediately for the call (put) is
+\((S_0-K)_{+}\) (\((K-S_0)_{+}\)).
+\end{note}
+\end{enumerate}
+\subsection{Strategies for Bullish and Bearish Speculators}
+\label{subsect:bull-bear-speculate}
+\begin{enumerate}
+\item For speculators that are \emph{bullish} on \faIcon{apple-alt}, they can:
+\begin{itemize}
+\item long \faIcon{apple-alt} (buy \faIcon{apple-alt} now at spot price)
+
+\begin{tikzpicture}[scale=0.4, declare function={func(\x) = (x-2);}]
+\begin{axis}[domain=0:5, ymin=-2.5, ymax=2.5, xmax=5.5, axis y line=left, axis x line=middle,
+xtick=\empty, ytick=\empty, samples=100]
+\addplot[blue, thick]{func(x)};
+\end{axis}
+\end{tikzpicture}
+\item long forward on \faIcon{apple-alt}
+
+\begin{tikzpicture}[scale=0.4, declare function={func(\x) = (x-2);}]
+\begin{axis}[domain=0:5, ymin=-2.5, ymax=2.5, xmax=5.5, axis y line=left, axis x line=middle,
+xtick=\empty, ytick=\empty, samples=100]
+\addplot[blue, thick]{func(x)};
+\end{axis}
+\end{tikzpicture}
+\item long call on \faIcon{apple-alt}
+
+\begin{tikzpicture}[scale=0.4, declare function={func(\x) = (\x <= 2) * -0.5 + (\x > 2) * (x-2.5);}]
+\begin{axis}[domain=0:5, ymin=-2.5, ymax=2.5, xmax=5.5, axis y line=left, axis x line=middle,
+xtick=\empty, ytick=\empty, samples=100]
+\addplot[blue, thick]{func(x)};
+\end{axis}
+\end{tikzpicture}
+\item short put on \faIcon{apple-alt}
+
+\begin{tikzpicture}[scale=0.4, declare function={func(\x) = (\x <= 2) * -(1.5-x) + (\x > 2) * 0.5;}]
+\begin{axis}[domain=0:5, ymin=-2.5, ymax=2.5, xmax=5.5, axis y line=left, axis x line=middle,
+xtick=\empty, ytick=\empty, samples=100]
+\addplot[blue, thick]{func(x)};
+\end{axis}
+\end{tikzpicture}
+\end{itemize}
+\begin{note}
+The P/L graphs of all these positions have an ``increasing trend''.
+\end{note}
+\item For speculators that are \emph{bearish} on \faIcon{apple-alt}, they can:
+\begin{itemize}
+\item short \faIcon{apple-alt} (short sell \faIcon{apple-alt} now at spot price)
+
+\begin{tikzpicture}[scale=0.4, declare function={func(\x) = (2-x);}]
+\begin{axis}[domain=0:5, ymin=-2.5, ymax=2.5, xmax=5.5, axis y line=left, axis x line=middle,
+xtick=\empty, ytick=\empty, samples=100]
+\addplot[blue, thick]{func(x)};
+\end{axis}
+\end{tikzpicture}
+\item short forward on \faIcon{apple-alt}
+
+\begin{tikzpicture}[scale=0.4, declare function={func(\x) = (2-x);}]
+\begin{axis}[domain=0:5, ymin=-2.5, ymax=2.5, xmax=5.5, axis y line=left, axis x line=middle,
+xtick=\empty, ytick=\empty, samples=100]
+\addplot[blue, thick]{func(x)};
+\end{axis}
+\end{tikzpicture}
+\item short call on \faIcon{apple-alt}
+
+\begin{tikzpicture}[scale=0.4, declare function={func(\x) = (\x <= 2) * 0.5 + (\x > 2) * -(x-2.5);}]
+\begin{axis}[domain=0:5, ymin=-2.5, ymax=2.5, xmax=5.5, axis y line=left, axis x line=middle,
+xtick=\empty, ytick=\empty, samples=100]
+\addplot[blue, thick]{func(x)};
+\end{axis}
+\end{tikzpicture}
+\item long put on \faIcon{apple-alt}
+
+\begin{tikzpicture}[scale=0.4, declare function={func(\x) = (\x <= 2) * (1.5-x) + (\x > 2) * -0.5;}]
+\begin{axis}[domain=0:5, ymin=-2.5, ymax=2.5, xmax=5.5, axis y line=left, axis x line=middle,
+xtick=\empty, ytick=\empty, samples=100]
+\addplot[blue, thick]{func(x)};
+\end{axis}
+\end{tikzpicture}
+\end{itemize}
+\begin{note}
+The P/L graphs of all these positions have a ``decreasing trend''.
+\end{note}
+\item More option strategies are discussed in \cref{sect:option-strat}.
+\end{enumerate}

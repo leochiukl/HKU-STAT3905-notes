@@ -5,7 +5,7 @@
 \item A \defn{forward (contract)} is a contract between two parties (called
 \defn{counterparties}) to buy or sell an asset (known as \defn{underlying
 asset}, or simply \defn{underlying}) \faIcon{apple-alt} at a certain time in
-the future (known as \defn{delivery date} or \defn{maturity}) for a specified
+the future (known as \defn{delivery date} or \defn{maturity date}) for a specified
 price (known as \defn{forward price} or \defn{delivery price})
 \faIcon{dollar-sign}.
 
@@ -16,10 +16,10 @@ future transaction details are then \emph{fixed}.
 describe the underlying asset is \faIcon{apple-alt}.
 \end{remark}
 
-\item A forward contract may be contrasted with a \emph{spot ``contract''}:
+\item A forward contract may be contrasted with a \emph{spot contract}:
 \begin{itemize}
-\item spot ``contract'': two parties simply transact \faIcon{apple-alt} \emph{now}
-at current market price (current ``fair'' price);
+\item spot contract: two parties simply transact \faIcon{apple-alt} \emph{now}
+at current market (spot) price (current ``fair'' price);
 \begin{center}
 \begin{tikzpicture}
 \draw[-Latex] (0,0) -- (5,0) node[right] {Time};
@@ -28,7 +28,7 @@ node[below=0.1cm, violet] (buy) {\faIcon{user-tie}}
 node[above=0.1cm, orange] (sell) {\faIcon{user-tie}};
 \node[] () at (0,-1) {\faIcon{scroll}\faIcon{check}};
 \draw[-Latex] (buy.west) to[bend left] (sell.west);
-\node[] () at (-1.1,0) {mkt.\ \faIcon{dollar-sign}};
+\node[] () at (-1.1,0) {spot \faIcon{dollar-sign}};
 \draw[-Latex] (sell.east) to[bend left] (buy.east);
 \node[] () at (0.7,0) {\faIcon{apple-alt}};
 \end{tikzpicture}
@@ -83,7 +83,7 @@ long/short position in forward is always zero \emph{at time 0}. (But the same
 cannot be said for time point later than 0: See \cref{subsect:value-fwd}.)
 
 \begin{remark}
-\item This is just like the case for spot ``contract'' (i.e., ``contract'' for
+\item This is just like the case for spot contract (i.e., contract for
 buying/selling \faIcon{apple-alt} \emph{now}) --- Merely ``executing'' orders
 itself would not cost anything, ignoring transaction costs.
 
@@ -111,12 +111,8 @@ in futures
 \begin{enumerate}
 \item The \defn{profit and loss} (P/L) of a (long/short) position at time \(t\)
 is the payoff of the position at time \(t\) less the \emph{future value} of
-previous cash (in)flows (before time \(t\)) at time \(t\).
-
-\begin{note}
-We shall adopt the convention that positive (negative) cash flow means cash
-inflow (outflow) in this study notes.
-\end{note}
+previous cash \emph{outflows} (before time \(t\)) at time \(t\) (at the
+\emph{risk-free interest rate}).
 \begin{center}
 \begin{tikzpicture}
 \draw[-Latex] (0,0) -- (5,0) node[right] {Time};
@@ -134,20 +130,24 @@ node[pos=1.5]{\faIcon{dollar-sign}\faIcon{dollar-sign}\faIcon{dollar-sign}};
 \end{center}
 
 \begin{note}
-If P/L is positive (negative), it indicates amount of profit (absolute
-value of amount of loss resp.).
+P/L at time \(t\) is the net cash flow at time \(t\), after ``accumulating''
+(without risk) cash flows\footnote{For positive cash outflow (inflow) at a
+previous time, first borrow (lend) that amount risk-free (to ``cancel out''
+that cash flow), and then repay (collect proceeds from) the loan at time \(t\)
+\faIcon{arrow-right} yielding a cash outflow (inflow) with amount equal to the
+future value at time \(t\). See \cref{sect:fwd-futures-price} for more examples
+like this.} from previous time points if needed. This indicates how much
+\emph{profit} can be earned from ``just'' that position (without ``adding''
+extra risk).
 \end{note}
 
-\item Some notations:
+\item \label{it:fwd-futures-notations}
+Some notations:
 \begin{itemize}
 \item \defn{\(S_t\)}: (spot) price of one unit of underlying asset
-\faIcon{apple-alt} at time \(t\)\footnote{In this notes, we shall assume one
-can freely buy or sell any amount of \faIcon{apple-alt} at time \(t\) in the
-market, with this spot price. So, here we ignore the bid-ask spread. This may
-be ``reasonable'' if the market is ``very liquid'', making the bid-ask spread
-``negligible''.};
-\item time \defn{\(T\)}: delivery date/maturity;
-\item \defn{\(K\)}: delivery price;
+\faIcon{apple-alt} at time \(t\);
+\item time \defn{\(T\)} (positive): delivery date;
+\item \defn{\(K\)}: delivery price.
 \end{itemize}
 
 
@@ -185,6 +185,7 @@ xlabel style={at={(axis description cs:1,0.5)}, anchor=west}
 \addplot[blue]{x-2};
 \draw[very thick, decorate,decoration={mirror, calligraphic brace, amplitude=5pt, raise=5pt}] (2.05,0) -- (5,0)
 node[midway, below=0.3cm] {profitable};
+\node[blue] () at (3,2) {slope = 1};
 \end{axis}
 \end{tikzpicture}
 \end{center}
@@ -197,6 +198,11 @@ The P/L of a short position in forward/futures on one unit of
 \faIcon{apple-alt} is \(K-S_T\) (which equals its payoff at time \(T\)).
 
 \begin{pf}
+A one-line proof is that it follows from the property that payoff (value) of
+the short forward/futures at time \(T\) is simply the negative of \(S_T-K\)
+(payoff of the long forward/futures).
+Alternatively, consider the following.
+
 To close out all positions at time \(T\), perform:
 \begin{center}
 \begin{tabular}{lcr}
@@ -225,9 +231,17 @@ xlabel style={at={(axis description cs:1,0.5)}, anchor=west}
 \addplot[blue]{2-x};
 \draw[very thick, decorate,decoration={mirror, calligraphic brace, amplitude=5pt, raise=5pt}] (0,0) -- (1.95,0)
 node[midway, below=0.3cm] {profitable};
+\node[blue] () at (2,1.5) {slope = \(-1\)};
 \end{axis}
 \end{tikzpicture}
 \end{center}
+\begin{note}
+In general, since the payoff (and P/L also indeed) of the short position is
+just the negative of that for the long position, the short position payoff (or
+P/L) graph is just the mirror image of the long position one, across the
+\(S_T\)-axis.
+\end{note}
+
 When \(S_T\downarrow\), the short position makes money. So, speculators can
 \emph{short forward/futures} to bet \faIcon{coins} the price of
 \faIcon{apple-alt} drops \faIcon{chart-area} in the future.
@@ -289,4 +303,3 @@ Likewise, a \emph{long hedge} can let the hedger \emph{lock in}
 eliminating the uncertainty of future purchasing price \faIcon{arrow-right}
 \emph{perfect hedge}.
 \end{enumerate}
-

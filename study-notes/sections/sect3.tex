@@ -7,8 +7,7 @@ results discussed here are also applicable to futures.
 \subsection{No-Arbitrage Principle and Perfect Market}
 \begin{enumerate}
 \item Recall the \emph{no-arbitrage principle} mentioned in
-\labelcref{it:no-arbitrage-principle}. Unless stated otherwise, this principle
-is assumed to hold true in this notes.
+\labelcref{it:no-arbitrage-principle}.
 \item An important consequence of the no-arbitrage principle is the \emph{law
 of one price}. But before stating that, we need to discuss another critical
 assumption in financial economics: \emph{perfect market}.
@@ -28,7 +27,8 @@ However, the actual market in the real world is clearly \emph{not} perfect. So
 one should be careful about the potential impacts on the results that assume
 perfect markets.
 \end{warning}
-\item The law of one price (LOOP) is as follows:
+\item \label{it:loop}
+The law of one price (LOOP) is as follows:
 \begin{theorem}[Law of one price]
 \label{thm:loop}
 Under the no-arbitrage principle and perfect market, two positions
@@ -122,8 +122,8 @@ principle).
 \begin{itemize}
 \item \defn{\(r\)}: the annual risk-free interest rate compounded
 continuously;
-\item \defn{\(F_t\)}: forward/delivery price for a forward negotiated at time
-\(t\).
+\item \defn{\(F_t\)}: forward/delivery price for a forward (with delivery date
+being time \(T\) always) negotiated at time \(t\).
 \end{itemize}
 \begin{note}
 \defn{Risk-free rate} means the rate of return earned for a investment without risk,
@@ -594,9 +594,9 @@ that it also hints how to capture arbitrage opportunity once it arises.
 \subsection{Value of a Forward}
 \label{subsect:value-fwd}
 \begin{enumerate}
-\item Recall from \labelcref{it:fwd-cost-zero} that value of any forward
-negotiated at time 0 is always zero at time 0. But, the value of such forward at
-time \(t>0\) may no longer be zero.
+\item Recall from \labelcref{it:fwd-cost-zero} that the time-0 value of any
+forward negotiated at time 0 is zero. But, the value of such forward at time
+\(t>0\) may no longer be zero.
 
 \subsubsection*{Motivating Example}
 \item We are in a perfect market and now is time 1.
@@ -639,7 +639,7 @@ for calculating the value.
 Consider a forward \faIcon{scroll} (on 1 \faIcon{apple-alt}) negotiated at time
 0, and a time point \(t<T\). Then, in a perfect market, the value of the
 forward \faIcon{scroll} \footnote{That is, the value of a long position in the
-forward with one unit owned.} at time \(t\) is
+forward.} at time \(t\) is
 \[
 (F_t-F_0)e^{-r(T-t)}.
 \]

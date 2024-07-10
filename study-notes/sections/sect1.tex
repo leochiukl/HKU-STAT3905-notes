@@ -1,4 +1,5 @@
 \section{Introduction to Derivatives}
+\label{sect:intro-deriv}
 \subsection{Definition and Uses of Derivatives}
 \begin{enumerate}
 \item A (financial) \defn{derivative} is a contract \faIcon{scroll} (between
@@ -89,21 +90,33 @@ from potential future movements \faIcon{chart-line} in market quantities;
 of market quantities \faIcon{chart-line} --- they try to make money
 \faIcon{dollar-sign} by taking risk \faIcon{fire-alt};
 \item arbitrageurs: take offsetting ``positions''\footnote{This means
-aggregating all those position gives \emph{zero} unit of derivative. In other
+aggregating all those positions gives \emph{zero} unit of instrument. In other
 words, the positions are completely ``closed out''. See
 \cref{subsect:long-short-pos} for more details.} in two or more instruments to
 lock in \faIcon{lock} a sure (risk-free) profit.
 \end{itemize}
-\item The act of making a risk-free profit without any cash outflow (having a ``free
-lunch'') is known as \defn{arbitrage}. Since taking offsetting positions would
-not lead to any cash outflow, an \emph{arbitrage opportunity} arises if such act can
-lead to a risk-free profit.
+
+\item A \defn{bullish} (\defn{bearish}) trader expects that a certain market
+quantity (often price of an asset \faIcon{apple-alt}) will \emph{rise}
+{\color{ForestGreen}\faIcon{chart-line}} (\emph{drop}
+{\color{red}\faIcon{chart-area}}) in the future. With such expectation, the
+trader may then use appropriate strategy involving derivatives to make bet
+\faIcon{coins}. (See \cref{subsect:bull-bear-speculate}.)
+
+\item The act of (possibly) making a risk-free profit without needing any (net) cash
+outflow (having a ``free lunch'') is known as \defn{arbitrage}. Since taking
+offsetting positions would not lead to any (net) cash outflow, an
+\emph{arbitrage opportunity} arises if such act can lead to a risk-free profit.
+
 \item \label{it:no-arbitrage-principle}
 In modern financial economics, a fundamental assumption is the
 \defn{no-arbitrage principle}, i.e., arbitrage opportunities \emph{do not
 exist}. This assumption may be regarded as ``reasonable'' if the arbitrageurs
 ``act immediately'' to capture the arbitrage opportunity once it arises, making the
 opportunity vanish almost ``instantaneously'' (through market demand and supply).
+
+In this notes, we shall assume that this principle holds true unless stated
+otherwise.
 \end{enumerate}
 
 \subsection{Buying and Selling Financial Instruments}
@@ -275,16 +288,19 @@ would normally be received on the ``shorted'' instruments, since the \emph{owner
 \subsection{Long and Short Positions}
 \label{subsect:long-short-pos}
 \begin{enumerate}
-\item Having a \defn{long position} (\defn{short position}) in a financial
+\item \label{it:long-short-def}
+Having a \defn{long position} (\defn{short position}) in a financial
 instrument \faIcon{scroll} means owning a \emph{positive} (``\emph{negative}'')
 amount of \faIcon{scroll}.
 
 \begin{remark}
 \item Owning a ``negative'' amount of \faIcon{scroll} actually means \emph{owing}
 that amount (in absolute value) of \faIcon{scroll}.
-\item For brevity, we may simply use the word ``long'' to mean ``long position
-in''. Example: ``long \faIcon{scroll}'' means ``long position in
-\faIcon{scroll}''.
+\item For brevity, we may simply use the word ``long (short)'' to mean ``long
+(short) position in''. Example: ``long \faIcon{scroll}'' means ``long position
+in \faIcon{scroll}''.
+\item Unless otherwise specified, a long (short) position in \faIcon{scroll}
+means owning (owing) \emph{one unit} of \faIcon{scroll}.
 \item An alternative expression is ``\defn{long} (\defn{short}) a number of
 instrument \faIcon{scroll}'' (treating ``long''/``short'' as a verb). The
 number specified is the increase (decrease) in amount of \faIcon{scroll} owned.
@@ -298,29 +314,71 @@ selling.)
 
 \item \defn{Closing out} or \defn{covering} a (long or short) position in a
 financial instrument \faIcon{scroll} means doing something such that
-\emph{zero} \faIcon{scroll} is owned.
+\emph{zero} \faIcon{scroll} is owned (``clear'' the amount of \faIcon{scroll}
+we own).
 
-\item Example: if \faIcon{user} has a long position in \faIcon{scroll} (with 10
-\faIcon{scroll} owned), then \faIcon{user} can short (i.e., ``sell'' in this
-context) 10 \faIcon{scroll} to close out his long position.
+\item Example: if \faIcon{user} has a long position in \faIcon{scroll}, then
+\faIcon{user} can short 1 \faIcon{scroll} to close out his long position.
 
-\item The \defn{value} or \defn{payoff} of a position in financial instrument
-\faIcon{scroll} at a certain time is the amount of cash \faIcon{dollar-sign}
-received if all positions (including those ``extra'' positions in other
-instruments created from closing out the position in \faIcon{scroll}) were
-closed out at that time.
+\item The \defn{value} or \defn{payoff} of a position in a financial instrument
+\faIcon{scroll} at a certain time is the amount of money \faIcon{dollar-sign}
+received \emph{if} all positions (including those ``extra'' positions in other
+instruments created from closing out the position in \faIcon{scroll}) are
+closed out at that time.\footnote{Implicitly we assume that this amount is
+\emph{unique}, and this is justified by the no-arbitrage assumption: Different
+ways of closing out those positions must yield the same amount of cash flow.
+Otherwise, we can perform the way yielding higher cash flow and perform the
+\emph{reverse} (``opposite'') of the way yielding lower cash flow to
+``capture'' the difference risk-free (arbitrage). See \labelcref{it:loop} for more
+explanation on ``reverse''.}
 
 \begin{remark}
 \item Receiving a negative amount of \faIcon{dollar-sign} means \emph{paying}
 that amount (in absolute value) of \faIcon{dollar-sign}.
-\item ``Value of one unit of \faIcon{scroll}'' means ``value of a long position
-in \faIcon{scroll} (with one unit owned)''.
-\item ``Value of one unit of \faIcon{scroll}'' also has the meaning of
-``\emph{price} of one unit of \faIcon{scroll}'' (so sometimes ``price'' is used
-instead of ``value''), since the amount of cash \faIcon{dollar-sign} received
-from closing out a long position in \faIcon{scroll} (1 unit owned) (i.e.,
-``selling'' 1 \faIcon{scroll}) is simply the ``price'' of 1 \faIcon{scroll}.
-\item Unless stated
-otherwise, the time unit is always years in this notes.
+
+\item ``Value of an amount of \faIcon{scroll}'' means ``value of \emph{owning}
+that amount of \faIcon{scroll}''. It also has the meaning of ``(spot)
+\emph{price} of that amount of \faIcon{scroll}'' since selling that amount
+(yielding the (spot) \emph{price}) closes out the position of ``owning that
+amount of \faIcon{scroll}''.
+
+\item Unless stated otherwise, the time unit is always years in this notes.
 \end{remark}
+\item \label{it:buy-sell-any-num}
+Unless stated otherwise, we shall assume one can always freely buy or sell any
+number of financial instrument available in the market, at the (single)
+prevailing \defn{spot price} (price per unit of the instrument at which
+transaction can be done \emph{immediately}). (So the bid-ask spread is
+ignored.) This may be ``reasonable'' if the market is ``very liquid''.
+
+\item \label{it:value-linear}
+Under this assumption, we have the following ``linearity'' property for
+value:
+\[
+\text{value of owning \(k\) \faIcon{scroll}} = k\times\text{value of owning 1 \faIcon{scroll}}.
+\]
+\begin{note}
+We can also phrase it in the following way, which may be more intuitive:
+\[
+\text{price of \(k\) \faIcon{scroll}} = k\times\text{price of 1 \faIcon{scroll}}.
+\]
+\end{note}
+
+\begin{pf}
+Firstly, the value of owning 1 \faIcon{scroll} is the amount of cash
+\faIcon{dollar-sign} received from selling 1 \faIcon{scroll} (a way of closing
+the long position), i.e., spot price of \faIcon{scroll} (denoted by \(S\)
+here). Now, since selling \(k\) \faIcon{scroll} results in a cash flow of
+\(kS\) (they can all be bought/sold at the spot price \(S\) by assumption), the
+value of owning \(k\) \faIcon{scroll} is \(kS\) also, by definition.
+
+\begin{note}
+When \(k\) is negative, ``selling \(k\) \faIcon{scroll}'' is supposed to
+mean ``buying \(-k\) \faIcon{scroll}''. Also, positive (negative) cash flow
+represents cash inflow (outflow).
+\end{note}
+\end{pf}
+
+As a special case, the value of ``short \faIcon{scroll}'' is the negative of
+the value of ``long \faIcon{scroll}''.
 \end{enumerate}
