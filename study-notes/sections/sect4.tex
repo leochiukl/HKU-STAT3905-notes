@@ -37,7 +37,8 @@ someone, and then own it. For the put option, we have the option to ``put'' our
 \end{mnemonic}
 
 \item For each of call and put options, it can be \emph{American} or
-\emph{European}. Their difference is on the buy/sell timing:
+\emph{European}. (This is referred to as its \defn{exercise style}.) Their
+difference is on the buy/sell timing:
 \begin{itemize}
 \item The holder of an \defn{American} option can exercise at any time on or before the expiration date.
 \item The holder of an \defn{European} option can only exercise at the expiration date (``like'' forward/futures).
@@ -304,7 +305,8 @@ The time-0 payoff if exercised immediately for the call (put) is
 \subsection{Strategies for Bullish and Bearish Speculators}
 \label{subsect:bull-bear-speculate}
 \begin{enumerate}
-\item For speculators that are \emph{bullish} on \faIcon{apple-alt}, they can:
+\item \label{it:bull-strat}
+For speculators that are \emph{bullish} on \faIcon{apple-alt}, they can:
 \begin{itemize}
 \item long \faIcon{apple-alt} (buy \faIcon{apple-alt} now at spot price)
 
@@ -342,7 +344,9 @@ xtick=\empty, ytick=\empty, samples=100]
 \begin{note}
 The P/L graphs of all these positions have an ``increasing trend''.
 \end{note}
-\item For speculators that are \emph{bearish} on \faIcon{apple-alt}, they can:
+
+\item \label{it:bear-strat}
+For speculators that are \emph{bearish} on \faIcon{apple-alt}, they can:
 \begin{itemize}
 \item short \faIcon{apple-alt} (short sell \faIcon{apple-alt} now at spot price)
 
