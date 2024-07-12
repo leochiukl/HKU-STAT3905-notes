@@ -114,7 +114,7 @@ xlabel style={anchor=west}, samples=75
 The payoff of the floor is \(S_T+(K-S_T)_{+}\).
 \end{note}
 
-\item \label{it:put-price-lb}
+\item 
 Let \(\pi_0\) be the time-0 price of the floor (which is \(S_0+P_0\)). Then,
 its P/L can be expressed as
 \[
@@ -149,10 +149,12 @@ xlabel style={anchor=west}, samples=75
 \end{axis}
 \end{tikzpicture}
 \end{center}
+
+\item \label{it:put-price-lb}
 Under the no-arbitrage principle, the P/L cannot be always nonnegative. Hence,
 we must have
 \[
-K-(S_0+P_0)e^{rT}<0 \implies P_0>Ke^{-rT}-S_0,
+K-\pi_0 e^{rT}<0 \implies P_0>Ke^{-rT}-S_0,
 \]
 yielding a lower bound of the put option price \(P_0\).
 \item The payoff graph of the floor has similar ``shape'' as the payoff graph
@@ -824,9 +826,9 @@ The call (put) price \(C_0(K)\) (\(P_0(K)\)) is a strictly decreasing
 (increasing) function in \(K\).
 \end{proposition}
 \begin{pf}
-We focus on the call price here. The proof for the put price is similar. Assume
-to the contrary that \(C_0(K')\ge C_0(K)\) for some strike prices \(K'>K\).
-Then, consider the following strategy:
+We focus on the call price here, and the proof for the put price is similar.
+Assume to the contrary that \(C_0(K')\ge C_0(K)\) for some strike prices
+\(K'>K\).  Then, consider the following strategy:
 \begin{center}
 \begin{tabular}{clr}
 \toprule
@@ -954,10 +956,10 @@ bond + short forward + SP; ``sell high'').
 \end{enumerate}
 \subsection{Bull Call/Put Spreads}
 \begin{enumerate}
-\item An \defn{option spread} consists of long/short call/put options on the
-same underlying asset \faIcon{apple-alt}, with the same expiration date and
-exercise style, but with different strike prices (the strike prices are
-``spread'' out).
+\item An \defn{option spread} consists of long/short options (of the same kind,
+i.e., call or put) on the same underlying asset \faIcon{apple-alt}, with the
+same expiration date and exercise style, but with different strike prices (the
+strike prices are ``spread'' out).
 
 \item Recall the strategies for speculators bullish on \faIcon{apple-alt} in
 \labelcref{it:bull-strat}:
@@ -1214,8 +1216,8 @@ spread} to refer to either of them.
 \end{enumerate}
 \subsection{Bear Call/Put Spreads}
 \begin{enumerate}
-\item \emph{Bear call/put spread} is simply the \emph{reverse} of (long) bull
-call/put spread, as one may expect.
+\item \emph{Bear call/put spread} is simply \emph{reverse} bull call/put
+spread, as one may expect.
 
 \begin{intuition}
 The \emph{reverse} of a strategy for \emph{bullish} speculators should be for
@@ -1227,10 +1229,6 @@ The \emph{reverse} of a strategy for \emph{bullish} speculators should be for
 \item \defn{bear call spread} = SC @ \(K\) + LC @ \(K'\)
 \item \defn{bear put spread} = SP @ \(K\) + LP @ \(K'\)
 \end{itemize}
-\begin{note}
-In other words, long bear call (put) spread is the same as \emph{short} bull
-call (put) spread.
-\end{note}
 
 \item The payoff (P/L) of a bear call/put spread is simply the negative of the
 payoff (P/L) of the respective bull call/put spread. Hence, we again sometimes
@@ -1310,7 +1308,7 @@ zero always.
 \item To be more explicit about the option positions used in a long/short box
 spread, we can write:
 \[
-\text{Long/Short Box Spread} 
+\text{long/short box spread}
 = \text{SLF @ \(K\)} + \text{SSF @ \(K'\)} 
 = \text{LC @ \(K\)} + \text{SP @ \(K\)} + \text{LP @ \(K'\)} + \text{SC @ \(K'\)}.
 \]
@@ -1546,7 +1544,7 @@ potential given up, since we do not pay any money for this insurance.
 impossible to construct a zero-cost collar, as suggested by the following
 result:
 \begin{proposition}
-\label{prp:k-high-no-zero-cost-collar}
+\label{prp:k-high-collar-val-positive}
 If \(K\ge S_0e^{rT}\) (the no-arbitrage forward price), then for any \(K'>K\),
 \[
 C_0(K')<P_0(K)
@@ -1761,6 +1759,11 @@ xlabel style={anchor=west}, samples=75
 \end{axis}
 \end{tikzpicture}
 \end{center}
+\begin{note}
+The payoff (P/L) graph of the long strangle looks like the act of
+``strangling''. (See \href{https://www.investopedia.com/thmb/yxD29XvT9DHAzNtGnuOhtq8m5T8=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/strangle-Final-12984203025d4a6181f069fca09fe437.jpg}{here} for an image.)
+\end{note}
+
 
 \item The payoff and P/L graphs of short strangle:
 \begin{center}
@@ -1974,5 +1977,13 @@ xlabel style={anchor=west}, samples=75,
 Again, under the no-arbitrage principle, the graphs must cross each other
 (i.e., the short straddle graph cannot be ``below'' the ``butterfly''!).
 \end{note}
-\todo{explain spread in butterfly spread}
+\item A butterfly spread is called a ``spread'' since we can express butterfly spread as:
+\[
+\text{butterfly spread}=\text{SC @ \(K\)} + \text{SP @ \(K\)} + \text{LC @ \(K+\Delta\)} + \text{LP @ \(K-\Delta\)},
+\]
+so it is indeed a combination of two option spreads:
+\begin{itemize}
+\item SC @ \(K\) + LC @ \(K+\Delta\);
+\item SP @ \(K\) + LP @ \(K-\Delta\).
+\end{itemize}
 \end{enumerate}
