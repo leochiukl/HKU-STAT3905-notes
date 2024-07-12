@@ -1,0 +1,628 @@
+\section{One-Period Binomial Option Pricing Model}
+\label{sect:one-period-binom}
+\begin{enumerate}
+\item In \cref{sect:options,sect:option-strat}, we discuss various aspects of
+options, but so far we do not have much idea about how to actually \emph{price}
+the options and option strategies.
+
+\item Starting from here, we shall discuss some models for pricing them (which
+is not so straightforward!).
+\end{enumerate}
+
+\subsection{Binomial Option Pricing Model}
+\begin{enumerate}
+\item In a \emph{binomial option pricing model}, we are assumed to be in a
+perfect market having (but not limited to) the following two assets:
+\begin{itemize}
+\item a risky stock \faIcon{apple-alt} which pays dividend continuously at a
+dividend yield \(\delta\) (if \(\delta=0\), it means there is no
+dividend)\footnote{Following the previous convention, we assume the continuous
+dividends are reinvested into the stock \faIcon{apple-alt} automatically. So if
+we own \(N_0\) shares of \faIcon{apple-alt} at time 0, the number of shares we
+own would accumulate to \(N_0 e^{\delta t}\) at time \(t\).};
+
+\item a (risk-free zero-coupon) bond \faIcon{file-invoice-dollar} with an
+annual risk-free rate \(r\) compounded continuously.
+\end{itemize}
+\begin{remark}
+\item Of course the no-arbitrage principle is still assumed. (It is assumed
+throughout this notes unless stated otherwise.)
+\item Recall that the risk-free rate for lending and borrowing are identical in
+a perfect market.
+\item Following \labelcref{it:buy-sell-any-num}, we shall assume we can freely
+buy/sell any amount of the stock \faIcon{apple-alt} and bond
+\faIcon{file-invoice-dollar} at spot price. (Freely buying/selling any amount
+of bond means that we can lend/sell any amount of money risk-free.)
+\end{remark}
+
+\item In a \defn{one-period binomial option pricing model} whose duration is
+\(h>0\) (years), the spot price of the stock \faIcon{apple-alt} at the end of
+the (only one) period (time \(h\)) is assumed to take exactly \emph{two}
+distinct possible values (hence
+``binomial''):
+\[
+S_h=
+\begin{cases}
+\text{\defn{\(S_u\)}}\triangleq S_0 u&\text{with probability \(p\)};\\
+\text{\defn{\(S_d\)}}\triangleq S_0 d&\text{with probability \(1-p\)}.\\
+\end{cases}
+\]
+where \(u>d>0\), and \(p\in (0,1)\)\footnote{The ``up'' probability can be
+neither 0 nor 1, so that the stock is indeed ``risky''.}.
+
+\begin{remark}
+\item The values ``\(u\)'' and ``\(d\)'' are sometimes called \defn{growth
+factors}.  \item Here ``\(u\)'' and ``\(d\)'' may be interpreted as suggesting
+``up'' and ``down'' respectively. But one should be careful that ``down'' here
+may not mean the price goes down, i.e., \(S_d\) is lower than \(S_0\): It turns
+out that it is possible for \(d\ge 1\).
+\end{remark}
+
+\item \defn{Binomial tree} representation of the one-period model:
+\begin{center}
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u=S_0u\)};
+\node[] (sd) at (4,-1) {\(S_d=S_0d\)};
+\draw[-Latex] (s0.east) -- (su.west)
+node[midway, above=0.3cm] {``up''};
+\draw[-Latex] (s0.east) -- (sd.west)
+node[midway, below=0.3cm] {``down''};
+\node[] () at (0,2) {Time 0};
+\node[] () at (4,2) {Time \(h\)};
+\end{tikzpicture}
+\end{center}
+
+\item For a \defn{multi-period binomial option pricing model} (discussed in
+details in \cref{sect:mult-period-binom}) with \(n\) periods (or \defn{\(n\)-period
+binomial option pricing model}),
+\begin{itemize}
+\item the duration of \emph{each} period is a constant \(h>0\);
+\item the same growth factors \(u\) and \(d\) and ``up'' probability \(p\) are
+used in \emph{each} period, and they are applied on the spot price at the
+\emph{beginning} of the period.
+\end{itemize}
+
+\item Binomial tree representation of the multi-period model (example):
+\begin{center}
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u=S_0u\)};
+\node[] (sd) at (4,-1) {\(S_d=S_0d\)};
+\node[] (suu) at (8,2) {\(S_{uu}=S_0uu\)};
+\node[] (sud) at (8,0) {\(S_{ud}=S_0ud\)};
+\node[] (sdd) at (8,-2) {\(S_{dd}=S_0dd\)};
+\draw[-Latex] (s0.east) -- (su.west);
+\draw[-Latex] (s0.east) -- (sd.west);
+\draw[-Latex] (su.east) -- (suu.west);
+\draw[-Latex] (su.east) -- (sud.west);
+\draw[-Latex] (sd.east) -- (sud.west);
+\draw[-Latex] (sd.east) -- (sdd.west);
+\node[] () at (0,3) {Time 0};
+\node[] () at (4,3) {Time \(h\)};
+\node[] () at (8,3) {Time \(2h\)};
+\end{tikzpicture}
+\end{center}
+\begin{remark}
+\item The number of ``\(u\)'' and ``\(d\)'' in the subscript of ``\(S\)''
+suggests the number of ``up'' and ``down'' (resp.) needed to get to that price
+(the order of the letters is not important).  Sometimes to make the notation
+more compact, we may express the subscript using power, e.g. \(S_{u^8d^2}\).
+\item The rightmost stock prices in the binomial tree are known as
+\defn{terminal stock prices}. For a \(n\)-period binomial option pricing model,
+there are \(n+1\) different terminal stock prices.\footnote{This is because the
+subscript of ``\(S\)'' can contain \(0,1,\dotsc,n\) ``\(u\)''s (with the rest
+being ``\(d\)''s) \faIcon{arrow-right} \(n+1\) different subscripts.}
+\end{remark}
+\item In \cref{sect:one-period-binom}, we focus on one-period binomial option
+pricing model.
+\end{enumerate}
+\subsection{Pricing by Replication}
+\begin{enumerate}
+\item Consider a derivative \faIcon{scroll} on the stock \faIcon{apple-alt}
+(whose value is derived from the price of \faIcon{apple-alt}) that matures at
+time \(h\), and let \(V_t\) be its value at time \(t\).
+
+\item Write its payoff (at time \(h\)) as
+\[
+V_h
+=
+\begin{cases}
+V_u&\text{if }S_h=S_0u;\\
+V_d&\text{if }S_h=S_0d.\\
+\end{cases}
+\]
+\begin{center}
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u=S_0u\)};
+\node[] (sd) at (4,-1) {\(S_d=S_0d\)};
+\draw[-Latex] (s0.east) -- (su.west);
+\draw[-Latex] (s0.east) -- (sd.west);
+\node[] () at (0,2) {Time 0};
+\node[] () at (4,2) {Time \(h\)};
+\node[] () at (6,2) {Payoff};
+\node[] () at (6,1) {\(V_u\)};
+\node[] () at (6,-1) {\(V_d\)};
+\end{tikzpicture}
+\end{center}
+
+\item We are interested in finding the time-0 price/value of the derivative
+\faIcon{scroll}: \(V_0\). One approach for pricing the derivative is called
+\defn{pricing by replication}, which involves \emph{replicating} the payoff of
+\faIcon{scroll} using just the stock \faIcon{apple-alt} and bond
+\faIcon{file-invoice-dollar} (as we know the prices of these ``basic'' assets).
+
+\item At time 0, we consider a portfolio consisting of \(\Delta\) shares of
+stock \faIcon{apple-alt} and an amount \(B\) in risk-free bond
+\faIcon{file-invoice-dollar} (lending \(B\)).
+
+\begin{note}
+Negative \(\Delta\) or \(B\) indicates a short position (with absolute value of
+that amount of stock/in bond), just like the convention for ``owning/lending a
+negative amount''.
+\end{note}
+
+\item Its time-0 value is \(\Delta S_0+B\) and its payoff (at time \(h\)) is
+\[
+\begin{cases}
+\Delta e^{\delta h}S_0u+Be^{rh}&\text{if }S_h=S_0u;\\
+\Delta e^{\delta h}S_0d+Be^{rh}&\text{if }S_h=S_0d.\\
+\end{cases}
+\]
+
+\item \label{it:rep-port}
+To \emph{replicate} the payoff of \faIcon{scroll}, we set the following
+system of linear equations (in variables \(\Delta\) and \(B\)):
+\[
+\begin{cases}
+\Delta e^{\delta h}S_0u+Be^{rh}=V_u\\
+\Delta e^{\delta h}S_0d+Be^{rh}=V_d
+\end{cases}.
+\]
+Since \(u\ne d\), this system can be solved uniquely:
+
+\begin{equation}
+\label{eq:rep-port}
+\Delta=e^{-\delta h}\frac{V_u-V_d}{S_0(u-d)},\quad B=e^{-rh}\frac{uV_d-dV_u}{u-d}.
+\end{equation}
+
+The portfolio with these values of \(\Delta\) and \(B\) is called
+\defn{replicating portfolio} of the derivative \faIcon{scroll}.
+
+\item \label{it:price-by-rep-fmla}
+By the law of one price, since the replicating portfolio and the
+derivative \faIcon{scroll} have the same payoff, they have the same time-0 value:
+\[
+V_0=\Delta S_0+B,
+\]
+where \(\Delta\) and \(B\) are given in \cref{eq:rep-port}. This gives the
+pricing formula for the derivative \faIcon{scroll}.
+
+\item \label{it:price-by-rep-fmla-exp-form}
+The pricing formula in \labelcref{it:price-by-rep-fmla} can be rewritten
+in the following ``discounted expectation'' form:
+\begin{align*}
+V_0&=\Delta S_0+B\\
+&=e^{-\delta h}S_0\frac{V_u-V_d}{S_0(u-d)}+e^{-rh}\frac{uV_d-dV_u}{u-d}\\
+&=e^{-rh}\frac{e^{(r-\delta)h}(V_u-V_d)+uV_d-dV_u}{u-d}\\
+&=e^{-rh}\qty[V_uq+V_d(1-q)],
+\end{align*}
+where \(\displaystyle q=\frac{e^{(r-\delta)h}-d}{u-d}\). 
+
+If we ``regard'' \(q\) as the ``up'' probability (but of course \(q\) is not
+the \emph{actual} ``up'' probability), then the expression is simply the
+\emph{discounted expected payoff}\footnote{or expected discounted payoff
+(\emph{expected present value}/\emph{actuarial present value} of payoff) if we
+expand the terms \faIcon{arrow-right} \(V_ue^{-rh}q+V_de^{-rh}(1-q)\)} of the
+derivative \faIcon{scroll} at the risk-free rate. More details are discussed in
+\cref{subsect:rn-pricing}.
+
+\item Another way to develop the formula in \labelcref{it:price-by-rep-fmla} is
+to consider another kind of replication: replicating the payoff of a position
+in \emph{bond} \faIcon{file-invoice-dollar} (i.e., a constant payoff) using the
+derivative \faIcon{scroll} and the stock \faIcon{apple-alt} instead.
+
+\item We consider a portfolio consisting of a \emph{short} position in the
+derivative \faIcon{scroll} and \(\Delta\) shares of stock \faIcon{apple-alt}.
+\begin{intuition}
+We consider a short position in \faIcon{scroll} since from the approach above
+we know, in payoff,
+\[
+\text{\(\Delta\) shares of \faIcon{apple-alt}} + \text{\(B\) in
+\faIcon{file-invoice-dollar}} = \text{1 \faIcon{scroll}}.
+\]
+``Rearranging'' it gives
+\[
+\text{\(\Delta\) shares of \faIcon{apple-alt}} \underbrace{- \text{1 \faIcon{scroll}}}_{\text{short position}}
+= -\text{\(B\) in \faIcon{file-invoice-dollar}}.
+\]
+\end{intuition}
+
+\item Its time-0 value is \(\Delta S_0-V_0\), and its payoff (at time \(h\)) is
+\[
+\begin{cases}
+\Delta e^{\delta h}S_0u-V_u&\text{if }S_h=S_0u;\\
+\Delta e^{\delta h}S_0d-V_d&\text{if }S_h=S_0d.\\
+\end{cases}
+\]
+To replicate a \emph{constant} payoff, we need to have
+\begin{equation}
+\label{eq:short-deriv-stock-rep}
+\Delta e^{\delta h}S_0u-V_u=\Delta e^{\delta h}S_0d-V_d.
+\end{equation}
+Rearranging it gives
+\[
+\Delta=e^{-\delta h}\frac{V_u-V_d}{S_0u-S_0d}.
+\]
+So, the portfolio consisting of \(\Delta\) (given above) shares of
+\faIcon{apple-alt} and a short position in \faIcon{scroll} has also a constant
+payoff \(V\), which is the common value in \cref{eq:short-deriv-stock-rep}, i.e.,
+\[
+V=\Delta e^{\delta h}S_0u-V_u
+=e^{-\delta h}\frac{V_u-V_d}{S_0u-S_0d}e^{\delta h}S_0u-V_u
+=\frac{uV_u-uV_d-uV_u+dV_u}{u-d}
+=\frac{dV_u-uV_d}{u-d}.
+\]
+
+\item Note that the time-0 value of the position in bond with constant payoff
+\(V\) at time \(h\) is \(Ve^{-rh}\) (by no-arbitrage principle). Hence, by law
+of one price, \(\Delta S_0-V_0=Ve^{-rh}\), which implies
+\begin{align*}
+V_0&=e^{-\delta h}\frac{V_u-V_d}{S_0u-S_0d}S_0-\frac{dV_u-uV_d}{u-d}e^{-rh} \\
+&=e^{-rh}\frac{e^{(r-\delta)h}(V_u-V_d)+uV_d-dV_u}{u-d} \\
+&=e^{-rh}\qty[V_uq+V_d(1-q)],
+\end{align*}
+which is identical to the formula in \labelcref{it:price-by-rep-fmla-exp-form} (or
+\labelcref{it:price-by-rep-fmla}).
+\end{enumerate}
+\subsection{Risk-Neutral Pricing}
+\label{subsect:rn-pricing}
+\begin{enumerate}
+\item As suggested in \labelcref{it:price-by-rep-fmla-exp-form}, it turns out
+that the formula for pricing by replication can be expressed in a ``discounted
+expectation'' form. Such formula is indeed known as the \defn{risk-neutral
+pricing formula}, and \(q\) is the \defn{risk-neutral probability} of ``up''.
+\item Before proceeding further, let us first justify that \(q\) can indeed be
+a probability (i.e., its value falls in the interval \([0,1]\)):
+\begin{proposition}
+\label{prp:rn-prob-strict-btw-01}
+Under the no-arbitrage principle, the risk-neutral probability \(\displaystyle
+q=\frac{e^{(r-\delta)h}-d}{u-d}\) satisfies \(0<q<1\).
+\end{proposition}
+\begin{pf}
+Firstly, note that
+\[
+0<q=\frac{e^{(r-\delta)h}-d}{u-d}<1
+\iff
+d<e^{(r-\delta)h}<u.
+\]
+Now assume to the contrary that \(d\ge e^{(r-\delta)h}\) or \(u\le
+e^{(r-\delta)}h\).  We shall only give a proof for the case \(d\ge
+e^{(r-\delta)h}\) as the proof for another case is analogous (just consider
+reverse of the strategy below).
+
+In this case, we have
+\[
+u>d\ge e^{(r-\delta)h}\implies e^{\delta h}S_u>e^{\delta h}S_d\ge S_0e^{rh}.
+\]
+Now consider the following strategy:
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+Time&Transaction&Cash flow\\
+\midrule
+0&short bond (borrow \(S_0\))&\(+S_0\)\\
+&buy 1 share of stock \faIcon{apple-alt}&\(-S_0\)\\
+&&Total: \(0\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+The payoffs at time \(h\) are given by:
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+Case&Long \faIcon{apple-alt}&Short Bond&Total\\
+\midrule
+\(S_h=S_u\)&\(e^{\delta h}S_u\)&\(-S_0e^{rh}\)&\(e^{\delta h}S_u-S_0e^{rh}>0\) \\
+\(S_h=S_d\)&\(e^{\delta h}S_d\)&\(-S_0e^{rh}\)&\(e^{\delta h}S_d-S_0e^{rh}\ge 0\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+Hence this is an arbitrage.
+\end{pf}
+
+\begin{note}
+This result also suggests a lower bound on \(u\) and an upper bound on \(d\)
+(both are of value \(e^{(r-\delta)h}\)): The growth factors \(u\) and \(d\)
+cannot be too low and too high respectively.
+
+In other words, to construct a one-period model that is consistent with the
+no-arbitrage principle, these bounds on \(u\) and \(d\) need to be satisfied.
+ \end{note}
+\item \label{it:rn-pricing-fmla}
+Thus, it is reasonable to ``treat'' \(q\) as a probability. To perform
+risk-neutral pricing, we work in an ``imaginary'' \emph{risk-neutral world}
+where the \emph{actual} ``up'' probability is \(q\) rather than \(p\) (it is
+like a ``parallel universe''). We shall use the notation \(\expvq{\cdot}\) to
+denote the expectation in a risk-neutral world.
+
+Using this notation, we can write the risk-neutral pricing formula in
+\labelcref{it:price-by-rep-fmla-exp-form} as
+\[
+V_0=e^{-rh}\expvq{\text{terminal payoff}}.
+\]
+\subsubsection*{Further Explanation on Risk-Neutral Pricing}
+(Reference: \textcite[Section~4.1.2]{lo2018derivative})
+
+\item Consider the real world (the world we live in) and a risk-neutral
+world:
+
+\begin{center}
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u=S_0u\)};
+\node[] (sd) at (4,-1) {\(S_d=S_0d\)};
+\draw[-Latex] (s0.east) -- (su.west)
+node[midway, above=0.3]{\(p\)};
+\draw[-Latex] (s0.east) -- (sd.west)
+node[midway, below=0.3]{\(1-p\)};
+\node[] () at (0,2) {Time 0};
+\node[] () at (4,2) {Time \(h\)};
+\node[] () at (6,2) {Payoff};
+\node[] () at (6,1) {\(V_u\)};
+\node[] () at (6,-1) {\(V_d\)};
+\node[] () at (3,3) {\textbf{Real World}};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u=S_0u\)};
+\node[] (sd) at (4,-1) {\(S_d=S_0d\)};
+\draw[-Latex] (s0.east) -- (su.west)
+node[midway, above=0.3]{\(q\)};
+\draw[-Latex] (s0.east) -- (sd.west)
+node[midway, below=0.3]{\(1-q\)}
+;
+\node[] () at (0,2) {Time 0};
+\node[] () at (4,2) {Time \(h\)};
+\node[] () at (6,2) {Payoff};
+\node[] () at (6,1) {\(V_u\)};
+\node[] () at (6,-1) {\(V_d\)};
+\node[] () at (3,3) {\textbf{Risk-Neutral World}};
+\draw[fill, ForestGreen, opacity=0.2] (-2,-2) rectangle (8,4);
+\end{tikzpicture}
+\end{center}
+
+\item Note that the construction of replicating portfolio for the derivative
+\faIcon{scroll} does \emph{not} depend on the ``up'' probability (the
+expressions in \labelcref{it:rep-port} are free of \(p\)). Hence, in
+\emph{both} real and risk-neutral worlds, we would construct \emph{the same
+replicating portfolio} for \faIcon{scroll}.
+
+\item Consequently, by the law of one price, we would have the same time-0 price
+for \faIcon{scroll} in both worlds (which equals the price of the common
+replicating portfolio). Therefore, to find the time-0 price of \faIcon{scroll}
+in real world (what we want), it suffices to find the price in
+\emph{risk-neutral world} --- a key idea in \emph{risk-neutral pricing}.
+
+\item More precisely, a \defn{risk-neutral world} is a world where all
+investors are \defn{risk-neutral}, i.e., they only care about the expected
+returns on their investments, but not their \emph{risks} \faIcon{arrow-right}
+the (required) expected return rate for every financial instrument is the
+risk-free rate (there is not \emph{risk premium}!).
+
+\begin{note}
+It ``turns out'' that the appropriate probability of ``up'' for such risk
+neutrality to emerge is \(q\), hence it is called \emph{risk-neutral
+probability}.
+\end{note}
+
+
+\item Particularly, the expected return rate of the derivative \faIcon{scroll}
+in the risk-neutral world would be the risk-free rate:
+\[
+\expvq{\frac{V_h-V_0}{V_0}}=e^{rh}-1\implies
+V_0=e^{-rh}\expvq{V_h}
+=e^{-rh}\expvq{\text{terminal payoff}}.
+\]
+\begin{note}
+The time-0 price of the derivative \(V_0\) is nonrandom (it is the time-0
+price of the replicating portfolio, which is deterministic).
+\end{note}
+
+\item For the expected return rate of \faIcon{scroll} in the \emph{real world},
+it is \emph{higher} than the risk-free rate due to the presence of \emph{risk
+premium}. (Investors in real world are not risk-neutral, and most are
+\emph{risk-averse}. See STAT3904 for more details.)
+
+\item Let \(r^*\) be the expected annual return rate compounded continuously in
+the real world (which is higher than \(r\)). Then, the ``real-world pricing
+formula'' is
+\[
+V_0=e^{-r^*h}\expv{\text{terminal payoff}}.
+\]
+However, it is often difficult to be used in practice since it is usually hard
+to get/estimate the values of the true probabilities and \(r^*\). On the other
+hand, the values of \(q\) (which is free of \(p\)) and \(r\) are often more
+feasible to be obtained/estimated. This shows the ``elegance'' of risk-neutral
+pricing.
+
+\item Note that a crucial part of this explanation is the construction of
+replicating portfolio --- So, the argument here is not a \emph{replacement} of
+pricing by replication. Rather, it is \emph{based on} pricing by replication.
+
+For other models where similar pricing by replication is possible, the argument
+provided here would work analogously. Thus, the idea of risk-neutral
+pricing appears \emph{frequently}.
+
+\item For more detailed and formal treatments on risk-neutral pricing and
+knowing more about its technical details, see STAT3911.
+\end{enumerate}
+\subsection{Constructing a Binomial Tree}
+\begin{enumerate}
+\item So far, we treat the growth factors \(u\) and \(d\) for the binomial tree
+as given and perform numerous calculations based on them. But in practice we do
+not have a ``given'' binomial tree and in order to use the binomial option
+pricing model, we need to \emph{construct} one (i.e. choosing values of \(u\)
+and \(d\)) in some way.
+
+\item \label{it:tree-ud-bounds}
+From \cref{prp:rn-prob-strict-btw-01}, we know that to be consistent with
+the no-arbitrage principle, the values of \(u\) and \(d\) must satisfy
+\[
+d<e^{(r-\delta)h}<u.
+\]
+But apart from this (and the model assumption that \(u>d\)), there is no other
+requirement on what \(u\) and \(d\) can be.
+
+\item Since the values of \(u\) and \(d\) control how ``risky''/``volatile'' the stock
+\faIcon{apple-alt} is (when \(u\) and \(d\) are further apart, the stock
+\faIcon{apple-alt} can be seen as more ``volatile''), it seems natural to
+choose \(u\) and \(d\) based on the inherent ``riskiness'' of the stock
+\faIcon{apple-alt}.
+
+\item \label{it:volatility}
+The ``riskiness'' of the stock \faIcon{apple-alt} can be measured by its
+\emph{volatility}, which indicates the ``variability'' of the stock price. The
+\defn{volatility} of the stock \faIcon{apple-alt} (denoted by
+\defn{\(\sigma\)}) is the \emph{annualized} standard deviation of its
+(\(h\)-year) continuously compounded return (also known as log return) \(\ln
+(S_h/S_0)\):
+
+\[
+\sigma=\sqrt{\frac{1}{h}\vari{\ln\frac{S_h}{S_0}}}.
+\]
+\begin{remark}
+\item The variance \(\vari{\ln (S_h/S_0)}\) is for a period with duration \(h\)
+years. Dividing it by \(h\) gives the \emph{annualized} variance (``nominal''
+value for the variance for a 1-year period). Taking square root then gives the
+\emph{annualized} standard deviation.
+
+\item More generally, the \defn{\(t\)-year volatility} (denoted by
+\defn{\(\sigma_t\)}) is \(\sigma_t=\sigma\sqrt{t}\). (Multiplying \(\sqrt{t}\)
+converts the ``nominal'' for 1 year to ``nominal'' for \(t\) years.)
+Particularly, the \(h\)-year volatility is
+\[
+\sigma_h=\sigma\sqrt{h}=\sqrt{\vari{\ln\frac{S_h}{S_0}}}.
+\]
+
+\item We can simplify the expression of the volatility to:
+\[
+\sqrt{\frac{1}{h}\vari{\ln S_h}}
+\]
+since \(\vari{\ln(S_h/S_0)}=\vari{\ln S_h-\ln S_0}\) and \(\ln S_0\) is
+nonrandom.
+
+\item The volatility is positive since the stock \faIcon{apple-alt} is risky
+\(\implies\) \(S_h\) is random \(\implies\) the variance is
+positive.
+\end{remark}
+
+\item We can use the historical stock prices to \emph{estimate} the stock's
+volatility \faIcon{arrow-right} the (estimated) value can then be used for
+constructing a binomial tree.  A common approach for such volatility-based
+construction of a binomial tree is to use a \defn{forward tree}, which is the
+binomial tree with the growth factors set to be
+\[
+u=e^{(r-\delta)h+\sigma\sqrt{h}}\quad\text{and}\quad d=e^{(r-\delta)h-\sigma\sqrt{h}},
+\]
+where \(\sigma\), \(r\), and \(\delta\) are supposed to be known values
+(obtained possibly by estimation based on past data or assumption).
+
+\begin{note}
+These choices of growth factors satisfy the bounds mentioned in
+\labelcref{it:tree-ud-bounds}, since when \(\sigma>0\), we have
+\(\sigma\sqrt{h}>0\), which implies \(e^{\sigma\sqrt{h}}>1\) and
+\(e^{-\sigma\sqrt{h}}<1\) .
+\end{note}
+\item To see why a forward tree is called so, first recall from
+\labelcref{it:perfect-mkt-fwd-price-cts-div} that the forward price for a
+forward on the stock \faIcon{apple-alt} (with dividend yield \(\delta\)) with
+delivery date \(h\) is
+\[
+F_0=S_0e^{(r-\delta)h}.
+\]
+Under the forward tree, the ``up'' and ``down'' time-\(h\) stock prices are:
+\begin{itemize}
+\item \(S_u=S_0e^{(r-\delta)h+\sigma\sqrt{h}}=F_0e^{\sigma\sqrt{h}}=F_0e^{\sigma_h}\);
+\item \(S_d=S_0e^{(r-\delta)h-\sigma\sqrt{h}}=F_0e^{-\sigma\sqrt{h}}=F_0e^{-\sigma_h}\).
+\end{itemize}
+So, the \emph{forward} price \(F_0\) serves as a ``baseline'' for time-\(h\)
+stock price to vary around (based on the volatility \(\sigma\)), and we choose
+\(e^{\sigma_h}\) and \(e^{-\sigma_h}\) as the multiplicative factors for ``up''
+and ``down'' respectively.
+\begin{intuition}
+Given a log return \(r_{\text{log}}\), the ``growth factor'' (in the context of
+rate of return) is \(e^{r_{\text{log}}}\), so the prices \(S_u\) and \(S_d\)
+may be \emph{informally} regarded as having ``1 s.d.\ from baseline''.
+\end{intuition}
+
+\item \label{it:fwd-tree-rn-prob-fmla}
+For a forward tree, the risk-neutral probability (of ``up'') is
+\[
+q=\frac{e^{(r-\delta)h}-d}{u-d}
+=\frac{e^{(r-\delta)h}-e^{(r-\delta)h-\sigma\sqrt{h}}}{e^{(r-\delta)h+\sigma\sqrt{h}}-e^{(r-\delta)h-\sigma\sqrt{h}}}
+=\frac{1}{1+e^{\sigma\sqrt{h}}}.
+\]
+\begin{warning}
+If you are familiar with machine learning, you may notice that the final
+expression ``seems to be'' the sigmoid function with input \(\sigma\sqrt{h}\).
+But it is \underline{not}. The final expression here does not have minus sign!
+\end{warning}
+
+This formula provides a convenient way to compute the risk-neutral probability
+\(q\) \emph{without} knowing \(u, d, r,\) and \(\delta\).
+
+\item However, a disadvantage of the forward tree is that we must have
+\(q<\frac{1}{2}\) (since \(\sigma>0\implies e^{\sigma\sqrt{h}}>1\)), which can
+be as a \emph{built-in bias} for a forward tree.
+\item \label{it:estimate-vol}
+Here we give an approach to estimate the volatility \(\sigma\) based on past
+stock price data (which is also useful for the \emph{Black-Scholes framework};
+see \cref{sect:bs-model,sect:bs-pricing-fmla}). %TODO: check
+
+Suppose we observe \(n+1\) stock prices \(S_0, S_h, S_{2h},\dotsc,S_{nh}\)
+(\(h\) is the time length between adjacent observations). (E.g., when
+\(h=1/12\), then they are observed at consecutive \emph{monthly} intervals.)
+The observed (non-annualized) continuously compounded returns over the time
+intervals \([0,h),[h,2h),\dotsc,[(n-1)h,nh)\), denoted by
+\(r_{1},r_{2},\dotsc,r_{n}\) (resp.), are respectively
+\[
+r_1=\ln \frac{S_{h}}{S_{0}}, r_2=\ln \frac{S_{2h}}{S_{h}},\dotsc, r_n=\ln
+\frac{S_{nh}}{S_{(n-1)h}}.\footnote{These observations can be treated as
+observations from \(n\) ``experiments'' conducted ``naturally'' in the market
+at the past. At each initial time point \(i\) (the beginning of the time
+interval \([i,i+h)\)), the stock price \(S_i\) is known to the market
+participants, while the stock price \(S_{i+h}\) at time \(i+h\) is unknown
+(random) to them at that moment \faIcon{arrow-right} the \(h\)-year
+log return here ``matches'' with the one mentioned in
+\labelcref{it:volatility}.
+
+Then, each observed value \(r_i\) can be seen as an ``observation'' from that
+random \(h\)-year log return in \labelcref{it:volatility} in the
+``experiment''.
+}
+\]
+
+\item Here we assume that the \emph{returns} are independent and identically
+distributed (i.i.d.).\footnote{On the other hand, it is \emph{unreasonable} to
+assume that the stock prices are i.i.d. --- they are clearly dependent!} Having
+\(n\) i.i.d.\ observations (of returns) \(r_1,\dotsc,r_n\), we can use standard
+techniques in statistics to perform the estimation.
+
+\item Here we use a simple technique: \emph{method of moments}. We equate the
+\emph{sample variance} of the observations \(r_1,\dotsc,r_n\) and the
+(theoretical) variance of \(h\)-year continuously compounded return (where the
+initial value is nonrandom): \(\sigma_h^2=\sigma^2h\) to get
+\[
+\sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(r_i-\overline{r})^2}=\sigma\sqrt{h},
+\]
+where \(\overline{r}=(1/n)\sum_{i=1}^{n}r_i\).
+
+\item \label{it:vol-mom-est-fmla}
+Solving this equation in \(\sigma\) gives the estimate of volatility:
+\[\widehat{\sigma}
+=\frac{1}{\sqrt{h}}\sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(r_i-\overline{r})^2},\]
+which is known as \defn{historical volatility}.
+\end{enumerate}

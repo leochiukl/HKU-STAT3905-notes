@@ -18,13 +18,9 @@
 \usepackage{stackengine}
 \usepackage{xfp}
 \usepackage{tablefootnote}
-\usepackage{todonotes}
 \usepackage{tikz}
-
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 \usepackage{cleveref}
-
-\addbibresource{bib/references.bib}
 
 \usetikzlibrary{arrows.meta}
 \usetikzlibrary{decorations.pathreplacing}
@@ -34,10 +30,6 @@
 \usetikzlibrary{patterns}
 \usetikzlibrary{patterns.meta}
 \usetikzlibrary{external}
-
-\pgfplotsset{compat=1.18}
-
-\setenumerate[1]{label=\thesubsection.\arabic*~, ref=\S \thesubsection.\arabic*}
 
 \newcommand*{\prob}[1]{\mathbb{P}\qty(#1)}
 \newcommand*{\defn}[1]{\index[def]{#1}\textcolor{ForestGreen}{\textbf{#1}}}
@@ -51,6 +43,7 @@
 \newcommand*{\N}{\mathbb{N}}
 \newcommand*{\Z}{\mathbb{Z}}
 \newcommand*{\warn}{\textcolor{red}{\faIcon{exclamation-triangle}}}
+\newcommand*{\expvq}[1]{\mathbb{E}_{\mathbb{Q}}\qty[#1]}
 
 \newenvironment{remark}{\sffamily \underline{Remarks}:\begin{itemize}}{\end{itemize}}
 \newenvironment{note}{\sffamily\lbrack Note:}{\!\!\rbrack}
@@ -66,7 +59,12 @@
 \newtheorem{theorem}[proposition]{Theorem}
 \newtheorem{lemma}[proposition]{Lemma}
 
+\addbibresource{bib/references.bib}
 \urlstyle{tt}
+\pgfplotsset{compat=1.18}
+\makeindex[name=def, title=Concepts and Terminologies]
+\tikzexternalize[prefix=figures/]
+\setenumerate[1]{label=\thesubsection.\arabic*~, ref=\S \thesubsection.\arabic*}
 
 %For links in index page to link to line
 %https://tex.stackexchange.com/questions/405813/link-to-line-instead-of-page
@@ -86,5 +84,3 @@
 }
 \makeatother
 
-\makeindex[name=def, title=Concepts and Terminologies]
-\tikzexternalize[prefix=figures/]
