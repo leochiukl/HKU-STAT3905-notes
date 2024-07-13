@@ -83,7 +83,7 @@ used in \emph{each} period, and they are applied on the spot price at the
 \emph{beginning} of the period.
 \end{itemize}
 
-\item Binomial tree representation of the multi-period model (example):
+\item Binomial tree representation of a two-period model:
 \begin{center}
 \begin{tikzpicture}
 \node[] (s0) at (0,0) {\(S_0\)};
@@ -105,14 +105,23 @@ used in \emph{each} period, and they are applied on the spot price at the
 \end{center}
 \begin{remark}
 \item The number of ``\(u\)'' and ``\(d\)'' in the subscript of ``\(S\)''
-suggests the number of ``up'' and ``down'' (resp.) needed to get to that price
-(the order of the letters is not important).  Sometimes to make the notation
-more compact, we may express the subscript using power, e.g. \(S_{u^8d^2}\).
-\item The rightmost stock prices in the binomial tree are known as
-\defn{terminal stock prices}. For a \(n\)-period binomial option pricing model,
-there are \(n+1\) different terminal stock prices.\footnote{This is because the
-subscript of ``\(S\)'' can contain \(0,1,\dotsc,n\) ``\(u\)''s (with the rest
-being ``\(d\)''s) \faIcon{arrow-right} \(n+1\) different subscripts.}
+suggests the number of ``up'' and ``down'' moves (resp.) needed to get to that
+price (the order of the letters is not important).  Sometimes to make the
+notation more compact, we may express the subscript using power, e.g.
+\(S_{u^8d^2}\).
+
+\item The stock price at the latest time point in a binomial option pricing
+model is known as \defn{terminal stock price}. For a \(n\)-period binomial
+option pricing model, there are \(n+1\) distinct possible terminal stock
+prices.\footnote{This is because the subscript of ``\(S\)'' can contain
+\(0,1,\dotsc,n\) ``\(u\)''s (with the rest being ``\(d\)''s)
+\faIcon{arrow-right} \(n+1\) different subscripts.}
+
+\item As we can see, a multi-period binomial tree can actually be regarded as a
+combination of multiple one-period binomial trees. Through this connection,
+methods developed for one-period binomial option pricing model (in
+\cref{sect:one-period-binom}) can still be utilized for the multi-period
+binomial option pricing model (in \cref{sect:mult-period-binom}).
 \end{remark}
 \item In \cref{sect:one-period-binom}, we focus on one-period binomial option
 pricing model.
@@ -211,7 +220,7 @@ V_0&=\Delta S_0+B\\
 where \(\displaystyle q=\frac{e^{(r-\delta)h}-d}{u-d}\). 
 
 If we ``regard'' \(q\) as the ``up'' probability (but of course \(q\) is not
-the \emph{actual} ``up'' probability), then the expression is simply the
+the \emph{true} ``up'' probability), then the expression is simply the
 \emph{discounted expected payoff}\footnote{or expected discounted payoff
 (\emph{expected present value}/\emph{actuarial present value} of payoff) if we
 expand the terms \faIcon{arrow-right} \(V_ue^{-rh}q+V_de^{-rh}(1-q)\)} of the
@@ -255,9 +264,10 @@ Rearranging it gives
 \[
 \Delta=e^{-\delta h}\frac{V_u-V_d}{S_0u-S_0d}.
 \]
-So, the portfolio consisting of \(\Delta\) (given above) shares of
-\faIcon{apple-alt} and a short position in \faIcon{scroll} has also a constant
-payoff \(V\), which is the common value in \cref{eq:short-deriv-stock-rep}, i.e.,
+So, the portfolio consisting of \(\displaystyle \Delta=e^{-\delta
+h}\frac{V_u-V_d}{S_0u-S_0d}\) shares of \faIcon{apple-alt} and a short position
+in \faIcon{scroll} has also a constant payoff, which is the common value
+in \cref{eq:short-deriv-stock-rep}, i.e.,
 \[
 V=\Delta e^{\delta h}S_0u-V_u
 =e^{-\delta h}\frac{V_u-V_d}{S_0u-S_0d}e^{\delta h}S_0u-V_u
@@ -393,12 +403,19 @@ node[midway, below=0.3]{\(1-q\)}
 \draw[fill, ForestGreen, opacity=0.2] (-2,-2) rectangle (8,4);
 \end{tikzpicture}
 \end{center}
+\begin{note}
+To contrast the probabilities in real world and risk-neutral world, we call the
+probability \(p\) as \defn{true probability} (of ``up''), and the probability
+\(q\) is called \emph{risk-neutral probability} (of ``up'').
+\end{note}
 
 \item Note that the construction of replicating portfolio for the derivative
 \faIcon{scroll} does \emph{not} depend on the ``up'' probability (the
 expressions in \labelcref{it:rep-port} are free of \(p\)). Hence, in
 \emph{both} real and risk-neutral worlds, we would construct \emph{the same
-replicating portfolio} for \faIcon{scroll}.
+replicating portfolio} for \faIcon{scroll} (i.e., the portfolio with \(\Delta\)
+shares of \faIcon{apple-alt} and \(B\) in bond as suggested in
+\labelcref{it:rep-port}).
 
 \item Consequently, by the law of one price, we would have the same time-0 price
 for \faIcon{scroll} in both worlds (which equals the price of the common
@@ -413,13 +430,13 @@ the (required) expected return rate for every financial instrument is the
 risk-free rate (there is not \emph{risk premium}!).
 
 \begin{note}
-It ``turns out'' that the appropriate probability of ``up'' for such risk
-neutrality to emerge is \(q\), hence it is called \emph{risk-neutral
-probability}.
+It ``turns out'' that the appropriate probability of ``up'' for a risk-neutral
+world can only be \(q\), hence it is called \emph{risk-neutral probability}.
 \end{note}
 
 
-\item Particularly, the expected return rate of the derivative \faIcon{scroll}
+\item \label{it:rn-pricing-fmla-deriv}
+Particularly, the expected return rate of the derivative \faIcon{scroll}
 in the risk-neutral world would be the risk-free rate:
 \[
 \expvq{\frac{V_h-V_0}{V_0}}=e^{rh}-1\implies
@@ -433,20 +450,22 @@ price of the replicating portfolio, which is deterministic).
 
 \item For the expected return rate of \faIcon{scroll} in the \emph{real world},
 it is \emph{higher} than the risk-free rate due to the presence of \emph{risk
-premium}. (Investors in real world are not risk-neutral, and most are
+premium}. (Investors in the real world are not risk-neutral, and most are
 \emph{risk-averse}. See STAT3904 for more details.)
 
-\item Let \(r^*\) be the expected annual return rate compounded continuously in
-the real world (which is higher than \(r\)). Then, the ``real-world pricing
-formula'' is
+\item Let \(\gamma\) be the annual continuously compounded expected return rate
+for \faIcon{scroll} in the real world (which is higher than \(r\)). Then, the
+``real-world pricing formula'' is
 \[
-V_0=e^{-r^*h}\expv{\text{terminal payoff}}.
+V_0=e^{-\gamma h}\expv{\text{terminal payoff}}
 \]
+(derived using similar argument as \labelcref{it:rn-pricing-fmla-deriv}).
+
 However, it is often difficult to be used in practice since it is usually hard
-to get/estimate the values of the true probabilities and \(r^*\). On the other
-hand, the values of \(q\) (which is free of \(p\)) and \(r\) are often more
-feasible to be obtained/estimated. This shows the ``elegance'' of risk-neutral
-pricing.
+to get/estimate the values of the true probabilities (applicable in the real
+world) and \(\gamma\). On the other hand, the values of \(q\) (which is free of
+\(p\)) and \(r\) are often more feasible to be obtained/estimated. This shows
+the elegance of risk-neutral pricing.
 
 \item Note that a crucial part of this explanation is the construction of
 replicating portfolio --- So, the argument here is not a \emph{replacement} of
@@ -456,7 +475,7 @@ For other models where similar pricing by replication is possible, the argument
 provided here would work analogously. Thus, the idea of risk-neutral
 pricing appears \emph{frequently}.
 
-\item For more detailed and formal treatments on risk-neutral pricing and
+\item For a more detailed and formal treatment on risk-neutral pricing and
 knowing more about its technical details, see STAT3911.
 \end{enumerate}
 \subsection{Constructing a Binomial Tree}
@@ -580,7 +599,7 @@ be as a \emph{built-in bias} for a forward tree.
 \item \label{it:estimate-vol}
 Here we give an approach to estimate the volatility \(\sigma\) based on past
 stock price data (which is also useful for the \emph{Black-Scholes framework};
-see \cref{sect:bs-model,sect:bs-pricing-fmla}). %TODO: check
+see \cref{sect:bs-model,sect:bs-pricing-fmla}).
 
 Suppose we observe \(n+1\) stock prices \(S_0, S_h, S_{2h},\dotsc,S_{nh}\)
 (\(h\) is the time length between adjacent observations). (E.g., when
@@ -616,9 +635,10 @@ techniques in statistics to perform the estimation.
 (theoretical) variance of \(h\)-year continuously compounded return (where the
 initial value is nonrandom): \(\sigma_h^2=\sigma^2h\) to get
 \[
-\sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(r_i-\overline{r})^2}=\sigma\sqrt{h},
+\frac{1}{n-1}\sum_{i=1}^{n}(r_i-\overline{r})^2=\sigma^2h,
 \]
-where \(\overline{r}=(1/n)\sum_{i=1}^{n}r_i\).
+where \(\overline{r}=(1/n)\sum_{i=1}^{n}r_i\) is the sample mean of
+\(r_1,\dotsc,r_n\).
 
 \item \label{it:vol-mom-est-fmla}
 Solving this equation in \(\sigma\) gives the estimate of volatility:

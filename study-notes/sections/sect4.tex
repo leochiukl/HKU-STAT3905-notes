@@ -12,7 +12,7 @@ distinctions:
 \faIcon{apple-alt} (we \emph{must} buy/sell \faIcon{apple-alt} at delivery date
 no matter what).
 \item buy/sell timing: For some options, it is possible to buy/sell
-\faIcon{apple-alt} even \emph{before} maturity (time \(T\)).
+\faIcon{apple-alt} even \emph{before} maturity.
 \end{itemize}
 \end{enumerate}
 \subsection{Call and Put Options}
@@ -40,7 +40,7 @@ someone, and then own it. For the put option, we have the option to ``put'' our
 \emph{European}. (This is referred to as its \defn{exercise style}.) Their
 difference is on the buy/sell timing:
 \begin{itemize}
-\item The holder of an \defn{American} option can exercise at any time on or before the expiration date.
+\item The holder of an \defn{American} option can exercise at any time at or before the expiration date.
 \item The holder of an \defn{European} option can only exercise at the expiration date (``like'' forward/futures).
 \end{itemize}
 \begin{mnemonic}
@@ -48,8 +48,8 @@ difference is on the buy/sell timing:
 \end{mnemonic}
 
 \begin{note}
-Unless otherwise specified, options here are \emph{European}. (European options
-turn out to be more mathematically tractable.)
+Unless otherwise specified, the options mentioned here are \emph{European}.
+(European options turn out to be more mathematically tractable.)
 \end{note}
 
 \item Like forward/futures, we also have the long/short terminology for
@@ -72,38 +72,55 @@ from \labelcref{it:fwd-futures-notations} for strike price and expiration date:
 \item time \defn{\(T\)} (positive): expiration date (``like'' delivery date for
 forward/futures).
 \end{itemize}
-
-\item In this notes, we assume that the option holder is always ``rational''
-(profit-maximizing).
 \end{enumerate}
 \subsection{Payoff of Call and Put Options}
 \begin{enumerate}
+\item \label{it:option-holder-rational}
+In this notes, we assume that every (American or European) option holder
+is ``rational'' (profit-maximizing). More precisely, we assume the right
+provided by the option can only be used ``rationally'' and cannot be
+``mistakenly used''.\footnote{So, in some sense, there is an implicit
+``restriction'' (by rationality) on our choice of using the right or not.}
+
+This may be seen as ``reasonable'' since in practice, the broker usually helps
+the option holder to ``automatically'' decide whether to exercise the option,
+in such a way that maximizes the holder's benefit \faIcon{arrow-right} every
+exercising decision is made ``rationally'' and no ``wrong'' exercising is
+permissible.
+
 \item \label{it:euro-option-rational}
 In the context of European options, rationality implies that a holder
 would exercise the option (at time \(T\)) iff a \emph{positive} profit can be
 earned from exercising at that time (and then closing out all positions).
 
 \begin{note}
-To avoid the ``indifferent'' situation, here we assume the holder would
-\emph{not} exercise the option if there is zero profit to be earned.
+For American options, the situation is more complicated. See
+\labelcref{it:amer-option-rational}.
 \end{note}
 
 \item Further elaboration on \labelcref{it:euro-option-rational}: At time \(T\)
-there are the following two choices that are ``comparable'' (in the sense that
-both result in no position):
+the holder can choose between:
 \begin{enumerate}
 \item do not exercise the option;
-\item exercise the option and then close out all positions.
+\item exercise the option.
 \end{enumerate}
-Rationality suggests that between these two ``comparable'' choices, the option
-holder would choose the one that results in a higher profit (more positive cash
-flow). Since the former choice results in \emph{zero} cash flow, this means the
-holder would choose the latter one iff it results in a \emph{positive} (\(>0\))
-profit (cash flow).
+Rationality suggests that between these two choices, the option holder would
+choose the choice with higher ``\emph{value}'' (cash flow obtained from
+``closing out'' a choice, i.e., performing the (one-time only) action suggested
+the choice \faIcon{arrow-right} the ``choice'' vanishes afterward).
+
+\begin{note} In case both choices have the same value, we assume that the
+holder would not exercise the option.
+\end{note}
+
+Since the former choice has \emph{zero} value, this means the holder would
+choose the latter one iff it has a positive value, i.e., it results in a
+\emph{positive} (\(>0\)) profit (cash flow).
 
 \item \label{it:call-put-ex-criterion}
 For a call (put) option \faIcon{scroll} on 1 \faIcon{apple-alt}, this means the
-option would be exercised iff \(S_T>K\) (\(K>S_T\)).
+option would be exercised iff \(S_T>K\) (\(K>S_T\)), which is positive iff
+\(S_T>K\) (\(K>S_T\)).
 
 \begin{pf}
 Note that at time \(T\), exercising the call (put) and then closing out all

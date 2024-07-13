@@ -1,3 +1,560 @@
 \section{Multi-Period Binomial Option Pricing Model}
 \label{sect:mult-period-binom}
+\begin{enumerate}
+\item The main weakness of one-period binomial option pricing model is that the
+terminal stock price can only take \emph{two} possible values, which is
+unrealistic.
+\item To make the binomial option pricing model more realistic (by allowing
+more possible values for the terminal stock price at least), we can utilize the
+\emph{multi-period binomial option pricing model}.
+\end{enumerate}
+\subsection{Pricing by Backward Induction}
+\label{subsect:back-induct-price}
+\begin{enumerate}
+\item To apply pricing by replication in \cref{sect:one-period-binom} to a
+multi-period model, the main tool is the \emph{backward induction}.
+\item To illustrate how backward induction works, consider the following
+two-period binomial tree, which can be ``decomposed'' into three one-period
+binomial trees:
+\begin{center}
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u\)};
+\node[] (sd) at (4,-1) {\(S_d\)};
+\node[] (suu) at (8,2) {\(S_{uu}\)};
+\node[] (sud) at (8,0) {\(S_{ud}\)};
+\node[] (sdd) at (8,-2) {\(S_{dd}\)};
+\draw[-Latex, blue] (s0.east) -- (su.west);
+\draw[-Latex, blue] (s0.east) -- (sd.west);
+\draw[-Latex, violet] (su.east) -- (suu.west);
+\draw[-Latex, violet] (su.east) -- (sud.west);
+\draw[-Latex, orange] (sd.east) -- (sud.west);
+\draw[-Latex, orange] (sd.east) -- (sdd.west);
+\node[] () at (0,3) {Time 0};
+\node[] () at (4,3) {Time \(h\)};
+\node[] () at (8,3) {Time \(2h\)};
+\end{tikzpicture}
+\end{center}
+\item Now, we work \emph{backward} (work from right to left), and consider the
+two one-period binomial trees on the right one by one.
 
+\item Consider first the one-period binomial tree branching out of the \(S_u\) node:
+\begin{center}
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u\)};
+\node[] (sd) at (4,-1) {\(S_d\)};
+\node[] (suu) at (8,2) {\(S_{uu}\)};
+\node[] (sud) at (8,0) {\(S_{ud}\)};
+\node[] (sdd) at (8,-2) {\(S_{dd}\)};
+\draw[-Latex, blue, opacity=0.2] (s0.east) -- (su.west);
+\draw[-Latex, blue, opacity=0.2] (s0.east) -- (sd.west);
+\draw[-Latex, violet] (su.east) -- (suu.west);
+\draw[-Latex, violet] (su.east) -- (sud.west);
+\draw[-Latex, orange, opacity=0.2] (sd.east) -- (sud.west);
+\draw[-Latex, orange, opacity=0.2] (sd.east) -- (sdd.west);
+\node[] () at (0,3) {Time 0};
+\node[] () at (4,3) {Time \(h\)};
+\node[] () at (8,3) {Time \(2h\)};
+
+\node[below = 1pt of suu, ForestGreen] (vuu) {\(V_{uu}\)};
+\node[below = 1pt of sud, ForestGreen] (vud) {\(V_{ud}\)};
+\node[below = 1pt of sdd, ForestGreen] (vdd) {\(V_{dd}\)};
+\node[below = 1pt of su, red] (vu) {\(V_{u}\)\faIcon{question}};
+%\node[below = 1pt of sd, brown] {\(V_{d}\)};
+
+%\draw[-Latex, dashed, brown] (vuu.west) to[bend right] (vu.north east);
+%\draw[-Latex, dashed, brown] (vud.west) to[bend left] (vu.south east);
+%\node[font=\huge, brown] () at (6,0.5) {\faIcon[regular]{arrow-alt-circle-left}};
+\end{tikzpicture}
+\end{center}
+\begin{note}
+Here we assume the terminal payoffs (i.e., payoffs at the latest time point) of
+the derivative \faIcon{scroll} at every terminal node, i.e.,
+\(V_{uu},V_{ud},\text{ and }V_{dd}\) here, are well-defined and known.
+
+This is \underline{not} the case for American options. See \cref{subsect:amer-options}.
+\end{note}
+
+With the terminal payoffs \(V_{uu}\) and \(V_{ud}\), we can use pricing by
+replication (or risk-neutral pricing) for this one-period binomial tree to find
+out the (time-\(h\)) value of \faIcon{scroll} at the \(S_u\) node, \(V_u\):
+\[
+V_u=e^{-\delta h}[V_{uu}q+V_{ud}(1-q)]
+\]
+where \(\displaystyle q=\frac{e^{(r-\delta)h}-d}{u-d}\).
+
+\begin{center}
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u\)};
+\node[] (sd) at (4,-1) {\(S_d\)};
+\node[] (suu) at (8,2) {\(S_{uu}\)};
+\node[] (sud) at (8,0) {\(S_{ud}\)};
+\node[] (sdd) at (8,-2) {\(S_{dd}\)};
+\draw[-Latex, blue, opacity=0.2] (s0.east) -- (su.west);
+\draw[-Latex, blue, opacity=0.2] (s0.east) -- (sd.west);
+\draw[-Latex, violet] (su.east) -- (suu.west);
+\draw[-Latex, violet] (su.east) -- (sud.west);
+\draw[-Latex, orange, opacity=0.2] (sd.east) -- (sud.west);
+\draw[-Latex, orange, opacity=0.2] (sd.east) -- (sdd.west);
+\node[] () at (0,3) {Time 0};
+\node[] () at (4,3) {Time \(h\)};
+\node[] () at (8,3) {Time \(2h\)};
+
+\node[below = 1pt of suu, ForestGreen] (vuu) {\(V_{uu}\)};
+\node[below = 1pt of sud, ForestGreen] (vud) {\(V_{ud}\)};
+\node[below = 1pt of sdd, ForestGreen] (vdd) {\(V_{dd}\)};
+\node[below = 1pt of su, ForestGreen] (vu) {\(V_{u}\)\faIcon{check}};
+%\node[below = 1pt of sd, brown] {\(V_{d}\)};
+
+\draw[-Latex, dashed, brown] (vuu.west) to[bend right] (vu.north east);
+\draw[-Latex, dashed, brown] (vud.west) to[bend left] (vu.south east);
+\node[font=\huge, brown] () at (6,0.5) {\faIcon[regular]{arrow-alt-circle-left}};
+\end{tikzpicture}
+\end{center}
+
+\begin{note}
+Since the growth factors \(u\) and \(d\) are the same throughout a multi-period
+binomial tree, the risk-neutral probability \(q\) is also the same throughout.
+\end{note}
+
+\item Now, we repeat this procedure for the one-period binomial tree branching
+out of the \(S_d\) node:
+
+\[
+V_d=e^{-\delta h}[V_{ud}q+V_{dd}(1-q)].
+\]
+
+\begin{center}
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u\)};
+\node[] (sd) at (4,-1) {\(S_d\)};
+\node[] (suu) at (8,2) {\(S_{uu}\)};
+\node[] (sud) at (8,0) {\(S_{ud}\)};
+\node[] (sdd) at (8,-2) {\(S_{dd}\)};
+\draw[-Latex, blue, opacity=0.2] (s0.east) -- (su.west);
+\draw[-Latex, blue, opacity=0.2] (s0.east) -- (sd.west);
+\draw[-Latex, violet, opacity=0.2] (su.east) -- (suu.west);
+\draw[-Latex, violet, opacity=0.2] (su.east) -- (sud.west);
+\draw[-Latex, orange] (sd.east) -- (sud.west);
+\draw[-Latex, orange] (sd.east) -- (sdd.west);
+\node[] () at (0,3) {Time 0};
+\node[] () at (4,3) {Time \(h\)};
+\node[] () at (8,3) {Time \(2h\)};
+
+\node[below = 1pt of suu, ForestGreen] (vuu) {\(V_{uu}\)};
+\node[below = 1pt of sud, ForestGreen] (vud) {\(V_{ud}\)};
+\node[below = 1pt of sdd, ForestGreen] (vdd) {\(V_{dd}\)};
+\node[below = 1pt of su, ForestGreen] (vu) {\(V_{u}\)};
+\node[below = 1pt of sd, ForestGreen] (vd) {\(V_{d}\)\faIcon{check}};
+%\node[below = 1pt of sd, brown] {\(V_{d}\)};
+
+\draw[-Latex, dashed, brown] (vdd.west) to[bend left] (vd.south east);
+\draw[-Latex, dashed, brown] (vud.west) to[bend right] (vd.north east);
+\node[font=\huge, brown] () at (6,-1.5) {\faIcon[regular]{arrow-alt-circle-left}};
+\end{tikzpicture}
+\end{center}
+
+\item Lastly, repeat this procedure again for the one-period binomial tree
+branching out of the \(S_0\) node:
+\[
+V_0=e^{-\delta h}[V_{u}q+V_{d}(1-q)],
+\]
+and we have found the time-0 value of \faIcon{scroll}: \(V_0\)!
+\begin{center}
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u\)};
+\node[] (sd) at (4,-1) {\(S_d\)};
+\node[] (suu) at (8,2) {\(S_{uu}\)};
+\node[] (sud) at (8,0) {\(S_{ud}\)};
+\node[] (sdd) at (8,-2) {\(S_{dd}\)};
+\draw[-Latex, blue] (s0.east) -- (su.west);
+\draw[-Latex, blue] (s0.east) -- (sd.west);
+\draw[-Latex, violet, opacity=0.2] (su.east) -- (suu.west);
+\draw[-Latex, violet, opacity=0.2] (su.east) -- (sud.west);
+\draw[-Latex, orange, opacity=0.2] (sd.east) -- (sud.west);
+\draw[-Latex, orange, opacity=0.2] (sd.east) -- (sdd.west);
+\node[] () at (0,3) {Time 0};
+\node[] () at (4,3) {Time \(h\)};
+\node[] () at (8,3) {Time \(2h\)};
+
+\node[below = 1pt of suu, ForestGreen] (vuu) {\(V_{uu}\)};
+\node[below = 1pt of sud, ForestGreen] (vud) {\(V_{ud}\)};
+\node[below = 1pt of sdd, ForestGreen] (vdd) {\(V_{dd}\)};
+\node[below = 1pt of su, ForestGreen] (vu) {\(V_{u}\)};
+\node[below = 1pt of sd, ForestGreen] (vd) {\(V_{d}\)};
+\node[below = 1pt of s0, ForestGreen] (v0) {\(V_{0}\)\faIcon{check}};
+
+\draw[-Latex, dashed, brown] (vd.west) to[bend left] (v0.south east);
+\draw[-Latex, dashed, brown] (vu.west) to[bend right] (v0.north east);
+\node[font=\huge, brown] () at (2,-0.5) {\faIcon[regular]{arrow-alt-circle-left}};
+\end{tikzpicture}
+\end{center}
+
+\item Similar approach would work for a general \(n\)-period binomial tree, and
+it is known as \defn{backward induction}.
+\end{enumerate}
+\subsection{Risk-Neutral Pricing}
+\begin{enumerate}
+\item As we can see, if the number of periods \(n\) involved in the tree is
+large, the backward induction approach would require many computations and
+would be rather cumbersome.
+
+\item Fortunately, for \emph{European option} (or any derivative with a
+well-defined ``terminal'' time point and known ``terminal'' payoffs) it turns out
+that there is an alternative and more convenient formula to find out its time-0
+value, which is again somehow related to the idea of \emph{risk-neutral
+pricing}.
+
+\item To get the formula for the two-period tree, consider:
+\begin{align*}
+V_0&=e^{-\delta h}[{\color{blue}V_u}q+{\color{violet}V_d}(1-q)]\\
+&=e^{-\delta h}\qty{{\color{blue}e^{-\delta h}[V_{uu}q+V_{ud}(1-q)]}q+{\color{violet}e^{-\delta h}[V_{ud}q+V_{dd}(1-q)]}(1-q)} \\
+&=e^{-\delta (2h)}\qty[V_{uu}q^2+V_{ud}(2q(1-q))+V_{dd}(1-q)^2].
+\end{align*}
+We can note that this formula is of the ``risk-neutral pricing'' form:
+\[
+e^{-\delta(\text{total duration})}\expvq{\text{terminal payoff}},
+\]
+by identifying that the total duration is \(2h\), and the terminal payoff is
+\[
+\begin{cases}
+V_{uu}&\text{with probability \(q\)};\\
+V_{ud}&\text{with probability \(2q(1-q)\)};\\
+V_{dd}&\text{with probability \((1-q)^{2}\)},\\
+\end{cases}
+\]
+where the probabilities here are \emph{risk-neutral}.
+
+\item \label{it:back-induct-n-period-fmla}
+For a general \(n\)-period binomial tree, the time-0 value is
+\[
+V_0=e^{-\delta(nh)}\qty[V_{u^n}q^n+V_{u^{n-1}d}\binom{n}{1}q^{n-1}(1-q)+\dotsb+V_{d^{n}}(1-q)^{n}]
+=e^{-\delta(nh)}\sum_{i=0}^{n}V_{u^{n-i}d^{i}}\binom{n}{i}q^{n-i}(1-q)^{i}.
+\]
+\begin{pf}
+By observing the back induction process, we can see that the time-0 value has
+the form of
+\begin{align*}
+&e^{-\delta(nh)}\sum_{\text{every terminal node}}^{}
+\text{payoff at the node}\times\text{no.\ of paths to the node} \\
+&\hspace{3.5cm}\times\text{product of risk-neutral probabilities arising from the backward induction process}.
+\end{align*}
+
+In an \(n\)-period binomial tree, for any \(i=0,1,\dotsc,n\), to reach the
+\(S_{u^{n-i}d^{i}}\) node from the start (\(S_0\) node), \(i\) ``down'' moves
+(and \(n-i\) ``up'' moves) are needed.
+
+To get a path satisfying this requirement, we need to choose \(i\) out of \(n\)
+periods to have ``down'' move \faIcon{arrow-right} \(\binom{n}{i}\) distinct
+paths satisfying the requirement (the order of choosing does not matter).
+
+Now note that for each of those paths, the product of the risk-neutral
+probabilities arising from the back induction process is \(q^{n-i}(1-q)^{i}\)
+(one ``up'' (``down'') move \faIcon{arrows-alt-h} one \(q\) (\(1-q\)) gets
+multiplied).
+\end{pf}
+
+\item From the formula in \labelcref{it:back-induct-n-period-fmla}, we can
+identify the term \(\binom{n}{i}q^{n-i}(1-q)^{i}\) as the \emph{risk-neutral
+probability} of reaching the \(S_{u^{n-i}d^{i}}\) node (i.e., having \(i\)
+``down'' moves) \faIcon{arrow-right} no.\ of ``up'' moves follows
+the \emph{binomial distribution} (\(n\) independent trials with ``up'' probability
+\(q\)) in a risk-neutral world.
+
+\item \label{it:mult-period-rn-pricing-fmla}
+After this identification (of ``appropriate'' probabilities of reaching
+different nodes in a risk-neutral world), we can express the formula in
+\labelcref{it:back-induct-n-period-fmla} the risk-neutral pricing form:
+\begin{equation}
+\label{eq:mult-period-rn-pricing-fmla}
+e^{-\delta(nh)}\expvq{\text{terminal payoff}}.
+\end{equation}
+\end{enumerate}
+\subsection{American Options}
+\label{subsect:amer-options}
+\begin{enumerate} 
+\item For an \emph{American option}, since \defn{early exercise} (i.e.,
+exercising before maturity) is possible, the option can ``end'' early
+\faIcon{arrow-right} the notion of ``terminal'' is ill-defined (there is not a
+unique ``terminal point''!) \faIcon{arrow-right} the formula in
+\labelcref{it:rn-pricing-fmla-mult-period} is \emph{not applicable}.
+
+\item To price an American option, we can use again \emph{backward
+induction}, but with some ``twist'' not mentioned in
+\cref{subsect:back-induct-price}.
+
+\begin{remark}
+\item This shows an advantage of the binomial option pricing model: It can accommodate
+\emph{American options}, which are less mathematically tractable than European
+options.
+\item Here we shall assume that the American option can only be exercised at the
+time points specified in the (\(n\)-period) binomial tree, i.e., time
+\(0,h,2h,\dotsc,nh\).
+\end{remark}
+
+\item The ``twist'' is that we need to now more consciously consider the
+\emph{rationality} assumption mentioned in
+\labelcref{it:option-holder-rational} during the backward induction process.
+
+\item We again consider the following two-period binomial tree as an example,
+and we now work with an American option:
+\begin{center}
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u\)};
+\node[] (sd) at (4,-1) {\(S_d\)};
+\node[] (suu) at (8,2) {\(S_{uu}\)};
+\node[] (sud) at (8,0) {\(S_{ud}\)};
+\node[] (sdd) at (8,-2) {\(S_{dd}\)};
+\draw[-Latex, blue] (s0.east) -- (su.west);
+\draw[-Latex, blue] (s0.east) -- (sd.west);
+\draw[-Latex, violet] (su.east) -- (suu.west);
+\draw[-Latex, violet] (su.east) -- (sud.west);
+\draw[-Latex, orange] (sd.east) -- (sud.west);
+\draw[-Latex, orange] (sd.east) -- (sdd.west);
+\node[] () at (0,3) {Time 0};
+\node[] () at (4,3) {Time \(h\)};
+\node[] () at (8,3) {Time \(2h\)};
+\end{tikzpicture}
+\end{center}
+
+\item \label{it:amer-option-rational}
+Consider the one-period binomial tree branching out of the \(S_u\) node:
+\begin{center}
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u\)};
+\node[] (sd) at (4,-1) {\(S_d\)};
+\node[] (suu) at (8,2) {\(S_{uu}\)};
+\node[] (sud) at (8,0) {\(S_{ud}\)};
+\node[] (sdd) at (8,-2) {\(S_{dd}\)};
+\draw[-Latex, blue, opacity=0.2] (s0.east) -- (su.west);
+\draw[-Latex, blue, opacity=0.2] (s0.east) -- (sd.west);
+\draw[-Latex, violet] (su.east) -- (suu.west);
+\draw[-Latex, violet] (su.east) -- (sud.west);
+\draw[-Latex, orange, opacity=0.2] (sd.east) -- (sud.west);
+\draw[-Latex, orange, opacity=0.2] (sd.east) -- (sdd.west);
+\node[] () at (0,3) {Time 0};
+\node[] () at (4,3) {Time \(h\)};
+\node[] () at (8,3) {Time \(2h\)};
+
+\node[below = 1pt of suu, ForestGreen] (vuu) {\(V_{uu}\)};
+\node[below = 1pt of sud, ForestGreen] (vud) {\(V_{ud}\)};
+\node[below = 1pt of sdd, ForestGreen] (vdd) {\(V_{dd}\)};
+\node[below = 1pt of su, red] (vu) {\(V_{u}\)\faIcon{question}};
+
+\node[Maroon] () at (4,2) {early exercise?};
+\node[Maroon] () at (4,1.5) {hold \faIcon{scroll}?};
+\end{tikzpicture}
+\end{center}
+
+At the \(S_u\) node, the option holder has an opportunity to choose whether to
+early exercise or not, i.e., choosing between early exercise and \emph{holding}
+\faIcon{scroll} (at least) until the next time point in the tree.
+
+By rationality, the holder would choose the one with ``more positive''
+\emph{value}. The values for ``early exercise''
+and ``holding'' are called \defn{immediate exercise value} and \defn{holding
+value} respectively, which are given by:
+
+\begin{itemize}
+\item \underline{immediate exercise value}: perform ``early exercise''
+\faIcon{arrow-right} the American option ``is reduced to'' an European option
+expiring at current time point \faIcon{arrow-right} immediate exercise value =
+\((S_u-K)_{+}\) (\((K-S_u)_{+}\)) for call (put);
+
+\item \underline{holding value}: perform ``holding'' \faIcon{arrow-right} the
+American option ``is reduced to'' a derivative with payoffs \(V_{uu}\) after
+``up'' and \(V_{ud}\) after ``down'' in one-period tree\footnote{The derivative
+is not going to ``end'' until the termination time point of the tree.}
+\faIcon{arrow-right} holding value = value of that derivative  (which can be
+found by pricing by replication/risk-neutral pricing).
+\end{itemize}
+
+\begin{note}
+In case both values are identical, we assume the holder would \emph{not} early exercise.
+\end{note}
+
+
+\item \label{it:amer-option-value}
+Consequently, when the immediate exercise value (holding value) is
+higher, the American option would be ``reduced to'' an currently expiring
+European option (a derivative with payoffs \(V_{uu}\) after ``up'' and
+\(V_{ud}\) after ``down'' in one-period tree), which again has the value of
+immediate exercise value (holding value).
+
+In other words, the value of the American option at the \(S_u\) node (or any
+other non-rightmost node) is the \emph{maximum} of the holding value and immediate exercise
+value.
+
+\item Suppose the holding value is higher in this case, and we have:
+\[
+V_u=e^{-\delta h}[V_{uu}q+V_{ud}(1-q)]
+\]
+\begin{center}
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u\)};
+\node[] (sd) at (4,-1) {\(S_d\)};
+\node[] (suu) at (8,2) {\(S_{uu}\)};
+\node[] (sud) at (8,0) {\(S_{ud}\)};
+\node[] (sdd) at (8,-2) {\(S_{dd}\)};
+\draw[-Latex, blue, opacity=0.2] (s0.east) -- (su.west);
+\draw[-Latex, blue, opacity=0.2] (s0.east) -- (sd.west);
+\draw[-Latex, violet] (su.east) -- (suu.west);
+\draw[-Latex, violet] (su.east) -- (sud.west);
+\draw[-Latex, orange, opacity=0.2] (sd.east) -- (sud.west);
+\draw[-Latex, orange, opacity=0.2] (sd.east) -- (sdd.west);
+\node[] () at (0,3) {Time 0};
+\node[] () at (4,3) {Time \(h\)};
+\node[] () at (8,3) {Time \(2h\)};
+
+\node[below = 1pt of suu, ForestGreen] (vuu) {\(V_{uu}\)};
+\node[below = 1pt of sud, ForestGreen] (vud) {\(V_{ud}\)};
+\node[below = 1pt of sdd, ForestGreen] (vdd) {\(V_{dd}\)};
+\node[below = 1pt of su, ForestGreen] (vu) {\(V_{u}\)\faIcon{check}};
+
+\node[Maroon] () at (4,1.5) {hold \faIcon{scroll}\faIcon{check}}; \draw[-Latex, dashed, brown] (vuu.west) to[bend right] (vu.north east);
+\draw[-Latex, dashed, brown] (vud.west) to[bend left] (vu.south east);
+\node[font=\huge, brown] () at (6,0.5) {\faIcon[regular]{arrow-alt-circle-left}};
+\end{tikzpicture}
+\end{center}
+
+\item Now, we repeat this procedure for the one-period binomial tree branching
+out of the \(S_d\) node, and suppose the \emph{immediate exercise value} is
+higher:
+\[
+V_d^*=\begin{cases}
+(S_d-K)_{+}\text{ for call}; \\
+(K-S_d)_{+}\text{ for put}. \\
+\end{cases}
+\]
+\begin{note}
+To signify that the immediate exercise value is higher, we conventionally add
+an asterisk \(*\) as a superscript on the value of American option. This still
+applies when we write the actual number, e.g. we write \(100^*\) rather than
+\(100\) (but of course the actual value represented does not change).
+\end{note}
+\begin{center}
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u\)};
+\node[] (sd) at (4,-1) {\(S_d\)};
+\node[] (suu) at (8,2) {\(S_{uu}\)};
+\node[] (sud) at (8,0) {\(S_{ud}\)};
+\node[] (sdd) at (8,-2) {\(S_{dd}\)};
+\draw[-Latex, blue, opacity=0.2] (s0.east) -- (su.west);
+\draw[-Latex, blue, opacity=0.2] (s0.east) -- (sd.west);
+\draw[-Latex, violet, opacity=0.2] (su.east) -- (suu.west);
+\draw[-Latex, violet, opacity=0.2] (su.east) -- (sud.west);
+\draw[-Latex, orange] (sd.east) -- (sud.west);
+\draw[-Latex, orange] (sd.east) -- (sdd.west);
+\node[] () at (0,3) {Time 0};
+\node[] () at (4,3) {Time \(h\)};
+\node[] () at (8,3) {Time \(2h\)};
+
+\node[below = 1pt of suu, ForestGreen] (vuu) {\(V_{uu}\)};
+\node[below = 1pt of sud, ForestGreen] (vud) {\(V_{ud}\)};
+\node[below = 1pt of sdd, ForestGreen] (vdd) {\(V_{dd}\)};
+\node[below = 1pt of su, ForestGreen] (vu) {\(V_{u}\)};
+\node[below = 1pt of sd, ForestGreen] (vd) {\(V_{d}^*\)\faIcon{check}};
+
+\node[Maroon] () at (4,-2) {early exercise \faIcon{check}};
+\node[font=\huge, brown] () at (6,-1.5) {\faIcon[regular]{arrow-alt-circle-left}};
+\end{tikzpicture}
+\end{center}
+
+\item Lastly, repeat this procedure again for the one-period binomial tree
+branching out of the \(S_0\) node, and suppose the holding value is higher:
+\[
+V_0=e^{-\delta h}[V_{u}q+V_{d}^{{\color{magenta}*}}(1-q)].
+\]
+\begin{note}
+We use \(V_d^*\) in the formula since it is indeed the value (or payoff) of
+American option at node \(S_d\).
+\end{note}
+
+\begin{center}
+\begin{tikzpicture}
+\node[] (s0) at (0,0) {\(S_0\)};
+\node[] (su) at (4,1) {\(S_u\)};
+\node[] (sd) at (4,-1) {\(S_d\)};
+\node[] (suu) at (8,2) {\(S_{uu}\)};
+\node[] (sud) at (8,0) {\(S_{ud}\)};
+\node[] (sdd) at (8,-2) {\(S_{dd}\)};
+\draw[-Latex, blue] (s0.east) -- (su.west);
+\draw[-Latex, blue] (s0.east) -- (sd.west);
+\draw[-Latex, violet, opacity=0.2] (su.east) -- (suu.west);
+\draw[-Latex, violet, opacity=0.2] (su.east) -- (sud.west);
+\draw[-Latex, orange, opacity=0.2] (sd.east) -- (sud.west);
+\draw[-Latex, orange, opacity=0.2] (sd.east) -- (sdd.west);
+\node[] () at (0,3) {Time 0};
+\node[] () at (4,3) {Time \(h\)};
+\node[] () at (8,3) {Time \(2h\)};
+
+\node[below = 1pt of suu, ForestGreen] (vuu) {\(V_{uu}\)};
+\node[below = 1pt of sud, ForestGreen] (vud) {\(V_{ud}\)};
+\node[below = 1pt of sdd, ForestGreen] (vdd) {\(V_{dd}\)};
+\node[below = 1pt of su, ForestGreen] (vu) {\(V_{u}\)};
+\node[below = 1pt of sd, ForestGreen] (vd) {\(V_{d}^{*}\)};
+\node[below = 1pt of s0, ForestGreen] (v0) {\(V_{0}\)\faIcon{check}};
+
+\draw[-Latex, dashed, brown] (vd.west) to[bend left] (v0.south east);
+\draw[-Latex, dashed, brown] (vu.west) to[bend right] (v0.north east);
+\node[font=\huge, brown] () at (2,-0.5) {\faIcon[regular]{arrow-alt-circle-left}};
+\end{tikzpicture}
+\end{center}
+
+\item An important shortcut regarding American option is suggested by the result below:
+\begin{theorem}
+\label{thm:amer-call-no-div-no-early-ex}
+It is \emph{never} rational to early exercise an \emph{American call} on an
+asset \faIcon{apple-alt} with no dividends etc., when \(r\ge 0\) (typically the
+case).
+\end{theorem}
+\begin{pf}
+Consider an European call and an European put with the same terms (except the
+exercise style of course) as the American call (same underlying asset, strike
+price, and expiration date). Let \(C_t^{E}\) and \(P_t^{E}\) be their time-\(t\) prices
+respectively, and let \(C_t^{A}\) be the time-\(t\) price of the American call.
+
+For any \(t\in[0,T)\), by (non-generalized) put-call parity
+(\cref{thm:put-call-parity}) (with changes in time labelling if necessary), we
+have
+\[
+C_t^{E}+Ke^{-r(T-t)}=P_t^{E}+S_t.
+\]
+
+Firstly, note that we must have \(C_t^A\ge C_t^E\). (Otherwise, longing the
+American call and shorting the European call at time \(t\) would lead to
+arbitrage\footnote{For such strategy, the total cash flow at time \(t\) is
+positive. Next, we do not early exercise our American call, and at time \(T\),
+we exercise our American call if the European call is exercised
+\faIcon{arrow-right} zero total cash flow.}.) Since the European call price
+\(C_t^E\) is always positive, it means the American call price \(C_t^A\) is
+also positive.
+
+Consequently, when \(S_t\le K\) (where early exercise is of zero value), since
+\emph{selling} the American call (to receive a \emph{positive} cash flow) is of
+positive value, it is not rational to early exercise.
+
+Now consider the case where \(S_t>K\). Note that
+\[
+C_t^{A}\ge C_t^{E}>C_t^{E}-P_t^{E}=S_t-Ke^{-rT}\ge S_t-K,
+\]
+which means \emph{selling} the American call (to receive the price \(C_t^A\))
+has a higher value than early exercise \faIcon{arrow-right} early exercise is
+again not rational.
+\end{pf}
+
+\begin{note}
+Because of this result, such American call can be readily ``reduced to'' the
+\emph{European call} with the same terms (except exercise style), and methods
+for European calls can still be used, e.g. risk-neutral pricing based on
+terminal payoff (\cref{eq:mult-period-rn-pricing-fmla}).
+\end{note}
+\end{enumerate}
