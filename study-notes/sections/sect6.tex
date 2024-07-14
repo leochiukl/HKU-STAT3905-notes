@@ -22,7 +22,7 @@ we own \(N_0\) shares of \faIcon{apple-alt} at time 0, the number of shares we
 own would accumulate to \(N_0 e^{\delta t}\) at time \(t\).};
 
 \item a (risk-free zero-coupon) bond \faIcon{file-invoice-dollar} with an
-annual risk-free rate \(r\) compounded continuously.
+annual continuously compounded risk-free rate \(r\)
 \end{itemize}
 \begin{remark}
 \item Of course the no-arbitrage principle is still assumed. (It is assumed
@@ -506,7 +506,9 @@ The ``riskiness'' of the stock \faIcon{apple-alt} can be measured by its
 \emph{volatility}, which indicates the ``variability'' of the stock price. The
 \defn{volatility} of the stock \faIcon{apple-alt} (denoted by
 \defn{\(\sigma\)}) is the \emph{annualized} standard deviation of its
-(\(h\)-year) continuously compounded return (also known as log return) \(\ln
+(\(h\)-year) continuously compounded \emph{price} return\footnote{That is, we
+consider only the changes in \emph{price} of the stock and ignore the
+continuous dividend (growth in no.\ of shares owned) in the calculation.} \(\ln
 (S_h/S_0)\):
 
 \[
@@ -525,14 +527,6 @@ Particularly, the \(h\)-year volatility is
 \[
 \sigma_h=\sigma\sqrt{h}=\sqrt{\vari{\ln\frac{S_h}{S_0}}}.
 \]
-
-\item We can simplify the expression of the volatility to:
-\[
-\sqrt{\frac{1}{h}\vari{\ln S_h}}
-\]
-since \(\vari{\ln(S_h/S_0)}=\vari{\ln S_h-\ln S_0}\) and \(\ln S_0\) is
-nonrandom.
-
 \item The volatility is positive since the stock \faIcon{apple-alt} is risky
 \(\implies\) \(S_h\) is random \(\implies\) the variance is
 positive.
@@ -598,8 +592,8 @@ This formula provides a convenient way to compute the risk-neutral probability
 be as a \emph{built-in bias} for a forward tree.
 \item \label{it:estimate-vol}
 Here we give an approach to estimate the volatility \(\sigma\) based on past
-stock price data (which is also useful for the \emph{Black-Scholes framework};
-see \cref{sect:bs-model,sect:bs-pricing-fmla}).
+stock price data (which is also useful for the \emph{Black-Scholes model};
+see \labelcref{it:bs-model-def}).
 
 Suppose we observe \(n+1\) stock prices \(S_0, S_h, S_{2h},\dotsc,S_{nh}\)
 (\(h\) is the time length between adjacent observations). (E.g., when
