@@ -4,32 +4,14 @@
 \item For convenience in wordings, we shall focus on \emph{forward} here. But all
 results discussed here are also applicable to futures.
 \end{enumerate}
-\subsection{No-Arbitrage Principle and Perfect Market}
+\subsection{Law of One Price}
 \begin{enumerate}
-\item Recall the \emph{no-arbitrage principle} mentioned in
-\labelcref{it:no-arbitrage-principle}.
-\item An important consequence of the no-arbitrage principle is the \emph{law
-of one price}. But before stating that, we need to discuss another critical
-assumption in financial economics: \emph{perfect market}.
-\item \label{it:perfect-mkt}
-In a \defn{perfect market},
-\begin{itemize}
-\item there is no transaction cost;
-\item borrowing rate and lending rate are the same;
-\item credit risk does not exist;
-\item short selling is always possible.
-\end{itemize}
-Due to these ``nice'' properties of perfect market, working with it would be
-convenient, and indeed many ``nice'' results assume the market is perfect (in
-addition to the no-arbitrage principle).
+\item Recall the \emph{no-arbitrage principle} and \emph{perfect market}
+mentioned in \labelcref{it:no-arbitrage-principle} and
+\labelcref{it:perfect-mkt} respectively.
+\item An important consequence of the no-arbitrage principle and the perfect
+market assumption is the \emph{law of one price}.
 
-Unless otherwise specified, we assume that we are in a perfect market.
-
-\begin{warning}
-However, the actual market in the real world is clearly \emph{not} perfect. So
-one should be careful about the potential impacts of this when applying the
-results in the real world.
-\end{warning}
 \item \label{it:loop}
 The law of one price (LOOP) is as follows:
 \begin{theorem}[Law of one price]
@@ -289,9 +271,8 @@ C\&C (RC\&C) strategy, the first transaction becomes ``borrow \(F_0e^{-r_BT}\)''
 \subsection{Forward on a Stock With Discrete Dividends}
 \begin{enumerate}
 \item Now consider \faIcon{apple-alt} as a stock with discrete dividends. The
-current stock (spot) price is \(S_0\), and it is expected that
-\faIcon{apple-alt} will make dividend payment \faIcon{money-bill-wave}
-\(D_{t_i}\) at time \(t_i\), \(i=1,\dotsc,n\), where \(0<t_1<\dotsb<t_n<T\).
+current stock (spot) price is \(S_0\), and the stock \faIcon{apple-alt} will make dividend payment \faIcon{money-bill-wave}
+\(D_{t_i}\) at \emph{known} time \(t_i\), \(i=1,\dotsc,n\), where \(0<t_1<\dotsb<t_n<T\).
 
 \item \label{it:perfect-mkt-fwd-price-disc-div}
 To ``incorporate'' the effects of dividends, the (unique) price of
@@ -646,6 +627,7 @@ forward.} at time \(t\) is
 \[
 (F_t-F_0)e^{-r(T-t)}.
 \]
+\newpage
 \begin{pf}
 Let \(V_t\) be its value (or ``price'') at time \(t\). Then, consider the following strategy:
 \begin{table}[!h]

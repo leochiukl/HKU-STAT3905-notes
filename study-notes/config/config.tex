@@ -36,6 +36,7 @@
 \usepgfplotslibrary{fillbetween}
 
 \newcommand*{\prob}[1]{\mathbb{P}\qty(#1)}
+\newcommand*{\qprob}[1]{\mathbb{Q}\qty(#1)}
 \newcommand*{\defn}[1]{\index[def]{#1}\textcolor{ForestGreen}{\textbf{#1}}}
 \newcommand*{\bu}[1]{\textbf{\underline{#1}}}
 \newcommand*{\eqd}{\overset{d}=}
@@ -46,8 +47,10 @@
 \newcommand*{\cov}[1]{\operatorname{Cov}\qty(#1)}
 \newcommand*{\N}{\mathbb{N}}
 \newcommand*{\Z}{\mathbb{Z}}
+\newcommand*{\Q}{\mathbb{Q}}
 \newcommand*{\warn}{\textcolor{red}{\faIcon{exclamation-triangle}}}
 \newcommand*{\expvq}[1]{\mathbb{E}_{\mathbb{Q}}\qty[#1]}
+\newcommand*{\bs}[2]{\operatorname{BS}\qty(#1;#2;\sigma,T)}
 
 \newenvironment{remark}{\sffamily \underline{Remarks}:\begin{itemize}}{\end{itemize}}
 \newenvironment{note}{\sffamily\lbrack Note:}{\!\!\rbrack}

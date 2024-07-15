@@ -9,8 +9,6 @@ of other more basic underlying variable(s) (e.g., total rainfall
 \faIcon{cloud-rain} over a certain period in the future).
 
 \item Examples of derivatives: futures, forwards, options, swaps, insurance.
-(The first four are discussed in later sections. For insurance, see e.g.,
-STAT3901.)
 
 \item Uses of derivatives:
 \begin{itemize}
@@ -263,7 +261,7 @@ that is not owned.
 \item Borrow a number of instruments \faIcon{scroll} from a third party (e.g.
 broker) \faIcon{landmark}.
 
-\item Sell those instruments \faIcon{scroll} to the market \faIcon{network-wired}
+\item sell those instruments \faIcon{scroll} to the market \faIcon{network-wired}
 for cash \faIcon{dollar-sign} (creating a \emph{short position}).
 
 \item Use the cash \faIcon{dollar-sign} to buy that number of instruments
@@ -352,21 +350,37 @@ amount of \faIcon{scroll}''.
 
 \item Unless stated otherwise, the time unit is always years in this notes.
 \end{remark}
-\item \label{it:buy-sell-any-num}
-Unless stated otherwise, we shall assume one can always freely buy or sell any
-number of financial instrument available in the market, at the (single)
-prevailing \defn{spot price} (price per unit of the instrument at which
-transaction can be done \emph{immediately}). (So the bid-ask spread is
-ignored.) This may be ``reasonable'' if the market is ``very liquid''.
 
-\begin{note}
-We shall also assume the instruments we state in this notes (e.g. loan, stock
-etc.) are all available in the market, unless stated otherwise.
-\end{note}
+\item \label{it:perfect-mkt}
+Apart from the no-arbitrage principle, another critical assumption in financial
+economics is the \emph{perfect market} assumption.
+
+In a \defn{perfect market},
+\begin{itemize}
+\item any asset can be freely bought or sold at a single price (called
+\defn{spot price}) in any amount;
+\item there is no transaction cost;
+\item short selling is always possible;
+\item borrowing rate and lending rate are the same;
+\item credit risk does not exist (\faIcon{arrow-right} no margin requirement,
+every loan is risk-free, etc.);
+\end{itemize}
+
+\item Due to these ``nice'' properties of perfect market, working with it would
+be convenient, and indeed many ``nice'' results assume the market is perfect
+(in addition to the no-arbitrage principle).
+
+Unless otherwise specified, we assume that we are in a perfect market.
+
+\begin{warning}
+However, the actual market in the real world is clearly \emph{not} perfect. So
+one should be careful about the potential impacts of this when applying the
+results in the real world.
+\end{warning}
 
 \item \label{it:value-linear}
-Under this assumption, we have the following ``linearity'' property for
-value:
+Under the \emph{perfect market} assumption, we have the following ``linearity''
+property for value:
 \[
 \text{value of owning \(k\) \faIcon{scroll}} = k\times\text{value of owning 1 \faIcon{scroll}}.
 \]

@@ -259,16 +259,15 @@ multiplied).
 \end{pf}
 
 \item From the formula in \labelcref{it:back-induct-n-period-fmla}, we can
-identify the term \(\binom{n}{i}q^{n-i}(1-q)^{i}\) as the \emph{risk-neutral
+identify the term \(\binom{n}{i}q^{n-i}(1-q)^{i}\) as the (unique) \emph{risk-neutral
 probability} of reaching the \(S_{u^{n-i}d^{i}}\) node (i.e., having \(i\)
 ``down'' moves) \faIcon{arrow-right} no.\ of ``up'' moves follows
 the \emph{binomial distribution} (\(n\) independent trials with ``up'' probability
-\(q\)) in a risk-neutral world.
+\(q\)) under the unique risk-neutral probability measure \(\Q\).
 
 \item \label{it:mult-period-rn-pricing-fmla}
-After this identification (of ``appropriate'' probabilities of reaching
-different nodes in a risk-neutral world), we can express the formula in
-\labelcref{it:back-induct-n-period-fmla} the risk-neutral pricing form:
+After identifying the risk-neutral measure \(\Q\), we can express the formula
+in \labelcref{it:back-induct-n-period-fmla} in the risk-neutral pricing form:
 \begin{equation}
 \label{eq:mult-period-rn-pricing-fmla}
 e^{-\delta(nh)}\expvq{\text{terminal payoff}}.
@@ -280,8 +279,8 @@ e^{-\delta(nh)}\expvq{\text{terminal payoff}}.
 \item For an \emph{American option}, since \defn{early exercise} (i.e.,
 exercising before maturity) is possible, the option can ``end'' early
 \faIcon{arrow-right} the notion of ``terminal'' is ill-defined (there is not a
-unique ``terminal point''!) \faIcon{arrow-right} the formula in
-\labelcref{it:rn-pricing-fmla-mult-period} is \emph{not applicable}.
+unique ``terminal point''!) \faIcon{arrow-right}
+\cref{eq:mult-period-rn-pricing-fmla} is \emph{not applicable}.
 
 \item To price an American option, we can use again \emph{backward
 induction}, but with some ``twist'' not mentioned in

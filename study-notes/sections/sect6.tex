@@ -24,16 +24,10 @@ own would accumulate to \(N_0 e^{\delta t}\) at time \(t\).};
 \item a (risk-free zero-coupon) bond \faIcon{file-invoice-dollar} with an
 annual continuously compounded risk-free rate \(r\)
 \end{itemize}
-\begin{remark}
-\item Of course the no-arbitrage principle is still assumed. (It is assumed
+\begin{note}
+Of course the no-arbitrage principle is still assumed. (It is assumed
 throughout this notes unless stated otherwise.)
-\item Recall that the risk-free rate for lending and borrowing are identical in
-a perfect market.
-\item Following \labelcref{it:buy-sell-any-num}, we shall assume we can freely
-buy/sell any amount of the stock \faIcon{apple-alt} and bond
-\faIcon{file-invoice-dollar} at spot price. (Freely buying/selling any amount
-of bond means that we can lend/sell any amount of money risk-free.)
-\end{remark}
+\end{note}
 
 \item In a \defn{one-period binomial option pricing model} whose duration is
 \(h>0\) (years), the spot price of the stock \faIcon{apple-alt} at the end of
@@ -52,10 +46,15 @@ neither 0 nor 1, so that the stock is indeed ``risky''.}.
 
 \begin{remark}
 \item The values ``\(u\)'' and ``\(d\)'' are sometimes called \defn{growth
-factors}.  \item Here ``\(u\)'' and ``\(d\)'' may be interpreted as suggesting
+factors}.
+\item Here ``\(u\)'' and ``\(d\)'' may be interpreted as suggesting
 ``up'' and ``down'' respectively. But one should be careful that ``down'' here
 may not mean the price goes down, i.e., \(S_d\) is lower than \(S_0\): It turns
 out that it is possible for \(d\ge 1\).
+\item The probability measure used here is called the
+\defn{true}/\defn{real-world}/\defn{physical} probability measure, denoted by
+\defn{\(\mathbb{P}\)}. This is in contrast with the \emph{risk-neutral
+probability measure} (to be discussed in \cref{subsect:rn-pricing}).
 \end{remark}
 
 \item \defn{Binomial tree} representation of the one-period model:
@@ -354,20 +353,20 @@ no-arbitrage principle, these bounds on \(u\) and \(d\) need to be satisfied.
 Thus, it is reasonable to ``treat'' \(q\) as a probability. To perform
 risk-neutral pricing, we work in an ``imaginary'' \emph{risk-neutral world}
 where the \emph{actual} ``up'' probability is \(q\) rather than \(p\) (it is
-like a ``parallel universe''). We shall use the notation \(\expvq{\cdot}\) to
-denote the expectation in a risk-neutral world.
+like a ``parallel universe''). We shall use the notation
+\defn{\(\expvq{\cdot}\)} to denote the expectation in a risk-neutral world.
 
-Using this notation, we can write the risk-neutral pricing formula in
-\labelcref{it:price-by-rep-fmla-exp-form} as
+
+Using the notation \(\expvq{\cdot}\), we can write the risk-neutral pricing
+formula in \labelcref{it:price-by-rep-fmla-exp-form} as
 \[
 V_0=e^{-rh}\expvq{\text{terminal payoff}}.
 \]
 \subsubsection*{Further Explanation on Risk-Neutral Pricing}
 (Reference: \textcite[Section~4.1.2]{lo2018derivative})
 
-\item Consider the real world (the world we live in) and a risk-neutral
-world:
-
+\item We start with the following two worlds: \emph{real world} (the world we
+are living in) and \emph{risk-neutral world}.
 \begin{center}
 \begin{tikzpicture}
 \node[] (s0) at (0,0) {\(S_0\)};
@@ -403,11 +402,27 @@ node[midway, below=0.3]{\(1-q\)}
 \draw[fill, ForestGreen, opacity=0.2] (-2,-2) rectangle (8,4);
 \end{tikzpicture}
 \end{center}
-\begin{note}
-To contrast the probabilities in real world and risk-neutral world, we call the
-probability \(p\) as \defn{true probability} (of ``up''), and the probability
-\(q\) is called \emph{risk-neutral probability} (of ``up'').
-\end{note}
+
+\item For the \defn{risk-neutral world},
+\begin{itemize}
+\item it consists of the same assets as the real world with identical current
+stock price and realizable future prices/payoffs;
+
+\item all investors are \defn{risk-neutral}, i.e., they only care about the
+expected returns on their investments, but not their \emph{riskiness} or other
+characteristics. In other words, the (required) \emph{expected return rate for
+every asset is the risk-free rate}.
+\end{itemize}
+\begin{remark}
+\item The expectation is to be taken with respect to a probability measure
+\emph{different} from the real-world probability measure \(\mathbb{P}\), in
+order to (possibly) achieve such kind of risk neutrality property (every
+expected return rate is risk-free rate), which does not present in the real
+world.
+
+\item In this binomial tree case, \(q\) turns out to serve as an appropriate
+probability of ``up'' to achieve the risk neutrality property.
+\end{remark}
 
 \item Note that the construction of replicating portfolio for the derivative
 \faIcon{scroll} does \emph{not} depend on the ``up'' probability (the
@@ -417,41 +432,32 @@ replicating portfolio} for \faIcon{scroll} (i.e., the portfolio with \(\Delta\)
 shares of \faIcon{apple-alt} and \(B\) in bond as suggested in
 \labelcref{it:rep-port}).
 
-\item Consequently, by the law of one price, we would have the same time-0 price
-for \faIcon{scroll} in both worlds (which equals the price of the common
+\item Consequently, by the law of one price, we would have the same time-0
+price for \faIcon{scroll} in both worlds (which equals the price of the common
 replicating portfolio). Therefore, to find the time-0 price of \faIcon{scroll}
-in real world (what we want), it suffices to find the price in
-\emph{risk-neutral world} --- a key idea in \emph{risk-neutral pricing}.
-
-\item More precisely, a \defn{risk-neutral world} is a world where all
-investors are \defn{risk-neutral}, i.e., they only care about the expected
-returns on their investments, but not their \emph{risks} \faIcon{arrow-right}
-the (required) expected return rate for every financial instrument is the
-risk-free rate (there is not \emph{risk premium}!).
-
-\begin{note}
-It ``turns out'' that the appropriate probability of ``up'' for a risk-neutral
-world can only be \(q\), hence it is called \emph{risk-neutral probability}.
-\end{note}
-
+in real world (what we want), it suffices to find its price in
+\emph{risk-neutral world} (which equals the real world price) --- a key idea in
+\emph{risk-neutral pricing}.
 
 \item \label{it:rn-pricing-fmla-deriv}
-Particularly, the expected return rate of the derivative \faIcon{scroll}
-in the risk-neutral world would be the risk-free rate:
+Since the expected return rate of the derivative \faIcon{scroll}
+in the risk-neutral world is the risk-free rate, the time-0 price of
+\faIcon{scroll} (in risk-neutral world) can be easily found by
 \[
 \expvq{\frac{V_h-V_0}{V_0}}=e^{rh}-1\implies
 V_0=e^{-rh}\expvq{V_h}
 =e^{-rh}\expvq{\text{terminal payoff}}.
 \]
+This gives the \emph{risk-neutral pricing formula}.
 \begin{note}
 The time-0 price of the derivative \(V_0\) is nonrandom (it is the time-0
 price of the replicating portfolio, which is deterministic).
 \end{note}
 
-\item For the expected return rate of \faIcon{scroll} in the \emph{real world},
-it is \emph{higher} than the risk-free rate due to the presence of \emph{risk
-premium}. (Investors in the real world are not risk-neutral, and most are
-\emph{risk-averse}. See STAT3904 for more details.)
+\item On the other hand, for the expected return rate of \faIcon{scroll} in the
+\emph{real world}, it is \emph{higher} than the risk-free rate due to the
+presence of \emph{risk premium}. (Investors in the real world are not
+risk-neutral, and most are \emph{risk-averse}. See STAT3904 for more details.)
 
 \item Let \(\gamma\) be the annual continuously compounded expected return rate
 for \faIcon{scroll} in the real world (which is higher than \(r\)). Then, the
@@ -461,22 +467,129 @@ V_0=e^{-\gamma h}\expv{\text{terminal payoff}}
 \]
 (derived using similar argument as \labelcref{it:rn-pricing-fmla-deriv}).
 
-However, it is often difficult to be used in practice since it is usually hard
-to get/estimate the values of the true probabilities (applicable in the real
-world) and \(\gamma\). On the other hand, the values of \(q\) (which is free of
-\(p\)) and \(r\) are often more feasible to be obtained/estimated. This shows
-the elegance of risk-neutral pricing.
+\item So, the key differences between risk-neutral pricing and real-world
+pricing are the following:
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+Kind&Expected return rate of \faIcon{scroll}&Probability measure&Pricing formula\\
+\midrule
+risk-neutral&\(r\)&\(\Q\)&\(e^{-rh}\expvq{\text{terminal payoff}}\)\\
+real-world&\(\gamma\)&\(\mathbb{P}\)&\(e^{-\gamma h}\expv{\text{terminal payoff}}\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tikzpicture}
+\node[] (v0) at (0,0) {\(V_0\)};
+\node[] () at (0,2) {Time 0};
+\node[] () at (4,2) {Time \(h\)};
+\node[] () at (6,2) {Payoff};
+\node[] (vu) at (6,1) {\(V_u\)};
+\node[] (vd) at (6,-1) {\(V_d\)};
+\node[] () at (3,3) {\textbf{Real World}};
+\draw[-Latex, brown, dashed] (vu.west) to[bend right] (v0.east);
+\draw[-Latex, brown, dashed] (vd.west) to[bend left] (v0.east);
+\node[brown,font=\huge] () at (3,0) {\(\gamma\)};
+\node[brown,font=\huge] () at (6,0) {\(\mathbb{P}\)};
+\draw[pen colour=brown, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (vu.east) -- (vd.east)
+node[midway, right=0.5cm, font=\large, brown]{\(\expv{\cdot}\)};
+\node[] (v0rn) at (0,-5) {\(V_0\)};
+\node[] (vurn) at (6,-4) {\(V_u\)};
+\node[] (vdrn) at (6,-6) {\(V_d\)};
+\draw[-Latex, violet, dashed] (vurn.west) to[bend right] (v0rn.east);
+\draw[-Latex, violet, dashed] (vdrn.west) to[bend left] (v0rn.east);
+\node[violet,font=\huge] () at (3,-5) {\(r\)};
+\node[violet,font=\huge] () at (6,-5) {\(\Q\)};
+\draw[pen colour=violet, very thick, decorate,decoration={calligraphic brace, amplitude=5pt, raise=5pt}] (vurn.east) -- (vdrn.east)
+node[midway, right=0.5cm, font=\large, violet]{\(\expvq{\cdot}\)};
+\node[] () at (3,-3) {\textbf{Risk-Neutral World}};
+\draw[fill, ForestGreen, opacity=0.2] (-3.5,-7) rectangle (8,-2);
+\draw[magenta, <->, thick] (v0) -- (v0rn)
+node[midway, left]{same};
 
-\item Note that a crucial part of this explanation is the construction of
+\node[] () at (-2.5,0.3) {\(\Delta\) \faIcon{apple-alt}};
+\node[] () at (-2.5,-0.3) {\(B\) in \faIcon{file-invoice-dollar}};
+\draw[dashed] (-3.2,-0.7) rectangle (-1.8,0.7);
+\draw[magenta, <->, thick] (-1.6,0) -- (v0)
+node[midway, above] {replicate};
+
+\node[] () at (-2.5,-4.7) {\(\Delta\) \faIcon{apple-alt}};
+\node[] () at (-2.5,-5.3) {\(B\) in \faIcon{file-invoice-dollar}};
+\draw[dashed] (-3.2,-5.7) rectangle (-1.8,-4.3);
+\draw[magenta, <->, thick] (-1.6,-5) -- (v0rn)
+node[midway, below] {replicate};
+
+\draw[magenta, <->, thick] (-2.5,-0.9) -- (-2.5,-4.1)
+node[midway, left]{same};
+\end{tikzpicture}
+\end{center}
+
+\subsubsection*{Risk-Neutral Pricing in a More General Setting}
+\item To (possibly) achieve the risk neutrality property, in general we need to
+``calibrate'' the probability measure underlying all probabilistic calculations
+in the world to get a \defn{risk-neutral probability measure} \(\Q\)
+(calculating expectation under \(\Q\) \faIcon{arrow-right} risk-neutrality
+property is satisfied).
+
+\item However, in general there is no guarantee that we can \emph{indeed} find
+such a risk-neutral probability measure \(\Q\) through ``calibration'':
+risk-neutral probability measure \emph{may not exist} (risk-neutral world may
+not be possible to be ``constructed''!).
+
+\item \label{it:unique-rn-prob-measure}
+But it turns out that under an arbitrage-free\footnote{In general case, we
+indeed need an even stronger condition than arbitrage-free, but for the models
+discussed here (binomial option pricing model/Black-Scholes model),
+arbitrage-free is enough.} perfect market that consists of a risky stock (which
+possibly pays dividend continuously) and a risk-free (zero-coupon) bond, there
+must be a \emph{unique} risk-neutral probability measure \(\Q\).
+\begin{note}
+This involves substantial technicalities. See STAT3911 for more details.
+\end{note}
+
+\begin{intuition}
+With such assumptions, it turns out that we can always construct replicating
+portfolio (involving stock \faIcon{apple-alt} and risk-free bond
+\faIcon{file-invoice-dollar}) for any asset. Thus, the expected return rate of
+any asset can be expressed as a weighted average of the expected (total) return
+rates of stock \faIcon{apple-alt}\footnote{More precisely, expected return rate
+of a portfolio containing a stock. It incorporates both growth in stock price
+and no.\ of shares owned due to continuous dividend.}  and bond
+\faIcon{file-invoice-dollar}.
+
+Consequently, to make the expected return rate of every asset being risk-free
+rate (risk neutrality property), it suffices to find a probability measure such
+that the expected return rate of risky stock \faIcon{apple-alt} is risk-free
+rate, which turns out to be uniquely determined.
+\end{intuition}
+
+\item For illustration purpose, we shall show that there is a \emph{unique}
+risk-neutral probability measure \(\Q\) for this binomial tree case in the
+following.
+
+\begin{pf}
+Firstly, in this binomial tree case we already know that replicating portfolio
+can be constructed for any derivative. Thus, to find a risk-neutral probability
+measure, it suffices to determine a probability of ``up'' (call it \(q^*\) at
+the moment) such that the expected (total) return rate of risky stock
+\faIcon{apple-alt} is risk-free rate \(r\).
+
+For this to happen, we need to have
+\[
+\frac{e^{\delta h}\qty[S_0uq^*+S_0d(1-q^*)]}{S_0}=e^{rh}
+\implies
+(u-d)q^*=e^{(r-\delta)h}-d
+\implies
+q^*=\frac{e^{(r-\delta)h}-d}{u-d},
+\]
+which is the \(q\) we have found before. As there is only one such possible
+\(q^*\), there is a unique risk-neutral probability measure.
+\end{pf}
+
+\item Note that a crucial basis of the risk-neutral pricing is the construction of
 replicating portfolio --- So, the argument here is not a \emph{replacement} of
 pricing by replication. Rather, it is \emph{based on} pricing by replication.
-
-For other models where similar pricing by replication is possible, the argument
-provided here would work analogously. Thus, the idea of risk-neutral
-pricing appears \emph{frequently}.
-
-\item For a more detailed and formal treatment on risk-neutral pricing and
-knowing more about its technical details, see STAT3911.
 \end{enumerate}
 \subsection{Constructing a Binomial Tree}
 \begin{enumerate}

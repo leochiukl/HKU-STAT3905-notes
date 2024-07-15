@@ -1,3 +1,555 @@
 \section{Black-Scholes Option Pricing Formula}
 \label{sect:bs-pricing-fmla}
+\subsection{Black-Scholes Formula}
+\begin{enumerate}
+\item One major result under the Black-Scholes model is the well-known
+\emph{Black-Scholes formula} which can price \emph{European} call/put options on the
+stock \faIcon{apple-alt}.
+\item The Black-Scholes formula is as follows:
+\begin{theorem}[Black-Scholes formula]
+\label{thm:bs-fmla}
+Assume the Black-Scholes model for any time \(t\in[0,T]\). Then, the time-0
+price of an European option (with strike price \(K\) and expiration date \(T\))
+on the stock \faIcon{apple-alt} is
+\[
+\begin{cases}
+C_0=\bs{S_0,\delta}{K,r}=S_0e^{-\delta T}\Phi(d_1)-Ke^{-rT}\Phi(d_2)&\text{for call}; \\
+P_0=\bs{K,r}{S_0,\delta}=Ke^{-rT}\Phi(-d_2)-S_0e^{-\delta T}\Phi(-d_1)&\text{for put}, \\
+\end{cases}
+\]
+where \(\displaystyle \text{\defn{\(d_1\)}}=\frac{\ln(S_0/K)+(r-\delta{\color{violet}+}\sigma^2/2)T}{\sigma\sqrt{T}}\)
+and \(\displaystyle
+\text{\defn{\(d_2\)}}=d_1-\sigma\sqrt{T}=\frac{\ln(S_0/K)+(r-\delta{\color{violet}-}\sigma^2/2)T}{\sigma\sqrt{T}}\).
+\end{theorem}
+
+\begin{remark}
+\item The ``BS'' function (Black-Scholes-type pricing function) is defined by
+\[
+\text{\defn{\(\bs{s_1,\delta_1}{s_2,\delta_2}\)}}=s_1e^{-\delta_1 T}\Phi(d_1^*)-s_2e^{-\delta_2 T}\Phi(d_2^*)
+\]
+where \(\displaystyle d_1^*=\frac{\ln(s_1/s_2)+(\delta_2-\delta_1{\color{violet}+}\sigma^2/2)T}{\sigma\sqrt{T}}\)
+and \(\displaystyle d_2^{*}=d_1^{*}-\sigma\sqrt{T}=\frac{\ln(s_1/s_2)+(\delta_2-\delta_1{\color{violet}-}\sigma^2/2)T}{\sigma\sqrt{T}}\).
+\item The formula can also be used to calculate the time-\(t\) (\(t<T\)) price
+of the European option, by changing time labelling (``now'': time \(t\);
+expiration date: time \(T-t\)) \faIcon{arrow-right} replacing \emph{all}
+occurrences of ``\(T\)'' (don't miss the ones in \(d_1\) and \(d_2\)!) by
+\(T-t\) gives the time-\(t\) price.
+\end{remark}
+
+\begin{pf}
+Here we give a (partial) proof based on risk-neutral pricing under the
+Black-Scholes model.
+
+By \labelcref{it:unique-rn-prob-measure}, there exists a unique risk-neutral
+probability measure \(\Q\) under the no-arbitrage principle and perfect market.
+So, henceforth we shall work in the risk-neutral world equipped with the unique
+risk-neutral probability measure \(\Q\).
+
+First of all, by risk-neutrality property, we know that the stock
+\faIcon{apple-alt} has an continuously compounded expected return rate \(r\)
+(the risk-free rate) instead of \(\alpha\).
+
+Now, it ``turns out'' that under the risk-neutral probability measure \(\Q\),
+the volatility of stock and the lognormality of stock price (at any time) are
+preserved. Thus,
+\[
+S_t\sim LN\qty[\ln S_0+\qty({\color{violet}r}-\delta-\frac{1}{2}\sigma^2)t,\sigma^2t]
+\]
+for any \(t\in[0,T]\) under the risk-neutral probability measure \(\Q\).
+
+Then, since the expected return rate of the European call is risk-free rate in
+the risk-neutral world, its time-0 price can be found by
+\begin{align*}
+C_0&=e^{-rT}\expvq{(S_T-K)_{+}}\\
+&=e^{-rT}\bigg\{\underbrace{\expvq{(S_T-K)_{+}|S_T>K}}_{\expvq{S_T-K|S_T>K}}\qprob{S_T>K}
++\underbrace{\expvq{(S_T-K)_{+}|S_T\le K}}_{0}\qprob{S_T\le K})\bigg\}\\
+&=e^{-rT}(\expvq{S_T|S_T>K}-K)\qprob{S_T>K}.
+\end{align*}
+\footnote{The conditional expectations can be evaluated as follows:
+\(\displaystyle \expvq{(S_T-K)_{+}|S_T>K}=\frac{\expvq{(S_T-K)_{+}\indicset{S_T>K}}}{\qprob{S_T>K}}
+=\frac{\expvq{(S_T-K)\indicset{S_T>K}}}{\qprob{S_T>K}}=\expvq{S_T-K|S_T>K}
+\), and \(\displaystyle \expvq{(S_T-K)_{+}|S_T\le K}=\frac{\expvq{(S_T-K)_{+}\indicset{S_T\le K}}}{\qprob{S_T>K}}
+=\frac{0}{\qprob{S_T>K}}=0\).}
+In the risk-neutral world with probability measure \(\Q\), the exercise
+probability for the call is
+\[
+\qprob{S_T>K}=\Phi\qty(\frac{\ln(S_0/K)+({\color{violet}r}-\delta-\sigma^2/2)T}{\sigma\sqrt{T}})
+=\Phi(d_2),
+\]
+and the conditional expectation
+\[
+\expvq{S_T|S_T>K}=S_0e^{({\color{violet}r}-\delta)T}\frac{\Phi(d_1)}{\Phi(d_2)}
+\]
+(as \(\alpha\) is modified to \(r\) and \(\sigma\) remains unchanged).
+
+Thus, the time-0 call price \(C_0\) is
+\[
+S_0e^{-\delta T}\Phi(d_1)-Ke^{-rT}\Phi(d_2).
+\]
+
+Now, by the generalized put-call parity (\cref{thm:gen-put-call-parity}), we have
+\[
+C_0+Ke^{-rT}=S_0e^{(r-\delta)T}e^{-rT}+P_0
+\implies
+P_0=Ke^{-rT}(\underbrace{1-\Phi(d_2)}_{\Phi(-d_2)})-S_0e^{-\delta T}(\underbrace{1-\Phi(d_1)}_{\Phi(-d_1)}).
+\]
+\end{pf}
+
+\item The Black-Scholes formula takes a rather complicated form, so here is a
+mnemonic \faIcon{brain} for the Black-Scholes formula:
+
+For the call price formula \(S_0e^{-\delta T}\Phi(d_1)-Ke^{-rT}\Phi(d_2)\):
+\begin{itemize}
+\item \(S_0e^{-\delta T}\): \faIcon{dollar-sign} needed to buy stock
+\faIcon{apple-alt} \emph{now} to have {\color{violet}a share of \faIcon{apple-alt} at time
+\(T\)} (note that the no.\ of shares we own would accumulate between now and
+time \(T\)) \faIcon{arrows-alt-h} call gives us right to {\color{violet}get a
+share of \faIcon{apple-alt}} by ``giving up'' \(K\) at time \(T\).
+({\color{violet}``get''} \faIcon{arrow-right} positive sign)
+
+\item \(Ke^{-rT}\): \faIcon{dollar-sign} needed to lend (through bond)
+\emph{now} to have {\color{violet}\(K\) at time \(T\)} \faIcon{arrows-alt-h} call gives us right
+to get a share of \faIcon{apple-alt} by {\color{violet}``giving
+up'' \(K\) at time \(T\)}. ({\color{violet}``giving up''} \faIcon{arrow-right} negative sign)
+
+\item ``order'' of terms involving \(d_1\) and \(d_2\): bigger one (\(d_1\))
+first; smaller one (\(d_2\)) second.
+\end{itemize}
+
+For the put price formula \(Ke^{-rT}\Phi(-d_2)-S_0e^{-\delta T}\Phi(-d_1)\):
+\begin{itemize}
+\item \(Ke^{-rT}\): \faIcon{dollar-sign} needed to lend (through bond)
+\emph{now} to have {\color{violet}\(K\) at time \(T\)} \faIcon{arrows-alt-h}
+put gives us right to {\color{violet}get \(K\)} by ``giving up'' a share of
+\faIcon{apple-alt} at time \(T\) ({\color{violet}``get''} \faIcon{arrow-right}
+positive sign).
+
+\item \(S_0e^{-\delta T}\): \faIcon{dollar-sign} needed to buy stock
+\faIcon{apple-alt} \emph{now} to get {\color{violet}a share of
+\faIcon{apple-alt} at time \(T\)} \faIcon{arrows-alt-h} put gives us right to
+get \(K\) by {\color{violet}``giving up'' a share of \faIcon{apple-alt} at
+time \(T\)} ({\color{violet}``giving up''} \faIcon{arrow-right} negative sign).
+
+\item ``order'' of terms involving \(d_1\) and \(d_2\): bigger one (\({\color{Maroon}-}d_2\))
+first; smaller one (\({\color{Maroon}-}d_1\)) second.
+\end{itemize}
+
+\item The interpretations for call and put are highly similar. Indeed, we can have
+a similar interpretation on the general ``BS'' formula:
+\[
+\bs{s_1,\delta_1}{s_2,\delta_2}=s_1e^{-\delta_1 T}\Phi(d_1^*)-s_2e^{-\delta_2 T}\Phi(d_2^*)
+\]
+where \(\displaystyle d_1^*=\frac{\ln(s_1/s_2)+(\delta_2-\delta_1{\color{violet}+}\sigma^2/2)T}{\sigma\sqrt{T}}\)
+and \(\displaystyle d_2^{*}=d_1^{*}-\sigma\sqrt{T}=\frac{\ln(s_1/s_2)+(\delta_2-\delta_1{\color{violet}-}\sigma^2/2)T}{\sigma\sqrt{T}}\).
+
+In this case:
+\begin{itemize}
+\item \(s_1\) (\(s_2\)): the current spot price of asset 1 (2), where asset 1
+(2) is to be got (given up) at time \(T\) from exercising the option
+\item \(\delta_1\) (\(\delta_2\)): the ``growth rate'' for the amount of
+asset 1 (2) owned\footnote{e.g., ``risk-free rate'' above may be regarded as
+growth rate for the amount of cash owned}
+\end{itemize}
+Based on these, we have similar interpretations for \(s_1e^{-\delta_1T}\) and
+\(s_2e^{-\delta_2T}\). The mnemonic for orders of terms involving \(d_1\) and
+\(d_2\) can be also translated to the case for \(d_1^*\) and \(d_2^*\) here.
+\end{enumerate}
+\subsection{European Options on a Stock With Discrete Dividends}
+\begin{enumerate}
+\item In the Black-Scholes model, it is assumed that the risky stock
+\faIcon{apple-alt} can only possibly have \emph{continuous} dividends, but not
+discrete dividends. However, in practice all dividends are discrete. Hence, we
+are naturally interested in whether it is possible to apply the Black-Scholes
+formula for an European option on a stock with \emph{discrete} dividends.
+
+\item Before stating a key result for dealing with this case, let us first
+introduce a new kind of instrument: \emph{prepaid forward} (similar to a
+forward, but ``prepaid'').
+
+A \defn{prepaid forward} on the underlying asset \faIcon{apple-alt} is a
+contract between two parties to ``buy'' or ``sell'' \faIcon{apple-alt} for a
+specified price (known as \defn{prepaid forward price}, denoted by \(F_0^P\))
+\emph{now}, but \faIcon{apple-alt} (which is ``prepaid'') is to be delivered at
+delivery date (time \(T\)).
+
+\item A prepaid forward may be treated as a ``certificate of prepayment''
+\faIcon{scroll}  with a fixed maturity:
+\begin{itemize}
+\item The party {\color{violet}\faIcon{user-tie}} who pays the prepaid forward
+price gets to own the ``certificate'' \faIcon{scroll} \faIcon{arrow-right} the
+\emph{certificate holder} at maturity\footnote{who is not necessarily
+{\color{violet}\faIcon{user-tie}}, since {\color{violet}\faIcon{user-tie}} can
+sell the certificate \faIcon{scroll} to others.} can receive \faIcon{apple-alt}
+for free by ``showing'' the certificate \faIcon{scroll}. (Alternatively, one may view it as
+``exchanging'' the certificate \faIcon{scroll} for \faIcon{apple-alt}.)
+\item The certificate \faIcon{scroll} can be sold to another person
+\faIcon{user} (which allows \faIcon{user} to receive \faIcon{apple-alt} for free if
+\faIcon{user} holds the certificate \faIcon{scroll} until maturity).
+\end{itemize}
+Under this interpretation, we regard ``owning a positive (negative) amount of
+prepaid forward'' as ``owning the same amount of such certificate
+\faIcon{scroll}''.
+
+\item Differences between spot contract, forward contract, and \emph{prepaid}
+forward contract:
+
+\begin{itemize}
+\item spot contract:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (5,0) node[right] {Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below=0.1cm, violet] (buy) {\faIcon{user-tie}}
+node[above=0.1cm, orange] (sell) {\faIcon{user-tie}};
+\node[] () at (0,-1) {\faIcon{scroll}\faIcon{check}};
+\draw[-Latex] (buy.west) to[bend left] (sell.west);
+\node[] () at (-1.1,0) {spot \faIcon{dollar-sign}};
+\draw[-Latex] (sell.east) to[bend left] (buy.east);
+\node[] () at (0.7,0) {\faIcon{apple-alt}};
+\end{tikzpicture}
+\end{center}
+
+\item forward contract:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (5,0) node[right] {Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below=0.1cm, violet] (buy) {\faIcon{user-tie}}
+node[above=0.1cm, orange] (sell) {\faIcon{user-tie}};
+\node[] () at (0,-1) {negotiate \faIcon{scroll}};
+
+\fill[] (3,0) circle [radius=0.05]
+node[below=0.1cm, violet] (buyf) {\faIcon{user-tie}}
+node[above=0.1cm, orange] (sellf) {\faIcon{user-tie}};
+\draw[-Latex] (buyf.west) to[bend left] (sellf.west);
+\node[] () at (1.9,0.2) {fwd.\ \faIcon{dollar-sign}};
+\draw[-Latex] (sellf.east) to[bend left] (buyf.east);
+\node[] () at (3.7,-0.2) {\faIcon{apple-alt}};
+\node[] () at (3,-1) {\faIcon{scroll}\faIcon{check}};
+\end{tikzpicture}
+\end{center}
+\item \emph{prepaid} forward contract:
+\begin{center}
+\begin{tikzpicture}
+\draw[-Latex] (0,0) -- (5,0) node[right] {Time};
+\fill[] (0,0) circle [radius=0.05]
+node[below=0.1cm, violet] (buy) {\faIcon{user-tie}}
+node[above=0.1cm, orange] (sell) {\faIcon{user-tie}};
+
+\draw[-Latex] (buy.west) to[bend left] (sell.west);
+\node[] () at (-1.7,0) {prepaid fwd.\ \faIcon{dollar-sign}};
+\draw[-Latex] (sell.east) to[bend left] (buy.east);
+\node[] () at (0.7,0) {\faIcon{scroll}};
+
+\fill[] (3,0) circle [radius=0.05]
+node[below=0.1cm, violet] (buyf) {\faIcon{user-tie}}
+node[above=0.1cm, orange] (sellf) {\faIcon{user-tie}};
+\draw[-Latex] (sellf.east) to[bend left] (buyf.east);
+\node[] () at (3.7,-0.2) {\faIcon{apple-alt}};
+\draw[-Latex] (buyf.west) to[bend left] (sellf.west);
+\node[] () at (2.2,0.2) {\faIcon{scroll}};
+\end{tikzpicture}
+\end{center}
+\end{itemize}
+
+\item The prepaid forward turns out to be quite useful to ``get rid off''
+discrete dividends for the stock \faIcon{apple-alt} (between time 0 and time
+\(T\))\footnote{It delays the ownership \faIcon{apple-alt} until time \(T\)
+\faIcon{arrow-right} dividend payments before time \(T\) are not received.},
+while preserving the ``spot payment'' nature.
+
+\item \label{it:perfect-mkt-prepaid-fwd-price-disc-div}
+Under a perfect market, the no-arbitrage \emph{prepaid forward} price can be
+easily obtained based on the formula for the no-arbitrage \emph{forward} price
+(discrete dividends case): \(F_0=S_0e^{rT}-\sum_{i=1}^{n}D_{t_i}e^{r(T-t_i)}\).
+
+It is given by
+\[
+F_0^P=F_0e^{-rT}=S_0-\sum_{i=1}^{n}D_{t_i}e^{-rt_i}
+\]
+when the stock will make dividend payment \faIcon{money-bill-wave} \(D_{t_i}\)
+at \emph{known} time \(t_i\), \(i=1,\dotsc,n\), where \(0<t_1<\dotsb<t_n<T\).
+
+\begin{note}
+In words, it is the spot price of \faIcon{apple-alt} subtracted by the present
+value of all dividends (strictly) between time 0 and time \(T\).
+\end{note}
+
+\begin{pf}
+Consider the following strategy:
+\begin{center}
+\begin{tabular}{clr}
+\toprule
+Time&Transaction&Cash flow\\
+\midrule
+0&short forward&\(0\)\\
+&long prepaid forward&\(0\)\\
+&borrow \(F_0e^{-rT}\)&\(+F_0e^{-rT}\)\\
+&pay prepaid forward price \(F_0^P\)&\(-F_0^P\)\\
+&&Total: \(F_0e^{-rT}-F_0^P\)\\
+\midrule
+\(T\)&accept delivery of 1 \faIcon{apple-alt} from prepaid forward& \(0\) \\
+&sell 1 \faIcon{apple-alt} at \emph{forward} price& \(+F_0\) \\
+&repay the loan& \(-F_0\)\\
+&&Total: \(0\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+It then follows that \(F_0^P=F_0e^{-rT}=S_0-\sum_{i=1}^{n}D_{t_i}e^{-rt_i}\),
+as desired.
+\end{pf}
+
+\item To be more explicit about the delivery date of prepaid forward, here we
+may use the notation \defn{\(F_{t,T}^P\)} to denote the (no-arbitrage) prepaid
+forward price for a prepaid forward on \faIcon{apple-alt} with delivery date
+\(T\), with payment made at time \(t\le T\).
+
+\begin{remark}
+\item By changing time labelling if needed, we have
+\[
+F_{t,T}^P=S_t-\operatorname{PV}(\text{all dividends (strictly) between time \(t\) and \(T\)}).
+\]
+\item We can observe that the time-\(t\) price of a prepaid forward
+(``certificate'') \faIcon{scroll} with delivery date being time \(T\) \emph{is}
+the prepaid forward price \(F_{t,T}^{P}\) ``conveniently'', by the no-arbitrage
+principle. To argue this, we consider the following two ways to get such a
+certificate \faIcon{scroll}:
+\begin{enumerate}
+\item ``first-hand'': enter a ``fresh'' prepaid forward contract and pays
+prepaid forward price \(F_{t,T}^{P}\) to get \faIcon{scroll};
+\item ``second-hand'': buy a certificate \faIcon{scroll} from the market at
+its time-\(t\) price.
+\end{enumerate}
+Since both result in identical payoff, the time-\(t\) price must be the same as
+the prepaid forward price.
+\end{remark}
+\begin{proposition}
+\label{prp:call-put-on-ppf-stock-same}
+An European call (put) on the stock \faIcon{apple-alt} has the same (time-0)
+price as an otherwise identical European call (put) on the prepaid forward
+(``certificate'') \faIcon{scroll} on \faIcon{apple-alt}. (Both prepaid forward
+and option mature at time \(T\).)
+\end{proposition}
+\begin{intuition}
+Getting a prepaid forward (``certificate'') \faIcon{scroll} on
+\faIcon{apple-alt} maturing \emph{immediately} at time \(T\) is essentially the
+same as getting \faIcon{apple-alt} at time \(T\) directly. (Once we get the
+prepaid forward ``certificate'', we immediately receive the delivery of
+\faIcon{apple-alt} for free.)
+\end{intuition}
+
+\begin{pf}
+Firstly, note that the time-\(T\) price/value of prepaid forward is simply
+\(F_{T,T}^{P}=S_T\)\footnote{At time \(T\), the ``prepaid forward'' is effectively
+just a spot contract on \faIcon{apple-alt}: the stock \faIcon{apple-alt} is to
+be delivered simultaneously as the payment is made}.
+
+Thus, the (time-\(T\)) payoff of the call (put) on prepaid forward is
+\((S_T-K)_{+}\) (\((K-S_T)_{+}\)), which is identical to the payoff of the call
+(put) on \faIcon{apple-alt}. The result then follows by the law of one price.
+\end{pf}
+\item \Cref{prp:call-put-on-ppf-stock-same} then gives us an alternative way to
+calculate the price of call/put on stock \faIcon{apple-alt} with discrete
+dividends: calculating the price of call/put on \emph{prepaid forward} on
+\faIcon{apple-alt} instead.
+
+\item The main advantage of this alternative method is that the prepaid forward
+price (time-\(t\) price of prepaid forward) \(F_{t,T}^{P}\) \emph{evolves
+continuously}\footnote{i.e., \(F_{t,T}^{P}\) is a continuous function of \(t\)}
+(from time 0 to \(T\)) \faIcon{arrow-right} prepaid forward ``certificate''
+\faIcon{scroll} can be treated as a \emph{non-dividend-paying} ``stock'' (the
+``certificate'' \faIcon{scroll} itself does not pay any dividend!) which can
+fit in the Black-Scholes model.
+
+\item \label{it:price-euro-call-put-on-stock-disc-div}
+Hence, to price an European call/put on a stock \faIcon{apple-alt} with
+discrete dividends using Black-Scholes model (indirectly), we follow the steps
+below:
+\begin{enumerate}
+\item Assume the Black-Scholes model for the time-\(t\) price \(F_{t,T}^{P}\)
+for the prepaid forward ``certificate'' \faIcon{scroll} (for any \(t\in[0,T]\)).
+\item Apply the Black-Scholes formula to calculate the (time-0) price of an
+otherwise identical European call/put \emph{on prepaid forward}
+\faIcon{scroll}:
+\begin{itemize}
+\item call: \(C_0=\bs{F_{0,T}^{P},0}{K,r}\)
+\item put: \(P_0=\bs{K,r}{F_{0,T}^{P},0}\)
+\end{itemize}
+\begin{note}
+The volatility \(\sigma\) here is the volatility for the \emph{prepaid
+forward}, not for the stock \faIcon{apple-alt} with discrete dividends.
+\end{note}
+\item The calculated call/put price (\(C_0\) or \(P_0\)) is the desired price.
+\end{enumerate}
+\end{enumerate}
+
+\subsection{Option Delta}
+\begin{enumerate}
+\item The Black-Scholes option pricing formula takes in many parameters as
+inputs. Although it can calculate the time-\(t\) price of European option for
+any time \(t\in[0,T]\), it is only based on the information available at time 0.
+
+As time passes with further information available, we may need to adjust some
+model parameters and inputs in Black-Scholes model to incorporate them, which
+influences the calculated option prices.
+
+\item To perform a \emph{sensitivity analysis} that measures the impact of
+changes in parameters on the option prices (based on Black-Scholes model),
+\emph{option Greeks} are invaluable tools.
+
+\item \defn{Option Greeks} are partial derivatives of the (current) option
+price with respect to the parameter in question, holding other inputs fixed.
+
+\item Some common option Greeks are given below:
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+Option Greek&Notation&The parameter in question\\
+\midrule
+\defn{Delta}&\defn{\(\Delta\)}&current stock price (1st partial derivative)\\
+\defn{Gamma}&\defn{\(\Gamma\)}&current stock price (2nd partial derivative)\\
+\defn{Vega}&\makecell{no standard notation;\\
+sometimes \defn{\(\mathcal{V}\)}}&volatility \(\sigma\)\\
+\defn{Theta}&\defn{\(\theta\)}&length of time passed from time 0 (\emph{not} \(T\)!)\\
+\defn{Rho}&\defn{\(\rho\)}&risk-free rate \(r\)\\
+\defn{Psi}&\defn{\(\Psi\)}&dividend yield \(\delta\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+\item Here we focus on option \emph{delta} (which is the most well-known option
+Greek). Other option Greeks are discussed in STAT3910.
+\item Consider an option (call or put) on a stock \faIcon{apple-alt}. Let \(V\)
+and \(S\) be the \emph{current} option price and \emph{current} price of
+\faIcon{apple-alt}.
+
+The \emph{delta} of the option is then
+\[
+\Delta=\pdv{V}{S}.
+\]
+\item Delta measures the sensitivity of option prices to changes in the price
+of the underlying stock \faIcon{apple-alt}. Larger \(\Delta\)
+\faIcon{arrow-right} higher sensitivity.
+
+\item A common, although slightly incorrect, interpretation of option delta is
+the \emph{approximated} increase in the current option price per unit increase
+in current price of stock \faIcon{apple-alt}, \emph{holding other inputs
+constant}. (This is similar to the interpretation of \emph{duration} learnt
+in STAT2902.)
+
+\begin{remark}
+\item It is slightly incorrect since the approximation works well only for ``small''
+change in current stock price, and for an \emph{one unit} increase (not so
+``small'', mathematically), the potential error in the approximation may be
+``significant''.
+\item Nonetheless, it can give us a rough idea of ``sensitivity'' of the option
+price to changes in current stock price.
+\end{remark}
+\item Under the Black-Scholes model, it turns out that we have nice formulas
+for delta of European call and put:
+\begin{proposition}
+\label{prp:bs-call-put-delta}
+Let \(\Delta_C\) and \(\Delta_P\) be the delta of European call and put (with
+expiration date being time \(T\) (``current'': time 0)) on a stock
+\faIcon{apple-alt} with current price \(S\) respectively.
+
+Assume the Black-Scholes model for any time \(t\in[0,T]\). Then, the call and
+put deltas are given by
+\[
+\Delta_C=e^{-\delta T}\Phi(d_1)\qqtext{and}\Delta_P=-e^{-\delta T}\Phi(-d_1).
+\]
+\end{proposition}
+\begin{pf}
+For the call option,
+\begin{align*}
+\pdv{C}{S}&=\pdv{}{S}\qty(Se^{-\delta T}\Phi(d_1)-Ke^{-rT}\Phi(d_2)) \\
+&=e^{-\delta T}\Phi'(d_1)\pdv{d_1}{S}-Ke^{-rT}\Phi'(d_2)\pdv{d_2}{S}&\text{(chain rule)}\\
+&=e^{-\delta T}\Phi(d_1)+\qty(Se^{-\delta T}\phi(d_1)-Ke^{-rT}\phi(d_2))\pdv{d_1}{S}.
+\end{align*}
+(Note that \(\displaystyle
+\pdv{d_2}{S}=\pdv{}{S}\bigg(d_1-\underbrace{\sigma\sqrt{T}}_{\text{free of
+\(S\)}}\bigg)=\pdv{d_1}{S}\).)
+
+Now it suffices to show that \begin{equation}
+\label{eq:cdf-to-pdf-bs-zero-price}
+Se^{-\delta T}\phi(d_1)-Ke^{-rT}\phi(d_2)=0.
+\end{equation}
+To show this, consider:
+\begin{align*}
+\frac{\phi(d_1)}{\phi(d_2)}&=\exp\qty(-\frac{(d_1^2-d_2^2)}{2})\\
+&=\exp\qty(-\frac{(d_1-d_2)(d_1+d_2)}{2})\\
+&=\exp\qty(-\frac{(\sigma\sqrt{T})(2d_1-\sigma\sqrt{T})}{2})\\
+&=\exp\qty[-\qty(\ln(S/K)+(r-\delta+\sigma^2/2)T)+(\sigma^{2}/2)T]&
+\qty(d_1=\frac{\ln(S/K)+(r-\delta{\color{violet}+}\sigma^2/2)T}{\sigma\sqrt{T}}) \\
+&=\exp\qty[-\ln\frac{S}{K}-(r-\delta)T] \\
+&=\frac{Ke^{-rT}}{Se^{-\delta T}}.
+\end{align*}
+Hence, \cref{eq:cdf-to-pdf-bs-zero-price} holds.
+
+For the put option, using the generalized put-call parity
+(\cref{thm:gen-put-call-parity}) we have
+\[
+C+Ke^{-rT}=P+Se^{-\delta T}.
+\]
+Partially differentiating both sides with respect to \(S\) gives
+\[
+\pdv{C}{S}+0=\pdv{P}{S}+e^{-\delta T}
+\implies \Delta_C=\Delta_P+e^{-\delta T}
+\implies \Delta_P=e^{-\delta T}(\Phi(d_1)-1)=-e^{-\delta_1}\Phi(-d_1).
+\]
+\end{pf}
+
+\begin{mnemonic}
+\Cref{eq:cdf-to-pdf-bs-zero-price} allows us to ``treat'' \(d_1\) and
+\(d_2\) ``as if'' they are free of \(S\) \faIcon{arrow-right}
+\[
+\Delta_C=\pdv{C}{S}=e^{-\delta T}\Phi(d_1).
+\]
+One-line ``proof''!
+\end{mnemonic}
+
+\begin{note}
+Recall that in \labelcref{it:rep-port} we use the notation \(\Delta\) also in
+the replicating portfolio (\(V=\Delta S+B\) using the notations here).
+For European call, by the Black-Scholes formula its time-0 value/price
+\[
+C=Se^{-\delta T}\Phi(d_1)-Ke^{-rT}\Phi(d_2).
+\]
+If we set \(\Delta=e^{-\delta T}\Phi(d_1)\) (the call delta \(\Delta_C\) here!)
+and \(B=-Ke^{-rT}\Phi(d_2)\), then we can write \(C=\Delta S+B\)
+\faIcon{arrow-right} we find a portfolio replicating the payoff/value of the
+call \emph{at time 0} (very limited; we want to replicate value at any time
+point within time interval \([0,T]\)).
+
+It turns out that to replicate the value at any time in \([0,T]\), one actually
+needs to \emph{continuously} adjust the values of \(\Delta\) and \(B\) as time
+passes and more information emerges \faIcon{arrow-right} replicating portfolio
+is ``dynamic'' in nature.
+\end{note}
+
+\item Apart from the ``sensitivity interpretation'', option delta can also be
+used for \emph{hedging} purpose.
+
+Suppose we just short (sell/write) an European call option and thus the
+``delta'' of our position (SC) is \(-\Delta_C\)\footnote{Technically, delta is
+only for an option and it is partial derivative of the option price. But here
+we extend the notion of ``delta'' a bit and define \defn{portfolio delta} as
+the partial derivative of current portfolio value with respect to current stock
+price. A position may be regarded as a portfolio consisting only that position
+for our purpose here.}. Since \(-\Delta_C<0\), our position value would
+\emph{drop} (in approximate sense) if the stock price increases (slightly)
+\faIcon{arrow-right} we face an ``upside'' stock price risk.
+
+\item To protect against this risk, we can use \emph{delta hedging}. To
+\emph{delta hedge} our position, we can buy \(\Delta_C\) shares of stock now
+\faIcon{arrow-right} value of our portfolio becomes \(V=-C+\Delta_C S\). Since
+\[
+\pdv{V}{S}=-\pdv{C}{S}+\Delta_C=0,
+\]
+we are \emph{locally} protected against this risk \faIcon{arrow-right} our
+portfolio is \emph{delta-neutral}.
+
+\item In general, \defn{delta hedging} (a portfolio) means entering some
+transactions such that the portfolio delta becomes zero. In such case, we call
+the portfolio \defn{delta-neutral}.
+\end{enumerate}
 
