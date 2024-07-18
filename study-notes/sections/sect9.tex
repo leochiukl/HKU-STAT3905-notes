@@ -17,15 +17,15 @@ C_0=\bs{S_0,\delta}{K,r}=S_0e^{-\delta T}\Phi(d_1)-Ke^{-rT}\Phi(d_2)&\text{for c
 P_0=\bs{K,r}{S_0,\delta}=Ke^{-rT}\Phi(-d_2)-S_0e^{-\delta T}\Phi(-d_1)&\text{for put}, \\
 \end{cases}
 \]
-where \(\displaystyle \text{\defn{\(d_1\)}}=\frac{\ln(S_0/K)+(r-\delta{\color{violet}+}\sigma^2/2)T}{\sigma\sqrt{T}}\)
+where \(\displaystyle \text{\(d_1\)}=\frac{\ln(S_0/K)+(r-\delta{\color{violet}+}\sigma^2/2)T}{\sigma\sqrt{T}}\)
 and \(\displaystyle
-\text{\defn{\(d_2\)}}=d_1-\sigma\sqrt{T}=\frac{\ln(S_0/K)+(r-\delta{\color{violet}-}\sigma^2/2)T}{\sigma\sqrt{T}}\).
+\text{\(d_2\)}=d_1-\sigma\sqrt{T}=\frac{\ln(S_0/K)+(r-\delta{\color{violet}-}\sigma^2/2)T}{\sigma\sqrt{T}}\).
 \end{theorem}
 
 \begin{remark}
 \item The ``BS'' function (Black-Scholes-type pricing function) is defined by
 \[
-\text{\defn{\(\bs{s_1,\delta_1}{s_2,\delta_2}\)}}=s_1e^{-\delta_1 T}\Phi(d_1^*)-s_2e^{-\delta_2 T}\Phi(d_2^*)
+\text{\(\bs{s_1,\delta_1}{s_2,\delta_2}\)}=s_1e^{-\delta_1 T}\Phi(d_1^*)-s_2e^{-\delta_2 T}\Phi(d_2^*)
 \]
 where \(\displaystyle d_1^*=\frac{\ln(s_1/s_2)+(\delta_2-\delta_1{\color{violet}+}\sigma^2/2)T}{\sigma\sqrt{T}}\)
 and \(\displaystyle d_2^{*}=d_1^{*}-\sigma\sqrt{T}=\frac{\ln(s_1/s_2)+(\delta_2-\delta_1{\color{violet}-}\sigma^2/2)T}{\sigma\sqrt{T}}\).
@@ -302,7 +302,7 @@ as desired.
 \end{pf}
 
 \item To be more explicit about the delivery date of prepaid forward, here we
-may use the notation \defn{\(F_{t,T}^P\)} to denote the (no-arbitrage) prepaid
+may use the notation \(F_{t,T}^P\) to denote the (no-arbitrage) prepaid
 forward price for a prepaid forward on \faIcon{apple-alt} with delivery date
 \(T\), with payment made at time \(t\le T\).
 
@@ -408,13 +408,13 @@ price with respect to the parameter in question, holding other inputs fixed.
 \toprule
 Option Greek&Notation&The parameter in question\\
 \midrule
-\defn{Delta}&\defn{\(\Delta\)}&current stock price (1st partial derivative)\\
-\defn{Gamma}&\defn{\(\Gamma\)}&current stock price (2nd partial derivative)\\
+\defn{Delta}&\(\Delta\)&current stock price (1st partial derivative)\\
+\defn{Gamma}&\(\Gamma\)&current stock price (2nd partial derivative)\\
 \defn{Vega}&\makecell{no standard notation;\\
-sometimes \defn{\(\mathcal{V}\)}}&volatility \(\sigma\)\\
-\defn{Theta}&\defn{\(\theta\)}&length of time passed from time 0 (\emph{not} \(T\)!)\\
-\defn{Rho}&\defn{\(\rho\)}&risk-free rate \(r\)\\
-\defn{Psi}&\defn{\(\Psi\)}&dividend yield \(\delta\)\\
+sometimes \(\mathcal{V}\)}&volatility \(\sigma\)\\
+\defn{Theta}&\(\theta\)&length of time passed from time 0 (\emph{not} \(T\)!)\\
+\defn{Rho}&\(\rho\)&risk-free rate \(r\)\\
+\defn{Psi}&\(\Psi\)&dividend yield \(\delta\)\\
 \bottomrule
 \end{tabular}
 \end{center}

@@ -16,7 +16,7 @@ related concept: \emph{lognormal distribution}.
 
 \item A random variable \(Y\) follows a \defn{lognormal distribution} with
 parameters \(\mu\) and \(\sigma^2\) (denoted by \(Y\sim
-\text{\defn{\(LN(\mu,\sigma^2)\)}}\)) if the ``log'' of \(Y\), \(\ln Y\),
+\text{\(LN(\mu,\sigma^2)\)}\)) if the ``log'' of \(Y\), \(\ln Y\),
 follows a normal distribution with mean \(\mu\) and variance \(\sigma^2\),
 i.e., \(\ln Y\sim N(\mu,\sigma^2)\).
 
@@ -182,9 +182,9 @@ The probability is given by:
 &=\prob{{\color{Maroon}-}Z_T<{\color{violet}\frac{\ln(S_0/K)+(\alpha-\delta-\sigma^2/2)T}{\sigma\sqrt{T}}}}\\
 &=\Phi({\color{violet}\hat{d_2}})&(-Z_T\sim N(0,1)\text{ also})
 \end{align*}
-where \defn{\(\Phi(\cdot)\)} is the standard normal cdf, and 
+where \(\Phi(\cdot)\) is the standard normal cdf, and 
 \[
-\text{\defn{\(\hat{d_2}\)}}=\frac{\ln(S_0/K)+(\alpha-\delta-\sigma^2/2)T}{\sigma\sqrt{T}}.
+\text{\(\hat{d_2}\)}=\frac{\ln(S_0/K)+(\alpha-\delta-\sigma^2/2)T}{\sigma\sqrt{T}}.
 \]
 \begin{note}
 We shall discuss why the notation ``\(\hat{d_2}\)'' is used here in
@@ -331,7 +331,7 @@ and
 \]
 where \(\displaystyle
 \hat{d_2}=\frac{\ln(S_0/K)+(\alpha-\delta-\sigma^2/2)T}{\sigma\sqrt{T}}\)
-(recall) and \(\text{\defn{\(\hat{d_1}\)}}=\hat{d_2}+\sigma\sqrt{T}.\)
+(recall) and \(\text{\(\hat{d_1}\)}=\hat{d_2}+\sigma\sqrt{T}.\)
 \end{proposition}
 \begin{intuition}
 Both expressions are of the form \[\text{unconditional expected stock
@@ -364,7 +364,7 @@ Now, we compute
 &=S_0e^{(\alpha-\delta)T}\int_{-\hat{d_2}-\sigma\sqrt{T}}^{\infty}\frac{1}{\sqrt{2\pi}}e^{\color{teal}-u^2/2}\,du&(u=z-\sigma\sqrt{T})\\
 &=S_0e^{(\alpha-\delta)T}(\underbrace{1-\Phi(-\hat{d_1})}_{\Phi(\hat{d_1})})
 \end{align*}
-where \defn{\(\phi(\cdot)\)} is the standard normal pdf.
+where \(\phi(\cdot)\) is the standard normal pdf.
 \begin{center}
 \begin{tikzpicture}
 \begin{axis}[

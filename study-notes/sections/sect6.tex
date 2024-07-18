@@ -37,8 +37,8 @@ distinct possible values (hence
 \[
 S_h=
 \begin{cases}
-\text{\defn{\(S_u\)}}\triangleq S_0 u&\text{with probability \(p\)};\\
-\text{\defn{\(S_d\)}}\triangleq S_0 d&\text{with probability \(1-p\)}.\\
+\text{\(S_u\)}\triangleq S_0 u&\text{with probability \(p\)};\\
+\text{\(S_d\)}\triangleq S_0 d&\text{with probability \(1-p\)}.\\
 \end{cases}
 \]
 where \(u>d>0\), and \(p\in (0,1)\)\footnote{The ``up'' probability can be
@@ -53,7 +53,7 @@ may not mean the price goes down, i.e., \(S_d\) is lower than \(S_0\): It turns
 out that it is possible for \(d\ge 1\).
 \item The probability measure used here is called the
 \defn{true}/\defn{real-world}/\defn{physical} probability measure, denoted by
-\defn{\(\mathbb{P}\)}. This is in contrast with the \emph{risk-neutral
+\(\mathbb{P}\). This is in contrast with the \emph{risk-neutral
 probability measure} (to be discussed in \cref{subsect:rn-pricing}).
 \end{remark}
 
@@ -354,7 +354,7 @@ Thus, it is reasonable to ``treat'' \(q\) as a probability. To perform
 risk-neutral pricing, we work in an ``imaginary'' \emph{risk-neutral world}
 where the \emph{actual} ``up'' probability is \(q\) rather than \(p\) (it is
 like a ``parallel universe''). We shall use the notation
-\defn{\(\expvq{\cdot}\)} to denote the expectation in a risk-neutral world.
+\(\expvq{\cdot}\) to denote the expectation in a risk-neutral world.
 
 
 Using the notation \(\expvq{\cdot}\), we can write the risk-neutral pricing
@@ -618,7 +618,7 @@ choose \(u\) and \(d\) based on the inherent ``riskiness'' of the stock
 The ``riskiness'' of the stock \faIcon{apple-alt} can be measured by its
 \emph{volatility}, which indicates the ``variability'' of the stock price. The
 \defn{volatility} of the stock \faIcon{apple-alt} (denoted by
-\defn{\(\sigma\)}) is the \emph{annualized} standard deviation of its
+\(\sigma\)) is the \emph{annualized} standard deviation of its
 (\(h\)-year) continuously compounded \emph{price} return\footnote{That is, we
 consider only the changes in \emph{price} of the stock and ignore the
 continuous dividend (growth in no.\ of shares owned) in the calculation.} \(\ln
@@ -634,7 +634,7 @@ value for the variance for a 1-year period). Taking square root then gives the
 \emph{annualized} standard deviation.
 
 \item More generally, the \defn{\(t\)-year volatility} (denoted by
-\defn{\(\sigma_t\)}) is \(\sigma_t=\sigma\sqrt{t}\). (Multiplying \(\sqrt{t}\)
+\(\sigma_t\)) is \(\sigma_t=\sigma\sqrt{t}\). (Multiplying \(\sqrt{t}\)
 converts the ``nominal'' for 1 year to ``nominal'' for \(t\) years.)
 Particularly, the \(h\)-year volatility is
 \[
