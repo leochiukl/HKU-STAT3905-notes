@@ -180,20 +180,20 @@ The probability is given by:
 &=\prob{\ln S_0+\qty(\alpha-\delta-\frac{\sigma^2}{2})T+\sigma\sqrt{T}Z_T>\ln K}\\
 &=\prob{Z_T>\frac{\ln(K/S_0)-(\alpha-\delta-\sigma^2/2)T}{\sigma\sqrt{T}}}\\
 &=\prob{{\color{Maroon}-}Z_T<{\color{violet}\frac{\ln(S_0/K)+(\alpha-\delta-\sigma^2/2)T}{\sigma\sqrt{T}}}}\\
-&=\Phi({\color{violet}\hat{d_2}})&(-Z_T\sim N(0,1)\text{ also})
+&=\Phi({\color{violet}\widehat{d_2}})&(-Z_T\sim N(0,1)\text{ also})
 \end{align*}
 where \(\Phi(\cdot)\) is the standard normal cdf, and 
 \[
-\text{\(\hat{d_2}\)}=\frac{\ln(S_0/K)+(\alpha-\delta-\sigma^2/2)T}{\sigma\sqrt{T}}.
+\text{\(\widehat{d_2}\)}=\frac{\ln(S_0/K)+(\alpha-\delta-\sigma^2/2)T}{\sigma\sqrt{T}}.
 \]
 \begin{note}
-We shall discuss why the notation ``\(\hat{d_2}\)'' is used here in
+We shall discuss why the notation ``\(\widehat{d_2}\)'' is used here in
 \cref{sect:bs-pricing-fmla}.
 \end{note}
 \item Then, the exercise probability of an otherwise identical European
 \emph{put} is
 \[
-\prob{S_T<K}=1-\prob{S_T>K}=1-\Phi(\hat{d_2})=\Phi(-\hat{d_2}).
+\prob{S_T<K}=1-\prob{S_T>K}=1-\Phi(\widehat{d_2})=\Phi(-\widehat{d_2}).
 \]
 \subsubsection*{Lognormal Prediction Intervals for Stock Prices}
 \item The next quantity of interest is a range of values in which the stock
@@ -323,24 +323,24 @@ want to find the conditional expectation \(\expv{S_T|S_T>K}\)
 \label{prp:bs-exp-stock-price-given-itm}
 Under the Black-Scholes model, we have
 \[
-\expv{S_T|S_T>K}=S_0e^{(\alpha-\delta)T}\frac{\Phi(\hat{d_1})}{\Phi(\hat{d_2})}
+\expv{S_T|S_T>K}=S_0e^{(\alpha-\delta)T}\frac{\Phi(\widehat{d_1})}{\Phi(\widehat{d_2})}
 \]
 and
 \[
-\expv{S_T|S_T<K}=S_0e^{(\alpha-\delta)T}\frac{\Phi(-\hat{d_1})}{\Phi(-\hat{d_2})}
+\expv{S_T|S_T<K}=S_0e^{(\alpha-\delta)T}\frac{\Phi(-\widehat{d_1})}{\Phi(-\widehat{d_2})}
 \]
 where \(\displaystyle
-\hat{d_2}=\frac{\ln(S_0/K)+(\alpha-\delta-\sigma^2/2)T}{\sigma\sqrt{T}}\)
-(recall) and \(\text{\(\hat{d_1}\)}=\hat{d_2}+\sigma\sqrt{T}.\)
+\widehat{d_2}=\frac{\ln(S_0/K)+(\alpha-\delta-\sigma^2/2)T}{\sigma\sqrt{T}}\)
+(recall) and \(\text{\(\widehat{d_1}\)}=\widehat{d_2}+\sigma\sqrt{T}.\)
 \end{proposition}
 \begin{intuition}
 Both expressions are of the form \[\text{unconditional expected stock
 price}\times\text{adjustment factor}.\]
 \begin{itemize}
 \item For \(\expv{S_T|S_T>K}\), the adjustment factor is
-\(\Phi(\hat{d_1})/\Phi(\hat{d_2})>1\) (as \(\hat{d_1}>\hat{d_2}\));
+\(\Phi(\widehat{d_1})/\Phi(\widehat{d_2})>1\) (as \(\widehat{d_1}>\widehat{d_2}\));
 \item For \(\expv{S_T|S_T<K}\), the adjustment factor is
-\(\Phi(-\hat{d_1})/\Phi(-\hat{d_2})<1\) (as \(-\hat{d_1}< -\hat{d_2}\)).
+\(\Phi(-\widehat{d_1})/\Phi(-\widehat{d_2})<1\) (as \(-\widehat{d_1}< -\widehat{d_2}\)).
 \end{itemize}
 So, intuitively, conditioning on \(S_T>K\) (\(S_T\) is ``of high
 value'')/\(S_T<K\) (\(S_T\) is ``of low value'') increases/decreases the
@@ -354,15 +354,15 @@ conditional expectation:
 \expv{S_T|S_T>K}=\frac{\expv{S_T\indicset{S_T>K}}}{\prob{S_T>K}}.
 \]
 (By \labelcref{it:bs-exercise-prob-fmla}, we have \(\prob{S_T>K}=\prob{Z_T>
--\hat{d_2}}=\Phi(\hat{d_2})>0\).)
+-\widehat{d_2}}=\Phi(\widehat{d_2})>0\).)
 Now, we compute
 \begin{align*}
-\expv{S_T\indicset{S_T>K}}&=\expv{S_0\exp\qty{\qty(\alpha-\delta-\frac{\sigma^2}{2})T+\sigma\sqrt{T}Z_T}\indicset{Z_T> -\hat{d_2}}} \\
-&=\int_{-\infty}^{\infty}S_0\exp\qty{\qty(\alpha-\delta-\frac{\sigma^2}{2})T+\sigma\sqrt{T}{\color{violet}z}}\indicset{{\color{violet}z}> -\hat{d_2}}\phi({\color{violet}z})\,dz\\
-&=S_0e^{(\alpha-\delta)T}\int_{-\hat{d_2}}^{\infty}e^{\color{teal}-(\sigma^2/2)T+\sigma\sqrt{T}z}\frac{1}{\sqrt{2\pi}}e^{\color{teal}-z^2/2}\,dz\\
-&=S_0e^{(\alpha-\delta)T}\int_{-\hat{d_2}}^{\infty}\frac{1}{\sqrt{2\pi}}e^{\color{teal}-(z-\sigma\sqrt{T})^{2}/2}\,dz\\
-&=S_0e^{(\alpha-\delta)T}\int_{-\hat{d_2}-\sigma\sqrt{T}}^{\infty}\frac{1}{\sqrt{2\pi}}e^{\color{teal}-u^2/2}\,du&(u=z-\sigma\sqrt{T})\\
-&=S_0e^{(\alpha-\delta)T}(\underbrace{1-\Phi(-\hat{d_1})}_{\Phi(\hat{d_1})})
+\expv{S_T\indicset{S_T>K}}&=\expv{S_0\exp\qty{\qty(\alpha-\delta-\frac{\sigma^2}{2})T+\sigma\sqrt{T}Z_T}\indicset{Z_T> -\widehat{d_2}}} \\
+&=\int_{-\infty}^{\infty}S_0\exp\qty{\qty(\alpha-\delta-\frac{\sigma^2}{2})T+\sigma\sqrt{T}{\color{violet}z}}\indicset{{\color{violet}z}> -\widehat{d_2}}\phi({\color{violet}z})\,dz\\
+&=S_0e^{(\alpha-\delta)T}\int_{-\widehat{d_2}}^{\infty}e^{\color{teal}-(\sigma^2/2)T+\sigma\sqrt{T}z}\frac{1}{\sqrt{2\pi}}e^{\color{teal}-z^2/2}\,dz\\
+&=S_0e^{(\alpha-\delta)T}\int_{-\widehat{d_2}}^{\infty}\frac{1}{\sqrt{2\pi}}e^{\color{teal}-(z-\sigma\sqrt{T})^{2}/2}\,dz\\
+&=S_0e^{(\alpha-\delta)T}\int_{-\widehat{d_2}-\sigma\sqrt{T}}^{\infty}\frac{1}{\sqrt{2\pi}}e^{\color{teal}-u^2/2}\,du&(u=z-\sigma\sqrt{T})\\
+&=S_0e^{(\alpha-\delta)T}(\underbrace{1-\Phi(-\widehat{d_1})}_{\Phi(\widehat{d_1})})
 \end{align*}
 where \(\phi(\cdot)\) is the standard normal pdf.
 \begin{center}
@@ -373,7 +373,7 @@ samples=75,
 axis lines=center,
 xmin=-3.5,xmax=3.5,
 ymax=0.5,
-xtick={-2,2}, xticklabels={\(-\hat{d_1}\), \(\hat{d_1}\)},
+xtick={-2,2}, xticklabels={\(-\widehat{d_1}\), \(\widehat{d_1}\)},
 ytick=\empty,
 ]
 \addplot[blue, thick, name path=A]{(1/sqrt(2*pi))*exp(-x^2/2)};
@@ -382,9 +382,9 @@ ytick=\empty,
 \addplot[ForestGreen!50!white] fill between[of=A and B, soft clip={domain=-3:-2}];
 \node[blue] () at (2,0.3) {\(\phi\)};
 \draw[-Latex] (-2.7,0.1) -- (-2.5,0.01)
-node[pos=-0.3]{\(\Phi(-\hat{d_1})\)};
+node[pos=-0.3]{\(\Phi(-\widehat{d_1})\)};
 \draw[-Latex] (2,0.2) -- (1,0.1)
-node[pos=-0.3]{\(1-\Phi(-\hat{d_1})\)};
+node[pos=-0.3]{\(1-\Phi(-\widehat{d_1})\)};
 \end{axis}
 \end{tikzpicture}
 \begin{tikzpicture}
@@ -394,7 +394,7 @@ samples=75,
 axis lines=center,
 xmin=-3.5,xmax=3.5,
 ymax=0.5,
-xtick={-2,2}, xticklabels={\(-\hat{d_1}\), \(\hat{d_1}\)},
+xtick={-2,2}, xticklabels={\(-\widehat{d_1}\), \(\widehat{d_1}\)},
 ytick=\empty,
 ]
 \addplot[blue, thick, name path=A]{(1/sqrt(2*pi))*exp(-x^2/2)};
@@ -403,15 +403,15 @@ ytick=\empty,
 \addplot[violet, opacity=0.3] fill between[of=A and B, soft clip={domain=-3:2}];
 \node[blue] () at (2,0.3) {\(\phi\)};
 \draw[-Latex] (-2,0.2) -- (-1,0.1)
-node[pos=-0.3]{\(\Phi(\hat{d_1})\)};
+node[pos=-0.3]{\(\Phi(\widehat{d_1})\)};
 \draw[-Latex] (2.7,0.1) -- (2.5,0.01)
-node[pos=-0.3]{\(1-\Phi(\hat{d_1})\)};
+node[pos=-0.3]{\(1-\Phi(\widehat{d_1})\)};
 \end{axis}
 \end{tikzpicture}
 \end{center}
 It then follows that 
 \[
-\expv{S_T|S_T>K}=S_0e^{(\alpha-\delta)T}\frac{\Phi(\hat{d_1})}{\Phi(\hat{d_2})}.
+\expv{S_T|S_T>K}=S_0e^{(\alpha-\delta)T}\frac{\Phi(\widehat{d_1})}{\Phi(\widehat{d_2})}.
 \]
 Now, for \(\expv{S_T|S_T<K}\), apply law of total expectation gives
 \[
@@ -419,13 +419,13 @@ Now, for \(\expv{S_T|S_T<K}\), apply law of total expectation gives
 \]
 which implies
 \[
-S_0e^{(\alpha-\delta)T}=S_0e^{(\alpha-\delta)T}\Phi(\hat{d_1})
-+\expv{S_T|S_T<K}\Phi(-\hat{d_2}),
+S_0e^{(\alpha-\delta)T}=S_0e^{(\alpha-\delta)T}\Phi(\widehat{d_1})
++\expv{S_T|S_T<K}\Phi(-\widehat{d_2}),
 \]
 and thus
 \[
-\expv{S_T|S_T<K}=S_0e^{(\alpha-\delta)T}\frac{\Phi(-\hat{d_1})}{\Phi(-\hat{d_2})}.
+\expv{S_T|S_T<K}=S_0e^{(\alpha-\delta)T}\frac{\Phi(-\widehat{d_1})}{\Phi(-\widehat{d_2})}.
 \]
-(Note that \(1-\Phi(\hat{d_1})=\Phi(-\hat{d_1})\).)
+(Note that \(1-\Phi(\widehat{d_1})=\Phi(-\widehat{d_1})\).)
 \end{pf}
 \end{enumerate}

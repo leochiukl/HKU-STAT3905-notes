@@ -55,6 +55,9 @@ out that it is possible for \(d\ge 1\).
 \defn{true}/\defn{real-world}/\defn{physical} probability measure, denoted by
 \(\mathbb{P}\). This is in contrast with the \emph{risk-neutral
 probability measure} (to be discussed in \cref{subsect:rn-pricing}).
+\item As a ``discrete'' model, the stock prices ``in between'' time 0 and time
+\(h\) are \emph{not} modelled (and also not considered after all). (Similar for
+multi-period binomial option pricing model.)
 \end{remark}
 
 \item \defn{Binomial tree} representation of the one-period model:
@@ -110,7 +113,7 @@ notation more compact, we may express the subscript using power, e.g.
 \(S_{u^8d^2}\).
 
 \item The stock price at the latest time point in a binomial option pricing
-model is known as \defn{terminal stock price}. For a \(n\)-period binomial
+model is known as \defn{terminal stock price}. For an \(n\)-period binomial
 option pricing model, there are \(n+1\) distinct possible terminal stock
 prices.\footnote{This is because the subscript of ``\(S\)'' can contain
 \(0,1,\dotsc,n\) ``\(u\)''s (with the rest being ``\(d\)''s)
@@ -591,7 +594,7 @@ which is the \(q\) we have found before. As there is only one such possible
 replicating portfolio --- So, the argument here is not a \emph{replacement} of
 pricing by replication. Rather, it is \emph{based on} pricing by replication.
 \end{enumerate}
-\subsection{Constructing a Binomial Tree}
+\subsection{Constructing Binomial Trees}
 \begin{enumerate}
 \item So far, we treat the growth factors \(u\) and \(d\) for the binomial tree
 as given and perform numerous calculations based on them. But in practice we do
