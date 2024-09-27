@@ -46,8 +46,7 @@ Hence, the variance of \(Y\) is
 
 \item \label{it:bs-model-def}
 In the \defn{Black-Scholes model} (or \defn{Black-Scholes framework}), we are
-assumed to be in a perfect market having (but not limited to) the following
-two assets:
+assumed to be in a perfect market having the following two assets:
 \begin{itemize}
 \item a risky stock \faIcon{apple-alt} which pays dividend continuously
 at a dividend yield \(\delta\), where its time-\(t\) price is
@@ -83,7 +82,7 @@ distribution, since we have
 \[
 \ln S_t=\ln S_0+\qty(\alpha-\delta-\frac{\sigma^2}{2})t+\sigma\sqrt{t}Z_t,
 \]
-(where \(Z_t\sim N(0,1)\)), which implies
+where \(Z_t\sim N(0,1)\), which implies
 \[
 \ln S_t\sim N\qty[\ln S_0+\qty(\alpha-\delta-\frac{\sigma^2}{2})t,\sigma^2t],
 \]
@@ -92,9 +91,9 @@ or
 S_t\sim LN\qty[\ln S_0+\qty(\alpha-\delta-\frac{1}{2}\sigma^2)t,\sigma^2t].
 \]
 \item \label{it:bs-model-return-normal}
-In the Black-Scholes model, the \(t\)-year continuously compounded rate
-of \emph{price} return on the stock \faIcon{apple-alt} (i.e., continuous
-dividend is ignored in the calculation) is
+In the Black-Scholes model, the \(t\)-year continuously compounded rate of
+\emph{price} return on the stock \faIcon{apple-alt} (i.e., continuous dividend
+is not considered in the calculation of return) is
 \[
 \ln\frac{S_t}{S_0}=\qty(\alpha-\delta-\frac{\sigma^2}{2})t+\sigma\sqrt{t}Z_t
 \sim N\qty[\qty(\alpha-\delta-\frac{\sigma^2}{2})t,\sigma^2t].
@@ -115,7 +114,7 @@ which means
 \[
 e^{\alpha t}-1=\expv{\frac{e^{\delta t}S_t-S_0}{S_0}}.
 \]
-Since \((e^{\delta t}S_t-S_0)/S_0\) is the (\(t\)-year) rate of (total) return
+Since \((e^{\delta t}S_t-S_0)/S_0\) is the \(t\)-year rate of total return
 on the stock \faIcon{apple-alt}\footnote{To be more precise, it is the rate of
 return on a \emph{portfolio} containing a share of stock. Both the
 \faIcon{arrow-up} in no.\ of shares owned from continuous dividend and the
